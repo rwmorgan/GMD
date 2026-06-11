@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unit 6: Full Game Project — Level Up</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<main>
+  <div class="page-header" style="border-bottom:1px solid rgba(168,85,247,0.3);">
+    <div class="container">
+      <div class="breadcrumb"><a href="../index.html">Home</a> › <a href="index.html">Units</a> › Unit 6</div>
+      <div class="meta-row">
+        <span class="phase-banner phase-2">◈ Phase 2 · Project Implementation</span>
+        <span style="font-size:0.82rem; color:var(--text-dim);">Weeks 23–34 · 12 weeks</span>
+      </div>
+      <h1 style="margin-top:0.75rem;">Unit 6: <span class="text-purple">Full Game Project</span></h1>
+      <p class="lead">This is the big one. Over 12 weeks you'll plan, build, playtest, and publish a complete game — applying everything from Phase 1 through the full TASC Project Implementation framework.</p>
+      <div class="meta-row">
+        <span class="badge badge-prj">PRJ C1 — Work productively &amp; negotiate tasks</span>
+        <span class="badge badge-prj">PRJ C2 — Communicate ideas &amp; information</span>
+        <span class="badge badge-prj">PRJ C3 — Collaborate to implement a project</span>
+        <span class="badge badge-prj">PRJ C4 — Critical thinking &amp; problem solving</span>
+        <span class="badge badge-prj">PRJ C5 — Reflect on thinking &amp; processes</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+
+      <!-- Individual / Pairs toggle -->
+      <div class="tabs" style="margin-bottom:2rem;">
+        <button class="tab-btn active" data-group="mode" data-tab="individual">👤 Individual Pathway</button>
+        <button class="tab-btn" data-group="mode" data-tab="pairs">👥 Pairs Pathway</button>
+      </div>
+
+      <div class="tab-panel active" data-group="mode" data-tab="individual">
+        <div class="info-box" style="margin-bottom:2rem;">
+          <p><strong>Individual pathway:</strong> All 8 work requirements are completed individually. The Team Work Agreement is adapted as a "Working Agreement with Yourself" — document your own schedule, habits, and accountability strategies. Peer/Self Evaluation rates your own performance only.</p>
+        </div>
+      </div>
+
+      <div class="tab-panel" data-group="mode" data-tab="pairs">
+        <div class="info-box" style="margin-bottom:2rem;" style="border-color:rgba(168,85,247,0.4);">
+          <p><strong>Pairs pathway:</strong> Project Brief and Team Work Agreement are collaborative documents (one between you). All other work requirements — Journal, Peer/Self Evaluation, and individual Check-in contributions — must be completed <strong>individually by each person</strong>. Both students are assessed on all criteria. You will evaluate each other in the Peer/Self Evaluation.</p>
+        </div>
+      </div>
+
+      <!-- PRJ Work Requirements Overview -->
+      <div class="card" style="margin-bottom:2.5rem;">
+        <h3 style="margin-bottom:1rem;">TASC Work Requirements — All Must Be Completed</h3>
+        <div class="grid grid-2">
+          <div>
+            <p style="font-size:0.82rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.5rem;">Required Documents</p>
+            <ul style="list-style:none; padding:0;">
+              <li style="color:var(--text-muted); font-size:0.875rem; margin-bottom:0.4rem;">✅ Project Brief (Task 6.1)</li>
+              <li style="color:var(--text-muted); font-size:0.875rem; margin-bottom:0.4rem;">✅ Time Schedule / Gantt Chart (Task 6.2)</li>
+              <li style="color:var(--text-muted); font-size:0.875rem; margin-bottom:0.4rem;">✅ Team Work Agreement (Task 6.1 — pairs) or Working Agreement (individual)</li>
+              <li style="color:var(--text-muted); font-size:0.875rem; margin-bottom:0.4rem;">✅ Documented Project Check-in Meetings × 3 (Task 6.3)</li>
+              <li style="color:var(--text-muted); font-size:0.875rem; margin-bottom:0.4rem;">✅ Journal 500–800 words (Task 6.6 — individual)</li>
+              <li style="color:var(--text-muted); font-size:0.875rem; margin-bottom:0.4rem;">✅ Peer &amp; Self Evaluation (Task 6.7 — individual)</li>
+            </ul>
+          </div>
+          <div>
+            <p style="font-size:0.82rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.5rem;">Project Deliverables</p>
+            <ul style="list-style:none; padding:0;">
+              <li style="color:var(--text-muted); font-size:0.875rem; margin-bottom:0.4rem;">🎮 Completed, functional game build (Task 6.4)</li>
+              <li style="color:var(--text-muted); font-size:0.875rem; margin-bottom:0.4rem;">🧪 Playtesting documentation &amp; iteration (Task 6.5)</li>
+              <li style="color:var(--text-muted); font-size:0.875rem; margin-bottom:0.4rem;">🌐 Published game page / press kit (Task 6.8)</li>
+              <li style="color:var(--text-muted); font-size:0.875rem; margin-bottom:0.4rem;">🎤 Final presentation &amp; demo (Task 6.8)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 6.1 -->
+      <div class="task-block" id="task-6-1">
+        <div class="task-header">
+          <div class="task-num" style="color:var(--purple);">6.1</div>
+          <div class="task-meta">
+            <h3>Project Brief &amp; Working Agreement</h3>
+            <div class="badges" style="margin-top:0.4rem;">
+              <span class="badge badge-prj">PRJ C1 — Negotiate &amp; plan tasks with stakeholders</span>
+              <span class="badge badge-prj">PRJ C2 — Communicate project scope and goals</span>
+              <span class="badge badge-prj">PRJ C3 — Identify roles &amp; responsibilities; group goals</span>
+              <span class="badge badge-prj">PRJ C4 — Set SMART goals; identify risks</span>
+            </div>
+            <div style="margin-top:0.4rem; font-size:0.8rem; color:var(--text-dim);">⏱ 2 lessons &nbsp;·&nbsp; 🛠 Word &nbsp;·&nbsp; 📅 Weeks 23–24</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-section">
+            <h4>Part A — Project Brief</h4>
+            <p>Using the PRJ Project Brief template (below), complete all required sections. This document defines your game project before you write a single line of code. It must be agreed to by all team members (or your teacher for individual projects) before you proceed to Task 6.2.</p>
+            <div style="background:var(--navy-800); border:1px solid var(--border); border-radius:8px; padding:1rem; font-size:0.85rem; color:var(--text-muted); margin-top:0.75rem;">
+              <p><strong style="color:var(--text);">Objective:</strong> What is the project? What is the goal? (2–3 sentences)</p>
+              <p><strong style="color:var(--text);">Target Outcomes:</strong> What are the benefits? What are the risks, downsides, and efforts? Is this project worth doing? (This must include honest assessment of scope.)</p>
+              <p><strong style="color:var(--text);">Measuring Success:</strong> How will you know when the project is done? What baseline data can you measure? (e.g. "Game has a working win/lose loop that 3 testers could complete")</p>
+              <p><strong style="color:var(--text);">Project Outputs:</strong> What will be delivered? (List every deliverable from the task list above)</p>
+              <p><strong style="color:var(--text);">Governance:</strong> Who manages the project? (Even if individual — you're the project manager.)</p>
+              <p><strong style="color:var(--text);">Resources:</strong> What do you need? List software, hardware, online resources, teacher check-ins.</p>
+              <p><strong style="color:var(--text);">Stakeholders:</strong> Who is affected by this project? (Teacher, classmates who playtest, the audience who plays the final game.)</p>
+              <p><strong style="color:var(--text);">Constraints:</strong> 12-week timeframe, school lab access, software available, etc.</p>
+              <p><strong style="color:var(--text);">Risk Management:</strong> Table of 5 risks: risk description | likelihood (H/M/L) | impact (H/M/L) | mitigation | contingency</p>
+              <p><strong style="color:var(--text);">Quality Control:</strong> When will reviews take place? (Check-ins at Weeks 27, 30, 33.) Who reviews? (Teacher, peers, self.)</p>
+              <p><strong style="color:var(--text);">Review Process:</strong> How will progress be measured? How will the end product be evaluated?</p>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <h4>Part B — Working Agreement (Individual or Pairs)</h4>
+            <div class="tabs" style="margin-bottom:1rem;">
+              <button class="tab-btn active" data-group="agree" data-tab="ind-agree">Individual</button>
+              <button class="tab-btn" data-group="agree" data-tab="pair-agree">Pairs</button>
+            </div>
+            <div class="tab-panel active" data-group="agree" data-tab="ind-agree">
+              <p style="font-size:0.875rem; color:var(--text-muted);">Complete a "Working Agreement with Yourself" document covering:</p>
+              <ul style="font-size:0.875rem; color:var(--text-muted);">
+                <li>Your strengths and where you need to push yourself in this project</li>
+                <li>Your planned weekly work schedule (which lessons + any self-directed time?)</li>
+                <li>What is your contingency if you fall behind? (e.g. "I will rescope the Level 2 design if I'm 2 weeks behind by Week 29")</li>
+                <li>What does success look like for you personally, beyond just the grade?</li>
+              </ul>
+            </div>
+            <div class="tab-panel" data-group="agree" data-tab="pair-agree">
+              <p style="font-size:0.875rem; color:var(--text-muted);">Complete a Team Work Agreement covering:</p>
+              <ul style="font-size:0.875rem; color:var(--text-muted);">
+                <li>Each person's role and responsibilities (no role is "everything" — split clearly)</li>
+                <li>Each person's strengths, expertise, and preferences</li>
+                <li>Communication plan: how often, which channel, what format?</li>
+                <li>Decision-making process: what happens when you disagree?</li>
+                <li>Conflict resolution: what process is put in place if the project fails to deliver?</li>
+                <li>How will outside experts (teacher, mentors) be used?</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <h4>Submission Checklist</h4>
+            <ul class="checklist">
+              <li>Project Brief: all 10 required sections completed</li>
+              <li>Risk Management table: 5 risks with all fields completed</li>
+              <li>Working Agreement (individual) or Team Work Agreement (pairs): all required fields</li>
+              <li>Teacher sign-off obtained before proceeding to Task 6.2</li>
+              <li>Saved as <code style="background:var(--navy-700); padding:0.1rem 0.3rem; border-radius:3px;">Task6.1_ProjectBrief_[Names].docx</code></li>
+            </ul>
+          </div>
+
+          <div class="task-section">
+            <h4>Marking Guide</h4>
+            <table class="marking-table">
+              <thead><tr><th>Criterion</th><th class="grade-c">C — Satisfactory</th></tr></thead>
+              <tbody>
+                <tr><td>PRJ C1</td><td class="grade-c">Negotiates planning with teacher/partner. Documents constraints, risks, and governance. Delivers an achievable project brief within agreed parameters.</td></tr>
+                <tr><td>PRJ C2</td><td class="grade-c">Clearly communicates project scope, processes, and goals in writing. Project brief is readable and complete.</td></tr>
+                <tr><td>PRJ C3</td><td class="grade-c">Correctly identifies roles, responsibilities, and group goals. Working Agreement documents consultation and communication plan.</td></tr>
+                <tr><td>PRJ C4</td><td class="grade-c">Goals are measurable, achievable, specific, time-referenced and realistic. Risk management table identifies realistic risks with workable mitigation strategies.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="task-actions">
+            <a href="https://canvas.instructure.com" target="_blank" class="btn btn-canvas">📤 Submit on Canvas</a>
+            <button class="btn btn-secondary btn-sm" onclick="window.print()">🖨 Print Task Sheet</button>
+            <a href="../assessment/prj205118.html" class="btn btn-secondary btn-sm">PRJ205118 criteria →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 6.2 -->
+      <div class="task-block" id="task-6-2">
+        <div class="task-header">
+          <div class="task-num" style="color:var(--purple);">6.2</div>
+          <div class="task-meta">
+            <h3>Project Gantt Chart &amp; Planning Documents</h3>
+            <div class="badges" style="margin-top:0.4rem;">
+              <span class="badge badge-prj">PRJ C1 — Plans, prioritises, and undertakes work to achieve group outcomes</span>
+              <span class="badge badge-prj">PRJ C4 — Sets SMART goals; identifies problems</span>
+            </div>
+            <div style="margin-top:0.4rem; font-size:0.8rem; color:var(--text-dim);">⏱ 1 lesson &nbsp;·&nbsp; 🛠 Excel &nbsp;·&nbsp; 📅 Weeks 24–25</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-section">
+            <h4>Instructions</h4>
+            <p>Build your project Gantt chart in Excel covering <strong>Weeks 23–34</strong>. Requirements:</p>
+            <ul style="color:var(--text-muted); font-size:0.9rem; margin-top:0.5rem;">
+              <li>At least 20 individual tasks (rows) — be specific ("Implement enemy patrol AI" not "Code enemy")</li>
+              <li>Weeks 23–34 shown as columns</li>
+              <li>Tasks assigned an owner (your name, or split between pair names)</li>
+              <li>Milestones highlighted (Check-in 1 at Week 27, Check-in 2 at Week 30, Check-in 3 at Week 33, Final build due Week 34)</li>
+              <li>Colour-coded by category (design, coding, art, audio, testing, documentation)</li>
+              <li>Dependencies indicated where one task must follow another</li>
+            </ul>
+            <p style="margin-top:0.75rem;">Also complete an <strong>Activity Tree</strong> (can be in the same Excel file, or a Word document) listing major activities with detailed sub-tasks under each.</p>
+          </div>
+
+          <div class="task-section">
+            <h4>Submission Checklist</h4>
+            <ul class="checklist">
+              <li>Gantt: covers Weeks 23–34, minimum 20 tasks, all owners assigned</li>
+              <li>Gantt: milestones marked (3 check-ins + final build)</li>
+              <li>Gantt: colour-coded by category, dependencies shown</li>
+              <li>Activity Tree: major activities broken into sub-tasks</li>
+              <li>Saved as <code style="background:var(--navy-700); padding:0.1rem 0.3rem; border-radius:3px;">Task6.2_Gantt_[Names].xlsx</code></li>
+            </ul>
+          </div>
+
+          <div class="task-actions">
+            <a href="https://canvas.instructure.com" target="_blank" class="btn btn-canvas">📤 Submit on Canvas</a>
+            <a href="../resources/microsoft.html" class="btn btn-secondary btn-sm">Excel Gantt template →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 6.3 -->
+      <div class="task-block" id="task-6-3">
+        <div class="task-header">
+          <div class="task-num" style="color:var(--purple);">6.3</div>
+          <div class="task-meta">
+            <h3>Sprint Check-in Meetings × 3</h3>
+            <div class="badges" style="margin-top:0.4rem;">
+              <span class="badge badge-prj">PRJ C1 — Negotiate adaptations; deliver within timeframes</span>
+              <span class="badge badge-prj">PRJ C2 — Report on progress digitally and in writing</span>
+              <span class="badge badge-prj">PRJ C3 — Document group goals &amp; consultation</span>
+              <span class="badge badge-prj">PRJ C5 — Reflect on progress; identify problems</span>
+            </div>
+            <div style="margin-top:0.4rem; font-size:0.8rem; color:var(--text-dim);">⏱ ~20 min per check-in + written report &nbsp;·&nbsp; 🛠 Word template &nbsp;·&nbsp; 📅 Weeks 27, 30, 33</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-section">
+            <h4>Overview</h4>
+            <p>Three formal project check-ins with your teacher (and partner for pairs). Each check-in follows the same template and must be submitted within 24 hours of the meeting. These are not informal chats — they are documented progress reviews that are part of your TASC evidence.</p>
+          </div>
+
+          <div class="task-section">
+            <h4>Check-in Template (complete for each of the 3 meetings)</h4>
+            <div style="background:var(--navy-800); border:1px solid var(--border); border-radius:8px; padding:1rem; font-size:0.85rem; color:var(--text-muted);">
+              <p><strong style="color:var(--text);">Date &amp; Week Number:</strong></p>
+              <p><strong style="color:var(--text);">What was completed since the last check-in:</strong> (bullet list, be specific)</p>
+              <p><strong style="color:var(--text);">What is currently being worked on:</strong></p>
+              <p><strong style="color:var(--text);">When will current tasks be completed:</strong> (reference your Gantt)</p>
+              <p><strong style="color:var(--text);">What is needed to keep current work on track:</strong> (resources, decisions, help needed)</p>
+              <p><strong style="color:var(--text);">Timeline adjustments made since last check-in:</strong> (which Gantt tasks moved, why)</p>
+              <p><strong style="color:var(--text);">Upcoming tasks (next 2–3 weeks):</strong></p>
+              <p><strong style="color:var(--text);">Blockers or risks identified:</strong></p>
+              <p><strong style="color:var(--text);">Feedback received in this check-in:</strong></p>
+              <p><strong style="color:var(--text);">How I/we will incorporate this feedback:</strong></p>
+              <p><strong style="color:var(--text);">Teacher sign-off:</strong> ________________</p>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <h4>Submission Checklist</h4>
+            <ul class="checklist">
+              <li>Check-in 1 (Week 27): completed template, teacher sign-off, submitted within 24h</li>
+              <li>Check-in 2 (Week 30): completed template, timeline adjustments documented, submitted within 24h</li>
+              <li>Check-in 3 (Week 33): completed template, final pre-submission review, submitted within 24h</li>
+              <li>All 3 documents saved and submitted as <code style="background:var(--navy-700); padding:0.1rem 0.3rem; border-radius:3px;">Task6.3_Checkins_[Names].docx</code></li>
+            </ul>
+          </div>
+
+          <div class="task-actions">
+            <a href="https://canvas.instructure.com" target="_blank" class="btn btn-canvas">📤 Submit on Canvas</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tasks 6.4, 6.5, 6.6, 6.7, 6.8 as condensed blocks -->
+
+      <div class="task-block" id="task-6-4">
+        <div class="task-header">
+          <div class="task-num" style="color:var(--purple);">6.4</div>
+          <div class="task-meta">
+            <h3>Full Game Build</h3>
+            <div class="badges" style="margin-top:0.4rem;">
+              <span class="badge badge-prj">PRJ C1 — Delivers upon agreed goals within timeframes</span>
+              <span class="badge badge-prj">PRJ C2 — Uses digital media/technology to complete the project</span>
+              <span class="badge badge-prj">PRJ C4 — Exercises flexibility to meet changing conditions</span>
+            </div>
+            <div style="margin-top:0.4rem; font-size:0.8rem; color:var(--text-dim);">⏱ Ongoing · Weeks 25–32</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-section">
+            <h4>What your completed game must include</h4>
+            <ul style="color:var(--text-muted); font-size:0.9rem;">
+              <li>All mechanics from Project Brief working as specified (or documented changes with justification)</li>
+              <li>Minimum 1 complete, playable level from start to a win or lose state</li>
+              <li>Your Unit 3 assets (or new assets produced for Unit 6) correctly integrated</li>
+              <li>Working audio (at least SFX on key interactions)</li>
+              <li>A functional main menu or start screen</li>
+              <li>A credits screen listing all asset attributions</li>
+              <li>The game must run without crashing for a new player attempting to complete it normally</li>
+            </ul>
+          </div>
+          <div class="task-section">
+            <h4>Submit</h4>
+            <p style="color:var(--text-muted); font-size:0.9rem;">Share your project via OneDrive link, or export a standalone build and upload. Include a README.txt with: engine/version used, controls, known issues, build instructions if needed.</p>
+          </div>
+          <div class="task-actions">
+            <a href="https://canvas.instructure.com" target="_blank" class="btn btn-canvas">📤 Submit Game Build on Canvas</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="task-block" id="task-6-5">
+        <div class="task-header">
+          <div class="task-num" style="color:var(--purple);">6.5</div>
+          <div class="task-meta">
+            <h3>Playtesting &amp; Iteration</h3>
+            <div class="badges" style="margin-top:0.4rem;">
+              <span class="badge badge-prj">PRJ C4 — Identifies &amp; utilises problem solving strategies</span>
+              <span class="badge badge-prj">PRJ C5 — Identifies problem solving techniques; reflects on solutions</span>
+            </div>
+            <div style="margin-top:0.4rem; font-size:0.8rem; color:var(--text-dim);">⏱ 2–3 lessons · Weeks 31–33</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-section">
+            <h4>Instructions</h4>
+            <ol class="task-steps">
+              <li>Run a peer playtest session. Have at least 2 classmates play your game and complete the peer feedback form. Observe (don't help) — note where they get stuck or confused.</li>
+              <li>Use the bug tracker spreadsheet (Excel) to log all issues found: description, steps to reproduce, severity (Critical / Major / Minor / Cosmetic), status (Open / Fixed / Won't Fix).</li>
+              <li>Fix at least 3 bugs or UX issues from the playtest. Document each fix: problem description, solution, before/after screenshot evidence.</li>
+              <li>Write a 300-word "Quality Report": Was the game fit for purpose? Did it meet the success measures from the Project Brief? What test(s) did you use to determine quality?</li>
+            </ol>
+          </div>
+          <div class="task-actions">
+            <a href="https://canvas.instructure.com" target="_blank" class="btn btn-canvas">📤 Submit on Canvas</a>
+            <a href="../resources/microsoft.html" class="btn btn-secondary btn-sm">Bug tracker template →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="task-block" id="task-6-6">
+        <div class="task-header">
+          <div class="task-num" style="color:var(--purple);">6.6</div>
+          <div class="task-meta">
+            <h3>Individual Development Journal</h3>
+            <div class="badges" style="margin-top:0.4rem;">
+              <span class="badge badge-prj">PRJ C5 — Reflects on progress; identifies obstacles; articulates lessons</span>
+            </div>
+            <div style="margin-top:0.4rem; font-size:0.8rem; color:var(--text-dim);">500–800 words total · Ongoing Weeks 23–34 · Individual — always</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-section">
+            <h4>Instructions</h4>
+            <p>Maintain an ongoing individual journal throughout Unit 6. Write at least one entry per sprint week (minimum 6 entries). Each entry should record your thoughts, progress, challenges, and observations in the moment — not retrospectively.</p>
+            <p style="margin-top:0.75rem;"><strong>Mandatory questions to address at least once across all entries:</strong></p>
+            <ul style="color:var(--text-muted); font-size:0.9rem; margin-top:0.5rem;">
+              <li>What new things have I learned?</li>
+              <li>What was the most difficult thing about the project so far?</li>
+              <li>What was the most enjoyable part?</li>
+              <li>What would I change if I did this again?</li>
+              <li>What could I have done better?</li>
+            </ul>
+            <p style="margin-top:0.75rem;">Add a <strong>Summative Reflection</strong> at the end (Week 34) that addresses your overall role in the project and (if pairs) the role of your partner. This is in addition to the regular entries and does not count towards the 500-800 word total.</p>
+            <p style="margin-top:0.5rem; font-size:0.85rem; color:var(--text-dim);">Total word count: 500–800 words for ongoing entries + summative reflection. Use OneNote or a Word document.</p>
+          </div>
+          <div class="task-actions">
+            <a href="https://canvas.instructure.com" target="_blank" class="btn btn-canvas">📤 Submit Journal on Canvas</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="task-block" id="task-6-7">
+        <div class="task-header">
+          <div class="task-num" style="color:var(--purple);">6.7</div>
+          <div class="task-meta">
+            <h3>Peer &amp; Self Evaluation</h3>
+            <div class="badges" style="margin-top:0.4rem;">
+              <span class="badge badge-prj">PRJ C3 — Identifies &amp; utilises respectful communication; reflects on collaboration</span>
+              <span class="badge badge-prj">PRJ C5 — Assesses benefits; reflects on progress</span>
+            </div>
+            <div style="margin-top:0.4rem; font-size:0.8rem; color:var(--text-dim);">⏱ 1 lesson · Week 33–34 · Individual — always</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-section">
+            <h4>Instructions</h4>
+            <p>Complete the TASC Peer &amp; Self Evaluation form (provided by teacher). Rate yourself and your partner (if pairs) on participation, contribution, communication, and meeting responsibilities. Your ratings must be justified with specific examples — a rating without evidence is not accepted.</p>
+            <p style="margin-top:0.75rem;">Additionally, write a short <strong>Project Value Assessment</strong> (150–200 words): Was the effort of this project worth the outcome? Consider: skills gained, quality of final game, time invested, enjoyment, and what you would take from this into a future project.</p>
+          </div>
+          <div class="task-actions">
+            <a href="https://canvas.instructure.com" target="_blank" class="btn btn-canvas">📤 Submit on Canvas</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="task-block" id="task-6-8">
+        <div class="task-header">
+          <div class="task-num" style="color:var(--purple);">6.8</div>
+          <div class="task-meta">
+            <h3>Game Page &amp; Final Presentation</h3>
+            <div class="badges" style="margin-top:0.4rem;">
+              <span class="badge badge-prj">PRJ C2 — Presents &amp; explains to different audiences; uses ICT to report</span>
+              <span class="badge badge-prj">PRJ C5 — Reflects; articulates lessons learned</span>
+            </div>
+            <div style="margin-top:0.4rem; font-size:0.8rem; color:var(--text-dim);">⏱ 2 lessons prep + presentation day · Week 34</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-section">
+            <h4>Part A — Game Page on itch.io</h4>
+            <p>Publish a public game page on <a href="https://itch.io" target="_blank">itch.io</a> (free account). Must include:</p>
+            <ul style="color:var(--text-muted); font-size:0.9rem; margin-top:0.5rem;">
+              <li>Game title and short description (2–3 sentences)</li>
+              <li>Minimum 4 screenshots showing gameplay</li>
+              <li>How-to-play instructions</li>
+              <li>Credits section (all team members + all asset attributions)</li>
+              <li>Playable web build OR downloadable build (if web export is available in your engine)</li>
+            </ul>
+            <p style="margin-top:0.5rem; font-size:0.85rem; color:var(--text-dim);">Review your ESC C4 work from Unit 1 Task 1.3 before publishing — apply those safe social media/online publishing practices here.</p>
+          </div>
+          <div class="task-section">
+            <h4>Part B — Final Presentation (5–8 minutes)</h4>
+            <p>Present to the class (and any invited audience). Cover: game demo, design decisions, how the project went vs your Project Brief, key lessons learned. Respond to questions. Slides are optional but recommended.</p>
+          </div>
+          <div class="task-actions">
+            <a href="https://canvas.instructure.com" target="_blank" class="btn btn-canvas">📤 Submit itch.io link + slides on Canvas</a>
+            <a href="../gallery.html" class="btn btn-secondary btn-sm">Student Gallery →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:3rem; padding-top:2rem; border-top:1px solid var(--border);">
+        <a href="unit-5.html" class="btn btn-secondary">← Unit 5: Showcase &amp; Review</a>
+        <a href="../assessment/prj205118.html" class="btn btn-ghost">PRJ205118 Criteria →</a>
+      </div>
+
+    </div>
+  </section>
+</main>
+<script src="../js/main.js"></script>
+</body>
+</html>

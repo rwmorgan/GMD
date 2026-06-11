@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adobe Creative Suite — Level Up Resources</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<main>
+  <div class="page-header">
+    <div class="container">
+      <div class="breadcrumb"><a href="../index.html">Home</a> › <a href="index.html">Resources</a> › Adobe Suite</div>
+      <h1>Adobe <span class="text-teal">Creative Suite</span></h1>
+      <p class="lead">Guides for using Adobe tools in a game development context. All tools below are available in your school lab via your Adobe license.</p>
+    </div>
+  </div>
+  <section class="section">
+    <div class="container">
+
+      <div id="photoshop" style="scroll-margin-top:80px; margin-bottom:2.5rem;">
+        <h2 style="margin-bottom:1rem;">🖼 Photoshop — <span class="text-teal">Sprites &amp; Tilesets</span></h2>
+        <div class="grid grid-2">
+          <div class="card">
+            <h3 style="margin-bottom:0.75rem;">Used in Tasks</h3>
+            <p style="font-size:0.875rem;">Task 3.1 (sprites), Task 3.2 (tilesets). Photoshop is the right tool for <strong>raster/pixel art</strong> — bitmap images at a fixed resolution.</p>
+            <h3 style="margin-bottom:0.75rem; margin-top:1rem;">Key Settings for Game Art</h3>
+            <ul style="font-size:0.875rem; color:var(--text-muted);">
+              <li>New document: set pixels as unit, no colour profile</li>
+              <li>Pixel art: turn off anti-aliasing on the pencil tool</li>
+              <li>Use a limited colour palette (16–32 colours for retro style)</li>
+              <li>Save source as <code style="background:var(--navy-700); padding:0.1rem 0.3rem; border-radius:3px;">.psd</code> with layers. Export as <code style="background:var(--navy-700); padding:0.1rem 0.3rem; border-radius:3px;">.png</code> (transparent background).</li>
+              <li>Export: File → Export → Export As → PNG. Check "Transparency".</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3 style="margin-bottom:0.75rem;">Sprite Checklist</h3>
+            <ul class="checklist">
+              <li>Canvas size matches engine's required sprite size (e.g. 32×32, 64×64)</li>
+              <li>Background layer is transparent (not white)</li>
+              <li>Each sprite element on its own named layer</li>
+              <li>Exported as flat .png — NOT .psd</li>
+              <li>File named correctly (no spaces: player_idle.png)</li>
+            </ul>
+            <p style="margin-top:1rem; font-size:0.85rem; color:var(--text-dim);">Learn more: <a href="https://helpx.adobe.com/photoshop/tutorials.html" target="_blank">Adobe Photoshop Tutorials ↗</a></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div id="illustrator" style="scroll-margin-top:80px; margin-bottom:2.5rem;">
+        <h2 style="margin-bottom:1rem;">✏️ Illustrator — <span class="text-teal">Vector Assets</span></h2>
+        <div class="card">
+          <p style="font-size:0.875rem; color:var(--text-muted);">Use Illustrator for assets that need to scale to any size (logos, UI icons, vector characters). Vectors stay crisp at any resolution. For pixel art, use Photoshop instead.</p>
+          <ul style="font-size:0.875rem; color:var(--text-muted); margin-top:0.75rem;">
+            <li>Set up an <strong>Artboard</strong> for each asset</li>
+            <li>Export: File → Export → Export for Screens → PNG at 1x, 2x if needed</li>
+            <li>For use in Unity/GMS2: export as PNG (not SVG — most engines don't import SVG directly)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div id="audition" style="scroll-margin-top:80px; margin-bottom:2.5rem;">
+        <h2 style="margin-bottom:1rem;">🎵 Audition — <span class="text-teal">Game Audio</span></h2>
+        <div class="grid grid-2">
+          <div class="card">
+            <h3 style="margin-bottom:0.75rem;">Used in Tasks</h3>
+            <p style="font-size:0.875rem;">Task 3.3 (audio design). Audition is used to record, edit, normalise, trim, and export game audio files.</p>
+            <h3 style="margin-bottom:0.75rem; margin-top:1rem;">Essential Audition Skills for Task 3.3</h3>
+            <ol style="font-size:0.875rem; color:var(--text-muted); padding-left:1.25rem;">
+              <li style="margin-bottom:0.4rem;"><strong>Import:</strong> File → Open. Or drag file into the Files panel.</li>
+              <li style="margin-bottom:0.4rem;"><strong>Trim silence:</strong> Select the silence at start/end, press Delete.</li>
+              <li style="margin-bottom:0.4rem;"><strong>Normalise:</strong> Effects → Amplitude and Compression → Normalize. Set to -3 dB for SFX, -6 dB for music.</li>
+              <li style="margin-bottom:0.4rem;"><strong>Export:</strong> File → Export → File. Choose format: .wav (44.1kHz, 16-bit) for SFX. .ogg for music loops.</li>
+              <li><strong>Loop point:</strong> For background music, set loop region in the waveform editor.</li>
+            </ol>
+          </div>
+          <div class="card">
+            <h3 style="margin-bottom:0.75rem;">Free Audio Sources (for Task 3.3)</h3>
+            <ul style="font-size:0.875rem; color:var(--text-muted);">
+              <li style="margin-bottom:0.5rem;"><a href="https://freesound.org" target="_blank">freesound.org ↗</a> — Community SFX library. Check each file's licence (CC0 = free to use without attribution; CC BY = use with attribution).</li>
+              <li style="margin-bottom:0.5rem;"><a href="https://opengameart.org" target="_blank">OpenGameArt.org ↗</a> — Music and SFX specifically for games. Always check licence.</li>
+              <li style="margin-bottom:0.5rem;"><a href="https://incompetech.com" target="_blank">incompetech.com ↗</a> — Kevin MacLeod's royalty-free music. Requires attribution (text provided on site).</li>
+              <li><a href="https://www.bfxr.net" target="_blank">BFXR (browser) ↗</a> — Generate 8-bit style SFX instantly. CC0 — no attribution needed.</li>
+            </ul>
+            <div class="warning-box" style="margin-top:1rem;">
+              <p><strong>⚠ Always record what licence each file uses before downloading.</strong> You need this for your Asset Catalogue (Task 3.4).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div id="premiere" style="scroll-margin-top:80px; margin-bottom:2.5rem;">
+        <h2 style="margin-bottom:1rem;">🎬 Premiere Pro — <span class="text-teal">Trailers &amp; Video</span></h2>
+        <div class="card">
+          <p style="font-size:0.875rem; color:var(--text-muted);">Used for game trailers, screen recording edits, and presentation videos. Not required for any task but useful for the Task 6.8 game page if you want to include a trailer.</p>
+          <ul style="font-size:0.875rem; color:var(--text-muted); margin-top:0.75rem;">
+            <li>Screen record with Windows Game Bar (Win+G) or OBS (free)</li>
+            <li>Import recording into Premiere, cut to highlights, add music from your audio pack</li>
+            <li>Export: File → Export → Media. Format: H.264. Preset: Match Source - High Bitrate.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div id="express" style="scroll-margin-top:80px;">
+        <h2 style="margin-bottom:1rem;">⚡ Adobe Express — <span class="text-teal">Quick Design</span></h2>
+        <div class="card">
+          <p style="font-size:0.875rem; color:var(--text-muted);">Used for: Task 1.3 (infographic), Task 2.2 (concept pitch), Task 5.2 (presentation), Task 6.8 (game page). Adobe Express is free with your school Adobe licence and runs in the browser.</p>
+          <ul style="font-size:0.875rem; color:var(--text-muted); margin-top:0.75rem;">
+            <li>For infographics: choose an infographic template, replace text and icons with your content</li>
+            <li>For presentations: use the "Presentation" template category</li>
+            <li>Export: Download as PDF (for print/submission) or PNG (for embedding)</li>
+            <li>Access at <a href="https://express.adobe.com" target="_blank">express.adobe.com ↗</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+<script src="../js/main.js"></script>
+</body>
+</html>

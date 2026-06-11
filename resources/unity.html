@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unity — Tutorials &amp; Guides | Level Up Resources</title>
+  <meta name="description" content="Unity setup guides, import specs and a curated library of free Unity tutorials for the Year 11–12 Game Design course.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<main>
+  <div class="page-header">
+    <div class="container">
+      <div class="breadcrumb"><a href="../index.html">Home</a> › <a href="index.html">Resources</a> › Unity</div>
+      <h1>Unity <span class="text-gradient">Engine Guide</span></h1>
+      <p class="lead">Industry-standard engine for 2D and 3D games. Uses C# scripting and has the largest game development community — and tutorial library — in the world.</p>
+      <div class="meta-row">
+        <span class="level-tag level-beginner">2D + 3D</span>
+        <span class="level-tag level-intermediate">C# scripting</span>
+        <span class="badge badge-individual">Free for students</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-2" style="gap:2rem; align-items:start;">
+        <div>
+
+          <div class="card" style="margin-bottom:1.5rem;">
+            <h3 style="margin-bottom:0.75rem;">When to Choose Unity</h3>
+            <ul style="color:var(--text-muted); font-size:0.875rem;">
+              <li>You want to make 2D <em>or</em> 3D games — Unity does both well</li>
+              <li>You're interested in a long-term career in games (Unity is used by thousands of studios)</li>
+              <li>You want access to a huge Asset Store of free and paid resources</li>
+              <li>You're comfortable learning C# scripting — or want to be</li>
+              <li>Your game needs physics, lighting, or 3D environments</li>
+            </ul>
+          </div>
+
+          <div class="card" style="margin-bottom:1.5rem;">
+            <h3 style="margin-bottom:0.75rem;">Hardware Requirements</h3>
+            <table style="width:100%; font-size:0.82rem; border-collapse:collapse;">
+              <tr><td style="padding:0.3rem 0; color:var(--text-dim);">Minimum RAM</td><td style="color:var(--text);">8 GB</td></tr>
+              <tr><td style="padding:0.3rem 0; color:var(--text-dim);">Recommended RAM</td><td style="color:var(--text);">16 GB</td></tr>
+              <tr><td style="padding:0.3rem 0; color:var(--text-dim);">Storage (install)</td><td style="color:var(--text);">~10 GB</td></tr>
+              <tr><td style="padding:0.3rem 0; color:var(--text-dim);">GPU</td><td style="color:var(--text);">DX10 compatible or better</td></tr>
+              <tr><td style="padding:0.3rem 0; color:var(--text-dim);">OS</td><td style="color:var(--text);">Windows 10/11 or macOS 12+</td></tr>
+            </table>
+          </div>
+
+          <div class="card" style="margin-bottom:1.5rem;">
+            <h3 style="margin-bottom:0.75rem;">Key File Types</h3>
+            <ul style="list-style:none; padding:0; font-size:0.875rem;">
+              <li style="margin-bottom:0.4rem; color:var(--text-muted);"><code>.unity</code> — Scene files</li>
+              <li style="margin-bottom:0.4rem; color:var(--text-muted);"><code>.cs</code> — C# scripts</li>
+              <li style="margin-bottom:0.4rem; color:var(--text-muted);"><code>.prefab</code> — Reusable game object templates</li>
+              <li style="margin-bottom:0.4rem; color:var(--text-muted);"><code>.meta</code> — Asset metadata (never delete these)</li>
+              <li style="color:var(--text-muted);"><code>.asset</code> — Serialised Unity assets (materials, settings)</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom:0.75rem;">Sprite &amp; Audio Import Specs</h3>
+            <p style="font-size:0.875rem; color:var(--text-muted);">
+              <strong style="color:var(--text);">Sprites:</strong> Import as PNG. Set Texture Type to <strong>Sprite (2D and UI)</strong>. For pixel art, set Filter Mode to <strong>Point (no filter)</strong> and Compression to <strong>None</strong>. Pixels Per Unit should match your game's resolution grid.
+            </p>
+            <p style="font-size:0.875rem; color:var(--text-muted); margin-top:0.75rem;">
+              <strong style="color:var(--text);">Audio:</strong> Import .wav or .ogg files. Set Compression Format to <strong>Vorbis</strong> for music (enable streaming), <strong>PCM</strong> for short SFX.
+            </p>
+          </div>
+
+        </div>
+        <div>
+
+          <div class="card" style="margin-bottom:1.5rem;">
+            <h3 style="margin-bottom:0.75rem;">Getting Started</h3>
+            <ol style="color:var(--text-muted); font-size:0.875rem; padding-left:1.25rem;">
+              <li style="margin-bottom:0.5rem;">Download <strong>Unity Hub</strong> from <a href="https://unity.com/download" target="_blank" rel="noopener">unity.com</a> (free). Install the latest LTS version.</li>
+              <li style="margin-bottom:0.5rem;">Create a free Unity Personal licence — for students, personal use is always free.</li>
+              <li style="margin-bottom:0.5rem;">Create a new 2D or 3D project. Name it with your game title — no spaces.</li>
+              <li style="margin-bottom:0.5rem;">Set up your Assets folder with subfolders: Sprites, Audio, Scripts, Scenes, Prefabs.</li>
+              <li>Work through the <strong>Unity Essentials</strong> pathway on <a href="https://learn.unity.com" target="_blank" rel="noopener">Unity Learn</a> before touching your own project.</li>
+            </ol>
+          </div>
+
+          <div class="card" style="margin-bottom:1.5rem;">
+            <h3 style="margin-bottom:0.75rem;">🎓 Official Learning Pathways</h3>
+            <ul class="tut-list">
+              <li><span class="tut-ico">🧭</span><div><a href="https://learn.unity.com/pathway/unity-essentials" target="_blank" rel="noopener">Unity Essentials</a> <span class="level-tag level-beginner">Beginner</span><span class="tut-note">Editor basics, scenes, GameObjects — start here in Week 1 of Unit 4.</span></div></li>
+              <li><span class="tut-ico">💻</span><div><a href="https://learn.unity.com/pathway/junior-programmer" target="_blank" rel="noopener">Junior Programmer Pathway</a> <span class="level-tag level-beginner">Beginner</span><span class="tut-note">Free, structured C# course built around small game projects.</span></div></li>
+              <li><span class="tut-ico">🏗</span><div><a href="https://learn.unity.com/course/create-with-code" target="_blank" rel="noopener">Create with Code</a> <span class="level-tag level-beginner">Beginner</span><span class="tut-note">Unity's full classroom programming course — prototype five mini-games.</span></div></li>
+              <li><span class="tut-ico">📖</span><div><a href="https://docs.unity3d.com/Manual/index.html" target="_blank" rel="noopener">Unity Manual &amp; Scripting Reference</a><span class="tut-note">The official reference for every component and API. Bookmark it.</span></div></li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom:0.75rem;">🎬 Best Free YouTube Channels</h3>
+            <ul class="tut-list">
+              <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@Brackeys" target="_blank" rel="noopener">Brackeys</a> <span class="level-tag level-beginner">Beginner</span><span class="tut-note">The classic beginner channel. The "How to make a 2D game" and "First Person Movement" series are gold.</span></div></li>
+              <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@CodeMonkeyUnity" target="_blank" rel="noopener">Code Monkey</a> <span class="level-tag level-beginner">Beginner</span><span class="tut-note">Hundreds of focused Unity tutorials, plus a free 10-hour complete beginner course.</span></div></li>
+              <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@Tarodev" target="_blank" rel="noopener">Tarodev</a> <span class="level-tag level-intermediate">Intermediate</span><span class="tut-note">Clean, modern Unity practice — excellent 2D platformer controller series.</span></div></li>
+              <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@SebastianLague" target="_blank" rel="noopener">Sebastian Lague</a> <span class="level-tag level-advanced">Advanced</span><span class="tut-note">"Coding Adventures" — beautiful deep dives once you're comfortable with C#.</span></div></li>
+              <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@samyam" target="_blank" rel="noopener">samyam</a> <span class="level-tag level-intermediate">Intermediate</span><span class="tut-note">The go-to channel for Unity's Input System and UI.</span></div></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Tutorials by topic -->
+      <div class="divider"></div>
+      <h2 style="margin-bottom:0.5rem;">Unity Tutorials <span class="text-gradient">by Topic</span></h2>
+      <p style="margin-bottom:1.5rem;">Matched to what you'll need in Unit 4 (prototype) and Unit 6 (full game). Remember to <strong>cite any tutorial you follow</strong> in your documentation — see the <a href="research.html">research &amp; referencing guide</a>.</p>
+
+      <div class="grid grid-3">
+        <div class="card">
+          <div class="card-icon">🕹</div>
+          <h3>Player Movement</h3>
+          <ul class="tut-list">
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/watch?v=dwcT-Dch0bA" target="_blank" rel="noopener">Brackeys — 2D Movement</a><span class="tut-note">Platformer movement with Rigidbody2D.</span></div></li>
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/watch?v=_QajrabyTJc" target="_blank" rel="noopener">Brackeys — First Person Movement</a><span class="tut-note">FPS-style controller for 3D games.</span></div></li>
+            <li><span class="tut-ico">🧭</span><div><a href="https://learn.unity.com/project/ruby-s-2d-rpg" target="_blank" rel="noopener">Unity Learn — Ruby's Adventure</a><span class="tut-note">Official top-down 2D game project.</span></div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">👾</div>
+          <h3>Enemies &amp; Gameplay</h3>
+          <ul class="tut-list">
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/watch?v=XOjd_qU2Ido" target="_blank" rel="noopener">Brackeys — Make a Game series</a><span class="tut-note">Full mini-game from empty project to build.</span></div></li>
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@CodeMonkeyUnity/search?query=enemy%20ai" target="_blank" rel="noopener">Code Monkey — Enemy AI tutorials</a><span class="tut-note">Chase, patrol and attack behaviours.</span></div></li>
+            <li><span class="tut-ico">📖</span><div><a href="https://docs.unity3d.com/Manual/Physics2DReference.html" target="_blank" rel="noopener">Unity Manual — 2D Physics</a><span class="tut-note">Colliders, triggers and physics events.</span></div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">🖥</div>
+          <h3>UI, Menus &amp; Score</h3>
+          <ul class="tut-list">
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/watch?v=zc8ac_qUXQY" target="_blank" rel="noopener">Brackeys — Start Menu</a><span class="tut-note">Main menu with buttons and scene loading.</span></div></li>
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@samyam/videos" target="_blank" rel="noopener">samyam — UI Toolkit &amp; Canvas</a><span class="tut-note">Health bars, HUDs, pause menus.</span></div></li>
+            <li><span class="tut-ico">📖</span><div><a href="https://docs.unity3d.com/Manual/UIElements.html" target="_blank" rel="noopener">Unity Manual — UI</a><span class="tut-note">Official UI documentation.</span></div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎵</div>
+          <h3>Audio</h3>
+          <ul class="tut-list">
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/watch?v=6OT43pvUyfY" target="_blank" rel="noopener">Brackeys — Audio in Unity</a><span class="tut-note">AudioSource, AudioListener, mixers.</span></div></li>
+            <li><span class="tut-ico">📖</span><div><a href="https://docs.unity3d.com/Manual/Audio.html" target="_blank" rel="noopener">Unity Manual — Audio</a><span class="tut-note">Import settings and audio components.</span></div></li>
+            <li><span class="tut-ico">🛠</span><div><a href="https://sfxr.me" target="_blank" rel="noopener">jsfxr</a><span class="tut-note">Generate free retro SFX in the browser.</span></div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">💾</div>
+          <h3>Saving &amp; Scenes</h3>
+          <ul class="tut-list">
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/watch?v=XOjd_qU2Ido" target="_blank" rel="noopener">Brackeys — Save &amp; Load</a><span class="tut-note">PlayerPrefs and JSON saving.</span></div></li>
+            <li><span class="tut-ico">📖</span><div><a href="https://docs.unity3d.com/ScriptReference/SceneManagement.SceneManager.html" target="_blank" rel="noopener">SceneManager Reference</a><span class="tut-note">Switching levels and reloading scenes.</span></div></li>
+            <li><span class="tut-ico">🧭</span><div><a href="https://learn.unity.com/tutorial/persistence-saving-and-loading-data" target="_blank" rel="noopener">Unity Learn — Persistence</a><span class="tut-note">Official save-data tutorial.</span></div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">📦</div>
+          <h3>Building &amp; Publishing</h3>
+          <ul class="tut-list">
+            <li><span class="tut-ico">📖</span><div><a href="https://docs.unity3d.com/Manual/PublishingBuilds.html" target="_blank" rel="noopener">Unity Manual — Publishing Builds</a><span class="tut-note">Export a Windows or WebGL build.</span></div></li>
+            <li><span class="tut-ico">🛠</span><div><a href="https://itch.io/docs/creators/html5" target="_blank" rel="noopener">itch.io — HTML5 upload guide</a><span class="tut-note">Put your WebGL build online for Unit 6.</span></div></li>
+            <li><span class="tut-ico">🛒</span><div><a href="https://assetstore.unity.com/?free=true" target="_blank" rel="noopener">Asset Store — free assets</a><span class="tut-note">Always check the licence and attribute.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="info-box" style="margin-top:2rem;">
+        <p><strong>Academic integrity reminder:</strong> Following a tutorial and adapting its code for your own game is allowed — copying a whole project is not. List every tutorial you used in your GDD's reference section, and be ready to explain how <em>your</em> version differs.</p>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-top:2.5rem;">
+        <a href="tutorials.html" class="btn btn-secondary">← Tutorials Hub</a>
+        <a href="unreal.html" class="btn btn-primary">Next engine: Unreal →</a>
+      </div>
+
+    </div>
+  </section>
+</main>
+<script src="../js/main.js"></script>
+</body>
+</html>

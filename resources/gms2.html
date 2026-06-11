@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameMaker Studio 2 — Tutorials &amp; Guides | Level Up Resources</title>
+  <meta name="description" content="GameMaker Studio 2 setup guides, GML basics and a curated library of free GameMaker tutorials for the Year 11–12 Game Design course.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<main>
+  <div class="page-header">
+    <div class="container">
+      <div class="breadcrumb"><a href="../index.html">Home</a> › <a href="index.html">Resources</a> › GameMaker Studio 2</div>
+      <h1>GameMaker <span class="text-gradient">Studio 2 Guide</span></h1>
+      <p class="lead">The fastest route to a playable 2D game. GML scripting is beginner-friendly, drag-and-drop is available as a stepping stone, and the IDE is purpose-built for game creation.</p>
+      <div class="meta-row">
+        <span class="level-tag level-beginner">Beginner friendly</span>
+        <span class="level-tag level-beginner">2D specialist</span>
+        <span class="badge badge-individual">Education licence available</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-2" style="gap:2rem; align-items:start;">
+        <div>
+
+          <div class="card" style="margin-bottom:1.5rem;">
+            <h3 style="margin-bottom:0.75rem;">When to Choose GameMaker</h3>
+            <ul style="color:var(--text-muted); font-size:0.875rem;">
+              <li>You're making a 2D game (platformer, top-down, puzzle, endless runner)</li>
+              <li>You want something playable on screen <em>fast</em></li>
+              <li>You're new to programming — GML is the friendliest first language here</li>
+              <li>Your concept is scope-appropriate for the 12-week project</li>
+              <li>You like proof it can go big: Undertale, Hotline Miami and Chained Echoes shipped on GameMaker</li>
+            </ul>
+          </div>
+
+          <div class="card" style="margin-bottom:1.5rem;">
+            <h3 style="margin-bottom:0.75rem;">Hardware Requirements</h3>
+            <table style="width:100%; font-size:0.82rem; border-collapse:collapse;">
+              <tr><td style="padding:0.3rem 0; color:var(--text-dim);">Minimum RAM</td><td style="color:var(--text);">4 GB</td></tr>
+              <tr><td style="padding:0.3rem 0; color:var(--text-dim);">Recommended RAM</td><td style="color:var(--text);">8 GB</td></tr>
+              <tr><td style="padding:0.3rem 0; color:var(--text-dim);">Storage (install)</td><td style="color:var(--text);">~3 GB</td></tr>
+              <tr><td style="padding:0.3rem 0; color:var(--text-dim);">GPU</td><td style="color:var(--text);">Any modern GPU</td></tr>
+              <tr><td style="padding:0.3rem 0; color:var(--text-dim);">OS</td><td style="color:var(--text);">Windows 10/11 or macOS 12+</td></tr>
+            </table>
+            <p style="font-size:0.8rem; color:var(--text-dim); margin-top:0.75rem;">Runs comfortably on every machine in the lab — the safe choice if you work across school and home computers.</p>
+          </div>
+
+          <div class="card" style="margin-bottom:1.5rem;">
+            <h3 style="margin-bottom:0.75rem;">Key File Types</h3>
+            <ul style="list-style:none; padding:0; font-size:0.875rem;">
+              <li style="margin-bottom:0.4rem; color:var(--text-muted);"><code>.yyp</code> — Project file (open this)</li>
+              <li style="margin-bottom:0.4rem; color:var(--text-muted);"><code>.yy</code> — Individual resource files</li>
+              <li style="margin-bottom:0.4rem; color:var(--text-muted);"><code>.gml</code> — GameMaker Language scripts</li>
+              <li style="color:var(--text-muted);">Sprites/sounds stored as .png/.wav inside the project</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom:0.75rem;">Sprite &amp; Audio Import Specs</h3>
+            <p style="font-size:0.875rem; color:var(--text-muted);"><strong style="color:var(--text);">Sprites:</strong> import PNG files. GameMaker auto-detects sprite size. Set the Origin to the correct anchor point (usually centre for characters, top-left for tiles). Tile size must be consistent for tilesets.</p>
+            <p style="font-size:0.875rem; color:var(--text-muted); margin-top:0.5rem;"><strong style="color:var(--text);">Audio:</strong> import .wav or .ogg. For background music, tick <strong>Streaming</strong>. For SFX, leave as <strong>Compressed</strong>.</p>
+          </div>
+
+        </div>
+        <div>
+
+          <div class="card" style="margin-bottom:1.5rem;">
+            <h3 style="margin-bottom:0.75rem;">Getting Started</h3>
+            <ol style="color:var(--text-muted); font-size:0.875rem; padding-left:1.25rem;">
+              <li style="margin-bottom:0.5rem;">Download GameMaker from <a href="https://gamemaker.io/en/download" target="_blank" rel="noopener">gamemaker.io</a> — ask your teacher for the Education licence key.</li>
+              <li style="margin-bottom:0.5rem;">Create a new project: File → New Project.</li>
+              <li style="margin-bottom:0.5rem;">Import your sprites: right-click Sprites → Create Sprite → Import.</li>
+              <li style="margin-bottom:0.5rem;">Create an Object for your player: right-click Objects → Create Object → assign your sprite.</li>
+              <li>Build the official <strong>Fire Jump</strong> tutorial game (linked below) before starting your own project — it teaches Rooms, Events and GML in one sitting.</li>
+            </ol>
+          </div>
+
+          <div class="card" style="margin-bottom:1.5rem;">
+            <h3 style="margin-bottom:0.75rem;">🎓 Official Learning</h3>
+            <ul class="tut-list">
+              <li><span class="tut-ico">🧭</span><div><a href="https://gamemaker.io/en/tutorials" target="_blank" rel="noopener">GameMaker Official Tutorials</a> <span class="level-tag level-beginner">Beginner</span><span class="tut-note">Guided game builds: Fire Jump (endless jumper), Hero's Trail (top-down adventure), Space Rocks (arcade).</span></div></li>
+              <li><span class="tut-ico">📖</span><div><a href="https://manual.gamemaker.io" target="_blank" rel="noopener">GameMaker Manual</a><span class="tut-note">Full GML reference — every function, every event. Press F1 in the IDE to jump straight to it.</span></div></li>
+              <li><span class="tut-ico">🎬</span><div><a href="https://www.youtube.com/@GameMakerEngine" target="_blank" rel="noopener">GameMaker on YouTube</a><span class="tut-note">Official channel with tutorial playlists and feature guides.</span></div></li>
+              <li><span class="tut-ico">💬</span><div><a href="https://forum.gamemaker.io" target="_blank" rel="noopener">GameMaker Community Forum</a><span class="tut-note">Search before you ask — most beginner problems are already answered.</span></div></li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom:0.75rem;">🎬 Best Free YouTube Channels</h3>
+            <ul class="tut-list">
+              <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@SaraSpalding" target="_blank" rel="noopener">Sara Spalding</a> <span class="level-tag level-beginner">Beginner</span><span class="tut-note">The classic GameMaker channel (formerly Shaun Spalding). The platformer series is the standard starting point.</span></div></li>
+              <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@FriendlyCosmonaut" target="_blank" rel="noopener">FriendlyCosmonaut</a> <span class="level-tag level-intermediate">Intermediate</span><span class="tut-note">Deep, well-explained series — the farming RPG project is excellent.</span></div></li>
+              <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@SamSpadeGameDev" target="_blank" rel="noopener">Sam Spade Game Dev</a> <span class="level-tag level-beginner">Beginner</span><span class="tut-note">Patient, modern GML tutorials covering fundamentals properly.</span></div></li>
+              <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/results?search_query=peyton+burnham+gamemaker" target="_blank" rel="noopener">Peyton Burnham</a> <span class="level-tag level-beginner">Beginner</span><span class="tut-note">Friendly series on menus, dialogue systems and combat in GML.</span></div></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Tutorials by topic -->
+      <div class="divider"></div>
+      <h2 style="margin-bottom:0.5rem;">GameMaker Tutorials <span class="text-gradient">by Topic</span></h2>
+      <p style="margin-bottom:1.5rem;">Matched to what you'll need in Unit 4 (prototype) and Unit 6 (full game). <strong>Cite any tutorial you follow</strong> — see the <a href="research.html">research &amp; referencing guide</a>.</p>
+
+      <div class="grid grid-3">
+        <div class="card">
+          <div class="card-icon">🕹</div>
+          <h3>Movement &amp; Platformers</h3>
+          <ul class="tut-list">
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@SaraSpalding/playlists" target="_blank" rel="noopener">Sara Spalding — Platformer series</a><span class="tut-note">Walking, jumping, collisions, slopes.</span></div></li>
+            <li><span class="tut-ico">🧭</span><div><a href="https://gamemaker.io/en/tutorials" target="_blank" rel="noopener">Official — Hero's Trail</a><span class="tut-note">Top-down movement and combat.</span></div></li>
+            <li><span class="tut-ico">📖</span><div><a href="https://manual.gamemaker.io" target="_blank" rel="noopener">Manual — place_meeting &amp; collisions</a><span class="tut-note">How GameMaker collision actually works.</span></div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">👾</div>
+          <h3>Enemies &amp; Combat</h3>
+          <ul class="tut-list">
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@SaraSpalding/search?query=enemy" target="_blank" rel="noopener">Sara Spalding — enemies &amp; states</a><span class="tut-note">State machines, patrols, hit detection.</span></div></li>
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/results?search_query=peyton+burnham+gamemaker+combat" target="_blank" rel="noopener">Peyton Burnham — combat series</a><span class="tut-note">Health, knockback, invincibility frames.</span></div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">🖥</div>
+          <h3>Menus, UI &amp; Score</h3>
+          <ul class="tut-list">
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/results?search_query=peyton+burnham+gamemaker+menu" target="_blank" rel="noopener">Peyton Burnham — menu systems</a><span class="tut-note">Main menu, options, pause screen.</span></div></li>
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@FriendlyCosmonaut/videos" target="_blank" rel="noopener">FriendlyCosmonaut — GUI &amp; cameras</a><span class="tut-note">Draw GUI event, views and HUDs.</span></div></li>
+            <li><span class="tut-ico">📖</span><div><a href="https://manual.gamemaker.io" target="_blank" rel="noopener">Manual — Draw GUI event</a><span class="tut-note">Score displays that follow the camera.</span></div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎵</div>
+          <h3>Audio</h3>
+          <ul class="tut-list">
+            <li><span class="tut-ico">📖</span><div><a href="https://manual.gamemaker.io" target="_blank" rel="noopener">Manual — audio_play_sound</a><span class="tut-note">Music loops, SFX, volume control.</span></div></li>
+            <li><span class="tut-ico">🛠</span><div><a href="https://sfxr.me" target="_blank" rel="noopener">jsfxr</a><span class="tut-note">Generate free retro SFX in the browser.</span></div></li>
+            <li><span class="tut-ico">🛠</span><div><a href="https://freesound.org" target="_blank" rel="noopener">Freesound</a><span class="tut-note">CC-licensed sounds — check attribution rules.</span></div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">💾</div>
+          <h3>Saving &amp; Rooms</h3>
+          <ul class="tut-list">
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@SaraSpalding/search?query=save" target="_blank" rel="noopener">Sara Spalding — saving &amp; loading</a><span class="tut-note">ini files and persistent data.</span></div></li>
+            <li><span class="tut-ico">📖</span><div><a href="https://manual.gamemaker.io" target="_blank" rel="noopener">Manual — room functions</a><span class="tut-note">room_goto, persistence, transitions.</span></div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">📦</div>
+          <h3>Exporting &amp; Publishing</h3>
+          <ul class="tut-list">
+            <li><span class="tut-ico">🧭</span><div><a href="https://help.gamemaker.io" target="_blank" rel="noopener">GameMaker Help Centre</a><span class="tut-note">Building an executable for Windows.</span></div></li>
+            <li><span class="tut-ico">🛠</span><div><a href="https://itch.io/docs/creators/getting-started" target="_blank" rel="noopener">itch.io creator guide</a><span class="tut-note">Publish your Unit 6 game page.</span></div></li>
+            <li><span class="tut-ico">🛒</span><div><a href="https://kenney.nl/assets" target="_blank" rel="noopener">Kenney — free game assets</a><span class="tut-note">CC0 sprites and tilesets, no attribution needed (but still good practice).</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="info-box" style="margin-top:2rem;">
+        <p><strong>Academic integrity reminder:</strong> Following the platformer tutorial and then building <em>your</em> levels, enemies and mechanics on top is exactly how you're meant to learn. Submitting the tutorial project unchanged is plagiarism. Cite every tutorial in your GDD's reference section.</p>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-top:2.5rem;">
+        <a href="unreal.html" class="btn btn-secondary">← Unreal Engine</a>
+        <a href="tutorials.html" class="btn btn-primary">Tutorials Hub →</a>
+      </div>
+
+    </div>
+  </section>
+</main>
+<script src="../js/main.js"></script>
+</body>
+</html>

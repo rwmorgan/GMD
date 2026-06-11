@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unit 4: Game Prototype — Level Up</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<main>
+  <div class="page-header">
+    <div class="container">
+      <div class="breadcrumb"><a href="../index.html">Home</a> › <a href="index.html">Units</a> › Unit 4</div>
+      <div class="meta-row">
+        <span class="phase-banner phase-1">⬡ Phase 1 · ESC + ICT</span>
+        <span class="badge badge-individual">Individual tasks</span>
+        <span style="font-size:0.82rem; color:var(--text-dim);">Weeks 15–19</span>
+      </div>
+      <h1 style="margin-top:0.75rem;">Unit 4: <span class="text-teal">Game Prototype</span></h1>
+      <p class="lead">This is where your GDD becomes a real, playable thing. You'll set up your engine, import your assets, and implement the core mechanic you planned in Unit 2. By the end, you'll have a working prototype to take into Unit 5.</p>
+      <div class="meta-row">
+        <span class="badge badge-esc">ESC C2</span>
+        <span class="badge badge-esc">ESC C3</span>
+        <span class="badge badge-ict">ICT C1</span>
+        <span class="badge badge-ict">ICT C4</span>
+        <span class="badge badge-ict">ICT C5</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="warning-box" style="margin-bottom:2rem;">
+        <p><strong>⚠ Scope warning:</strong> Your prototype does not need to be a complete, polished game. It needs one working level, a functional core mechanic, your Unit 3 assets imported, and working audio. Keep your GDD Risk Register open and update it as you go. If something in your plan isn't working, document it and adapt — that's what real developers do.</p>
+      </div>
+
+      <!-- Engine Choice -->
+      <div class="card" style="margin-bottom:2rem;">
+        <h3 style="margin-bottom:0.75rem;">🎮 Which Engine Are You Using?</h3>
+        <div class="grid grid-3">
+          <div>
+            <strong style="color:var(--teal);">Unity3D</strong>
+            <p style="font-size:0.82rem; margin-top:0.3rem;">Best for: 2D or 3D, C#, large community, huge Asset Store. Good for students interested in industry-standard dev.</p>
+            <a href="../resources/unity.html" class="btn btn-secondary btn-sm" style="margin-top:0.5rem;">Unity guide →</a>
+          </div>
+          <div>
+            <strong style="color:var(--amber);">Game Maker Studio 2</strong>
+            <p style="font-size:0.82rem; margin-top:0.3rem;">Best for: 2D games, beginner-friendly, GML scripting. Fastest route to a playable 2D prototype.</p>
+            <a href="../resources/gms2.html" class="btn btn-secondary btn-sm" style="margin-top:0.5rem;">GMS2 guide →</a>
+          </div>
+          <div>
+            <strong style="color:var(--purple);">Unreal Engine</strong>
+            <p style="font-size:0.82rem; margin-top:0.3rem;">Best for: 3D, Blueprints (visual scripting), AAA-quality visuals. Steeper learning curve — recommended for confident developers.</p>
+            <a href="../resources/unreal.html" class="btn btn-secondary btn-sm" style="margin-top:0.5rem;">Unreal guide →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 4.1 -->
+      <div class="task-block" id="task-4-1">
+        <div class="task-header">
+          <div class="task-num">4.1</div>
+          <div class="task-meta">
+            <h3>Engine Setup &amp; First Scene</h3>
+            <div class="badges" style="margin-top:0.4rem;">
+              <span class="badge badge-esc">ESC C2 — Interpret setup documentation/manuals</span>
+              <span class="badge badge-esc">ESC C3 — Follow procedures; review own setup</span>
+              <span class="badge badge-ict">ICT C1 — Apply hardware/software knowledge in context</span>
+              <span class="badge badge-ict">ICT C4 — Select &amp; use engine; use help features</span>
+            </div>
+            <div style="margin-top:0.4rem; font-size:0.8rem; color:var(--text-dim);">⏱ 2 lessons &nbsp;·&nbsp; 🛠 Unity / GMS2 / Unreal, Word &nbsp;·&nbsp; 📅 Weeks 15–16</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-section">
+            <h4>Overview</h4>
+            <p>A correctly configured project is the foundation of a successful build. Sloppy setup — wrong settings, assets in random folders, wrong platform target — creates problems that compound for weeks. Do it right from the start.</p>
+          </div>
+
+          <div class="task-section">
+            <h4>Instructions</h4>
+            <ol class="task-steps">
+              <li><strong>Create a new project</strong> in your chosen engine. Settings should match your GDD: 2D or 3D, target platform (PC/Mac/Windows), resolution. Screenshot your project settings screen.</li>
+              <li><strong>Configure your project folder</strong> to match your Unit 1 file structure. In Unity/Unreal, organise the Assets folder with subfolders matching your <code style="background:var(--navy-700); padding:0.1rem 0.3rem; border-radius:3px;">02_Assets/</code> structure. In GMS2, organise Sprites, Sounds, Rooms accordingly. Screenshot the organised structure.</li>
+              <li><strong>Import your Unit 3 assets:</strong> Import all your sprite .png files and audio .wav/.ogg files into the engine. Configure sprite settings (pixels-per-unit in Unity, sprite origin in GMS2). Screenshot the imported assets in the engine's asset browser.</li>
+              <li><strong>Create your first scene/room:</strong> Place at least one background or floor tile using your Unit 3 tileset. Place your player character sprite. Press Play — the scene should open without errors. Screenshot the running scene.</li>
+              <li><strong>Review document:</strong> In Word, paste all screenshots with captions. Add a short review section: Does your setup match your GDD's technical scope? What settings did you have to look up? What helped you find the answer?</li>
+            </ol>
+          </div>
+
+          <div class="task-section">
+            <h4>Submission Checklist</h4>
+            <ul class="checklist">
+              <li>Screenshot: project settings screen (matching GDD technical scope)</li>
+              <li>Screenshot: organised asset folder structure in engine</li>
+              <li>Screenshot: imported sprites and audio visible in engine asset browser</li>
+              <li>Screenshot: first scene/room running in Play mode without errors</li>
+              <li>Review document: captions on all screenshots + review section answering all 3 prompts</li>
+              <li>Saved as <code style="background:var(--navy-700); padding:0.1rem 0.3rem; border-radius:3px;">Task4.1_Firstname_Lastname.docx</code></li>
+            </ul>
+          </div>
+
+          <div class="task-section">
+            <h4>Marking Guide</h4>
+            <table class="marking-table">
+              <thead><tr><th>Criterion</th><th class="grade-c">C — Satisfactory</th><th class="grade-a">A — High Standard (ICT only)</th></tr></thead>
+              <tbody>
+                <tr><td>ESC C2</td><td class="grade-c">Correctly interprets engine setup documentation and project settings. Correctly interprets asset import requirements (sprite settings, audio format).</td><td>—</td></tr>
+                <tr><td>ESC C3</td><td class="grade-c">Follows all setup steps in order. Successfully imports assets and creates first scene. Review compares setup to GDD spec.</td><td>—</td></tr>
+                <tr><td>ICT C1</td><td class="grade-c">Applies understanding of hardware/software to correctly configure the game engine. Demonstrates understanding of how OS, applications and files relate within the engine project.</td><td class="grade-a">Applies knowledge to solve real-world setup problems (e.g. texture compression, audio format conversion). Justifies configuration choices against hardware constraints.</td></tr>
+                <tr><td>ICT C4</td><td class="grade-c">Selects and uses the engine software appropriately. Uses help features (documentation, forums, tutorials) to find sprite/audio import settings. Successfully completes all setup steps.</td><td class="grade-a">Uses advanced engine features (project templates, import presets). Uses advanced search (Boolean, site-specific) to solve engine-specific problems.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="task-actions">
+            <a href="https://canvas.instructure.com" target="_blank" class="btn btn-canvas">📤 Submit on Canvas</a>
+            <button class="btn btn-secondary btn-sm" onclick="window.print()">🖨 Print Task Sheet</button>
+            <a href="../resources/unity.html" class="btn btn-secondary btn-sm">Unity setup guide →</a>
+            <a href="../resources/gms2.html" class="btn btn-secondary btn-sm">GMS2 setup guide →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 4.2 -->
+      <div class="task-block" id="task-4-2">
+        <div class="task-header">
+          <div class="task-num">4.2</div>
+          <div class="task-meta">
+            <h3>Core Mechanic Implementation</h3>
+            <div class="badges" style="margin-top:0.4rem;">
+              <span class="badge badge-esc">ESC C3 — Follow GDD specification; review against plan</span>
+              <span class="badge badge-ict">ICT C4 — Use engine; solve problems; use online support</span>
+              <span class="badge badge-ict">ICT C5 — Maintain focus; follow plan; reflect on progress</span>
+            </div>
+            <div style="margin-top:0.4rem; font-size:0.8rem; color:var(--text-dim);">⏱ 4–5 lessons &nbsp;·&nbsp; 🛠 Unity / GMS2 / Unreal &nbsp;·&nbsp; 📅 Weeks 16–18</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-section">
+            <h4>Overview</h4>
+            <p>The core mechanic is the one thing players do most. If it doesn't feel good, the game doesn't feel good. Your job here is to implement the mechanic you described in your GDD Section 2, test that it works as described, and document the code/logic clearly enough that someone else could read and understand it.</p>
+          </div>
+
+          <div class="task-section">
+            <h4>Instructions</h4>
+            <ol class="task-steps">
+              <li>Open your GDD Section 2 (Gameplay Mechanics). This is your specification. Implement the core mechanic exactly as described. If you realise during implementation that the spec needs to change, document the change in your GDD (add a "Revision" note to the relevant section) and update your Gantt chart.</li>
+              <li>Write your code/script/Blueprint so that it functions correctly. Test it: does the player do what the GDD says they should do? Check on at least one edge case (e.g. What happens if the player holds the key down? What happens at a wall?)</li>
+              <li>Comment your code: every major block of code should have a comment explaining what it does. If using GML or C#, use single-line comments (<code style="background:var(--navy-700); padding:0.1rem 0.3rem; border-radius:3px;">// This moves the player left when Left Arrow is held</code>). If using Blueprints, add Comment Boxes.</li>
+              <li>Create a <strong>Code/Logic Documentation</strong> Word document with: annotated screenshots of your script (one screenshot per major function, with annotations pointing to key lines), a plain English explanation of how the mechanic works (3–5 sentences), and a note on one problem you encountered and how you resolved it (include what resource you used — documentation, tutorial, forum post).</li>
+            </ol>
+          </div>
+
+          <div class="task-section">
+            <h4>What counts as a "core mechanic"?</h4>
+            <div style="background:var(--navy-800); border:1px solid var(--border); border-radius:8px; padding:1rem; font-size:0.85rem; color:var(--text-muted);">
+              <p>Examples by engine and genre:</p>
+              <p><strong style="color:var(--teal);">GMS2 Platformer:</strong> Left/right movement, variable jump height, gravity, wall collision detection</p>
+              <p><strong style="color:var(--teal);">Unity Top-Down:</strong> WASD movement with Rigidbody2D, camera follow, single-hit shooting with projectile pooling</p>
+              <p><strong style="color:var(--teal);">Unreal 3D:</strong> Character movement component configured, jump, basic character blueprint with input bindings</p>
+              <p><strong style="color:var(--teal);">Puzzle game:</strong> Click-to-select mechanic, drag to rearrange, win condition check on each move</p>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <h4>Submission</h4>
+            <ul class="checklist">
+              <li>Working game build/project file: core mechanic implemented and functional</li>
+              <li>All code/scripts commented with plain English explanations</li>
+              <li>Code documentation (Word): annotated screenshots, plain English explanation, problem-solving note with source cited</li>
+              <li>GDD updated if any changes were made to the mechanic spec (revision notes added)</li>
+              <li>Gantt chart updated to reflect actual progress vs plan</li>
+              <li>Submitted: <code style="background:var(--navy-700); padding:0.1rem 0.3rem; border-radius:3px;">Task4.2_Firstname_Lastname.zip</code> (project folder + Word doc) — or share project via OneDrive</li>
+            </ul>
+          </div>
+
+          <div class="task-section">
+            <h4>Marking Guide</h4>
+            <table class="marking-table">
+              <thead><tr><th>Criterion</th><th class="grade-c">C — Satisfactory</th><th class="grade-a">A — High Standard (ICT only)</th></tr></thead>
+              <tbody>
+                <tr><td>ESC C3</td><td class="grade-c">Follows GDD specification for the core mechanic. Tests mechanic against GDD description. Documents any changes with revision notes.</td><td>—</td></tr>
+                <tr><td>ICT C4</td><td class="grade-c">Selects and uses engine software to implement the mechanic. Uses help/online support (documented) to resolve at least one problem. Uses basic scripting/blueprint features to achieve the mechanic.</td><td class="grade-a">Uses advanced engine features (physics layers, animation state machines, object pooling). Uses advanced search strategies to find solutions to complex mechanic problems.</td></tr>
+                <tr><td>ICT C5</td><td class="grade-c">Maintains task focus over the implementation period. Follows GDD plan; updates Gantt when plan changes. Reflects on progress in documentation.</td><td class="grade-a">Sets and achieves sub-goals within the implementation. Proactively evaluates progress and plans future actions. Manages timeline changes effectively.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="task-actions">
+            <a href="https://canvas.instructure.com" target="_blank" class="btn btn-canvas">📤 Submit on Canvas</a>
+            <button class="btn btn-secondary btn-sm" onclick="window.print()">🖨 Print Task Sheet</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 4.3 -->
+      <div class="task-block" id="task-4-3">
+        <div class="task-header">
+          <div class="task-num">4.3</div>
+          <div class="task-meta">
+            <h3>Prototype Self-Test &amp; Iteration</h3>
+            <div class="badges" style="margin-top:0.4rem;">
+              <span class="badge badge-esc">ESC C3 — Review performance; compare to specification</span>
+              <span class="badge badge-ict">ICT C4 — Solve problems using online support</span>
+              <span class="badge badge-ict">ICT C5 — Reflect on progress; articulate future goals</span>
+            </div>
+            <div style="margin-top:0.4rem; font-size:0.8rem; color:var(--text-dim);">⏱ 2 lessons &nbsp;·&nbsp; 🛠 Engine + Word &nbsp;·&nbsp; 📅 Weeks 18–19</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-section">
+            <h4>Overview</h4>
+            <p>Every game studio runs internal playtests before any external tester sees the game. You are now your own QA tester. Using your GDD as the spec, you'll systematically test your prototype, identify what's working and what isn't, then fix at least two issues and re-test.</p>
+          </div>
+
+          <div class="task-section">
+            <h4>Part A — Self-Playtest vs GDD Checklist (ESC C3)</h4>
+            <p>Open your GDD and play your prototype for at least 10 minutes. For each item in GDD Sections 2–4 (Mechanics, Characters, Level Design), note whether it is:</p>
+            <ul style="color:var(--text-muted); font-size:0.9rem; margin-top:0.5rem;">
+              <li>✅ Working as specified</li>
+              <li>⚠️ Partially working (describe what's wrong)</li>
+              <li>❌ Not yet implemented</li>
+            </ul>
+            <p style="margin-top:0.5rem;">Produce this as a checklist table in Word (minimum 10 items from the GDD).</p>
+          </div>
+
+          <div class="task-section">
+            <h4>Part B — Fix &amp; Re-Test (ICT C4)</h4>
+            <p>Identify your top 3 priority issues (the ones most affecting the player experience). Fix at least 2 of them. For each fix:</p>
+            <ol class="task-steps">
+              <li>Describe the problem in plain language</li>
+              <li>Describe your solution (include what resource you used to find the fix — tutorial, documentation, forum)</li>
+              <li>Screenshot evidence: before (showing the problem) and after (showing it resolved)</li>
+            </ol>
+          </div>
+
+          <div class="task-section">
+            <h4>Part C — Progress Reflection (ICT C5)</h4>
+            <p>In 5–8 sentences, reflect on your prototype progress:</p>
+            <ul style="color:var(--text-muted); font-size:0.9rem; margin-top:0.5rem;">
+              <li>How close is your prototype to what you planned in your GDD?</li>
+              <li>What's working better than expected? What's proving harder than expected?</li>
+              <li>What will you focus on improving in Unit 5 and why?</li>
+              <li>Update your Gantt chart to reflect Weeks 15–19 actual progress. Identify any tasks that slipped and add them to Unit 5.</li>
+            </ul>
+          </div>
+
+          <div class="task-section">
+            <h4>Submission Checklist</h4>
+            <ul class="checklist">
+              <li>GDD checklist table: minimum 10 items with working/partial/not-implemented status</li>
+              <li>Fix documentation: 2 fixes with before/after screenshots and source cited for each</li>
+              <li>Progress reflection: 5–8 sentences addressing all prompts</li>
+              <li>Updated Gantt chart (as a new version, not overwriting the original)</li>
+              <li>Saved as <code style="background:var(--navy-700); padding:0.1rem 0.3rem; border-radius:3px;">Task4.3_Firstname_Lastname.docx</code></li>
+            </ul>
+          </div>
+
+          <div class="task-section">
+            <h4>Marking Guide</h4>
+            <table class="marking-table">
+              <thead><tr><th>Criterion</th><th class="grade-c">C — Satisfactory</th><th class="grade-a">A — High Standard (ICT only)</th></tr></thead>
+              <tbody>
+                <tr><td>ESC C3</td><td class="grade-c">Reviews own performance against the GDD specification. GDD checklist accurately reflects prototype state. Re-tests after fixes.</td><td>—</td></tr>
+                <tr><td>ICT C4</td><td class="grade-c">Identifies and uses software/online support to resolve 2 problems. Fix documentation clearly shows before/after evidence.</td><td class="grade-a">Uses advanced search strategies to find and evaluate multiple solutions before implementing. Fix documentation shows evaluation of alternatives.</td></tr>
+                <tr><td>ICT C5</td><td class="grade-c">Reflects meaningfully on progress. Articulates specific ways goals can be met in Unit 5. Updates Gantt chart as a planning action.</td><td class="grade-a">Reflection evaluates progress holistically. Future plans are specific, measurable, and realistic. Gantt update shows sophisticated replanning.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="task-actions">
+            <a href="https://canvas.instructure.com" target="_blank" class="btn btn-canvas">📤 Submit on Canvas</a>
+            <button class="btn btn-secondary btn-sm" onclick="window.print()">🖨 Print Task Sheet</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:3rem; padding-top:2rem; border-top:1px solid var(--border);">
+        <a href="unit-3.html" class="btn btn-secondary">← Unit 3: Asset Creation</a>
+        <a href="unit-5.html" class="btn btn-primary">Unit 5: Showcase &amp; Review →</a>
+      </div>
+
+    </div>
+  </section>
+</main>
+<script src="../js/main.js"></script>
+</body>
+</html>

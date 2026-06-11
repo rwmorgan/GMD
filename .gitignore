@@ -1,0 +1,7 @@
+# Local dev tooling (preview server config) — not needed on the web
+.claude/
+
+# Google Drive / Windows noise
+desktop.ini
+Thumbs.db
+~$*

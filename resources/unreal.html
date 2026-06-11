@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unreal Engine — Tutorials &amp; Guides | Level Up Resources</title>
+  <meta name="description" content="Unreal Engine setup guides, Blueprints introduction and a curated library of free Unreal tutorials for the Year 11–12 Game Design course.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<main>
+  <div class="page-header">
+    <div class="container">
+      <div class="breadcrumb"><a href="../index.html">Home</a> › <a href="index.html">Resources</a> › Unreal Engine</div>
+      <h1>Unreal <span class="text-gradient">Engine Guide</span></h1>
+      <p class="lead">AAA-quality 3D engine from Epic Games. Blueprints visual scripting means you can build complex behaviour without writing a single line of code.</p>
+      <div class="meta-row">
+        <span class="level-tag level-beginner">No-code Blueprints</span>
+        <span class="level-tag level-advanced">High-end 3D</span>
+        <span class="badge badge-individual">Engine is free</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-2" style="gap:2rem; align-items:start;">
+        <div>
+
+          <div class="card" style="margin-bottom:1.5rem;">
+            <h3 style="margin-bottom:0.75rem;">When to Choose Unreal</h3>
+            <ul style="color:var(--text-muted); font-size:0.875rem;">
+              <li>You're making a 3D game and want the best possible visuals</li>
+              <li>You prefer visual scripting (Blueprints) over writing code</li>
+              <li>You've used Unreal before and are confident in it</li>
+              <li>Your lab computer meets the higher hardware requirements</li>
+              <li>You want to learn the engine behind Fortnite and most modern AAA games</li>
+            </ul>
+          </div>
+
+          <div class="card" style="margin-bottom:1.5rem;">
+            <h3 style="margin-bottom:0.75rem;">Hardware Requirements</h3>
+            <table style="width:100%; font-size:0.82rem; border-collapse:collapse;">
+              <tr><td style="padding:0.3rem 0; color:var(--text-dim);">Minimum RAM</td><td style="color:var(--text);">16 GB</td></tr>
+              <tr><td style="padding:0.3rem 0; color:var(--text-dim);">Recommended RAM</td><td style="color:var(--text);">32 GB</td></tr>
+              <tr><td style="padding:0.3rem 0; color:var(--text-dim);">Storage (install)</td><td style="color:var(--text);">~60+ GB</td></tr>
+              <tr><td style="padding:0.3rem 0; color:var(--text-dim);">GPU</td><td style="color:var(--text);">Dedicated GPU (GTX 1080 / RTX class)</td></tr>
+              <tr><td style="padding:0.3rem 0; color:var(--text-dim);">OS</td><td style="color:var(--text);">Windows 10/11 or macOS 12+</td></tr>
+            </table>
+            <div class="warning-box" style="margin:0.9rem 0 0;">
+              <p><strong>Scope warning:</strong> Unreal is the most demanding option in this course. Keep your Unit 6 concept small — one polished level beats five unfinished ones.</p>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:1.5rem;">
+            <h3 style="margin-bottom:0.75rem;">Key File Types</h3>
+            <ul style="list-style:none; padding:0; font-size:0.875rem;">
+              <li style="margin-bottom:0.4rem; color:var(--text-muted);"><code>.uproject</code> — Project file (open this)</li>
+              <li style="margin-bottom:0.4rem; color:var(--text-muted);"><code>.uasset</code> — All assets (meshes, textures, Blueprints)</li>
+              <li style="margin-bottom:0.4rem; color:var(--text-muted);"><code>.umap</code> — Level/map files</li>
+              <li style="color:var(--text-muted);"><code>.cpp / .h</code> — C++ source (only if using code)</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom:0.75rem;">Texture &amp; Audio Import Specs</h3>
+            <p style="font-size:0.875rem; color:var(--text-muted);"><strong style="color:var(--text);">Textures:</strong> drag PNG into the Content Browser. Set Compression Settings to <strong>UserInterface2D</strong> for UI sprites. For pixel art, set Filter to <strong>Nearest</strong> in Texture settings.</p>
+            <p style="font-size:0.875rem; color:var(--text-muted); margin-top:0.5rem;"><strong style="color:var(--text);">Audio:</strong> import .wav files. Unreal converts to its internal format. Use Sound Cues (or MetaSounds in UE5) for complex audio behaviour.</p>
+          </div>
+
+        </div>
+        <div>
+
+          <div class="card" style="margin-bottom:1.5rem;">
+            <h3 style="margin-bottom:0.75rem;">Getting Started</h3>
+            <ol style="color:var(--text-muted); font-size:0.875rem; padding-left:1.25rem;">
+              <li style="margin-bottom:0.5rem;">Install the <strong>Epic Games Launcher</strong>, then install Unreal Engine 5 from its Library tab — the engine itself is free.</li>
+              <li style="margin-bottom:0.5rem;">The install is 60+ GB: in class, use the lab machines where it is pre-installed.</li>
+              <li style="margin-bottom:0.5rem;">Create a new project from a template (Third Person, Top Down, Side Scrolling, First Person) with <strong>Blueprint</strong> selected, not C++.</li>
+              <li style="margin-bottom:0.5rem;">Learn the viewport controls first: right-mouse + WASD to fly, F to focus.</li>
+              <li>Then start the official <strong>Your First Hour in Unreal Engine 5</strong> course (linked below).</li>
+            </ol>
+          </div>
+
+          <div class="card" style="margin-bottom:1.5rem;">
+            <h3 style="margin-bottom:0.75rem;">🎓 Official Learning</h3>
+            <ul class="tut-list">
+              <li><span class="tut-ico">🧭</span><div><a href="https://dev.epicgames.com/community/learning" target="_blank" rel="noopener">Epic Developer Community — Learning</a> <span class="level-tag level-beginner">Beginner</span><span class="tut-note">Free official courses. Search "Your First Hour in Unreal Engine 5" to start.</span></div></li>
+              <li><span class="tut-ico">🧩</span><div><a href="https://dev.epicgames.com/community/learning?types=course&query=blueprint" target="_blank" rel="noopener">Blueprint courses</a> <span class="level-tag level-beginner">Beginner</span><span class="tut-note">Visual scripting from zero — no code required.</span></div></li>
+              <li><span class="tut-ico">📖</span><div><a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-documentation" target="_blank" rel="noopener">Unreal Engine Documentation</a><span class="tut-note">Official manual for every system in the engine.</span></div></li>
+              <li><span class="tut-ico">🎬</span><div><a href="https://www.youtube.com/@UnrealEngine" target="_blank" rel="noopener">Unreal Engine on YouTube</a><span class="tut-note">Official channel — feature guides and "Inside Unreal" streams.</span></div></li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom:0.75rem;">🎬 Best Free YouTube Channels</h3>
+            <ul class="tut-list">
+              <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@UnrealSensei" target="_blank" rel="noopener">Unreal Sensei</a> <span class="level-tag level-beginner">Beginner</span><span class="tut-note">The famous 5-hour "UE5 Beginner Tutorial" — the best single starting video.</span></div></li>
+              <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@RyanLaley" target="_blank" rel="noopener">Ryan Laley</a> <span class="level-tag level-beginner">Beginner</span><span class="tut-note">Huge library of short, focused Blueprint series (health bars, AI, inventories).</span></div></li>
+              <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@MathewWadsteinTutorials" target="_blank" rel="noopener">Mathew Wadstein — "WTF Is…?"</a> <span class="level-tag level-intermediate">Intermediate</span><span class="tut-note">Two-minute explanations of individual Blueprint nodes. Perfect reference.</span></div></li>
+              <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@GorkaGames" target="_blank" rel="noopener">Gorka Games</a> <span class="level-tag level-beginner">Beginner</span><span class="tut-note">Fast-paced UE5 game builds and mechanic tutorials.</span></div></li>
+              <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@VirtusEdu" target="_blank" rel="noopener">Virtus Learning Hub</a> <span class="level-tag level-beginner">Beginner</span><span class="tut-note">Structured beginner playlists for UE5 fundamentals.</span></div></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Tutorials by topic -->
+      <div class="divider"></div>
+      <h2 style="margin-bottom:0.5rem;">Unreal Tutorials <span class="text-gradient">by Topic</span></h2>
+      <p style="margin-bottom:1.5rem;">Matched to what you'll need in Unit 4 (prototype) and Unit 6 (full game). <strong>Cite any tutorial you follow</strong> — see the <a href="research.html">research &amp; referencing guide</a>.</p>
+
+      <div class="grid grid-3">
+        <div class="card">
+          <div class="card-icon">🧩</div>
+          <h3>Blueprints Basics</h3>
+          <ul class="tut-list">
+            <li><span class="tut-ico">🧭</span><div><a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/blueprints-visual-scripting-in-unreal-engine" target="_blank" rel="noopener">Blueprints Visual Scripting docs</a><span class="tut-note">Events, variables, functions, branches.</span></div></li>
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@RyanLaley/playlists" target="_blank" rel="noopener">Ryan Laley — Blueprint playlists</a><span class="tut-note">Step-by-step mechanic builds.</span></div></li>
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@MathewWadsteinTutorials/videos" target="_blank" rel="noopener">WTF Is…? node reference</a><span class="tut-note">Look up any node you don't understand.</span></div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">🏃</div>
+          <h3>Characters &amp; Movement</h3>
+          <ul class="tut-list">
+            <li><span class="tut-ico">📖</span><div><a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/setting-up-a-character-in-unreal-engine" target="_blank" rel="noopener">Setting Up a Character (docs)</a><span class="tut-note">Character Blueprint, input, camera.</span></div></li>
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@UnrealSensei/videos" target="_blank" rel="noopener">Unreal Sensei — UE5 Beginner Tutorial</a><span class="tut-note">Covers movement, materials and lighting.</span></div></li>
+            <li><span class="tut-ico">🧭</span><div><a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/enhanced-input-in-unreal-engine" target="_blank" rel="noopener">Enhanced Input docs</a><span class="tut-note">UE5's input system for keys and gamepads.</span></div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">🗺</div>
+          <h3>Levels &amp; Environments</h3>
+          <ul class="tut-list">
+            <li><span class="tut-ico">📖</span><div><a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/level-designer-quick-start-in-unreal-engine" target="_blank" rel="noopener">Level Designer Quick Start</a><span class="tut-note">Geometry, lighting and playtesting a level.</span></div></li>
+            <li><span class="tut-ico">🛒</span><div><a href="https://www.fab.com" target="_blank" rel="noopener">Fab marketplace</a><span class="tut-note">Free Megascans and asset packs (check licences).</span></div></li>
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@GorkaGames/videos" target="_blank" rel="noopener">Gorka Games — environment builds</a><span class="tut-note">Quick landscape and level tutorials.</span></div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">👾</div>
+          <h3>Enemies &amp; AI</h3>
+          <ul class="tut-list">
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@RyanLaley/search?query=AI" target="_blank" rel="noopener">Ryan Laley — AI series</a><span class="tut-note">Behaviour Trees, patrols, sight perception.</span></div></li>
+            <li><span class="tut-ico">📖</span><div><a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/artificial-intelligence-in-unreal-engine" target="_blank" rel="noopener">AI documentation</a><span class="tut-note">NavMesh, AI Controllers, Blackboards.</span></div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">🖥</div>
+          <h3>UI &amp; HUD (UMG)</h3>
+          <ul class="tut-list">
+            <li><span class="tut-ico">📖</span><div><a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/umg-ui-designer-for-unreal-engine" target="_blank" rel="noopener">UMG UI Designer docs</a><span class="tut-note">Widgets, health bars, menus.</span></div></li>
+            <li><span class="tut-ico">▶</span><div><a href="https://www.youtube.com/@RyanLaley/search?query=menu" target="_blank" rel="noopener">Ryan Laley — menus &amp; HUD</a><span class="tut-note">Main menu, pause menu, score display.</span></div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">📦</div>
+          <h3>Packaging &amp; Publishing</h3>
+          <ul class="tut-list">
+            <li><span class="tut-ico">📖</span><div><a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/packaging-unreal-engine-projects" target="_blank" rel="noopener">Packaging Projects docs</a><span class="tut-note">Export a Windows build for submission.</span></div></li>
+            <li><span class="tut-ico">🛠</span><div><a href="https://itch.io/docs/creators/getting-started" target="_blank" rel="noopener">itch.io creator guide</a><span class="tut-note">Upload your packaged build for Unit 6.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="info-box" style="margin-top:2rem;">
+        <p><strong>Academic integrity reminder:</strong> Adapting a Blueprint tutorial for your own game is allowed — submitting a template project with a re-skin is not. List every tutorial and asset pack you used in your GDD's reference section.</p>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-top:2.5rem;">
+        <a href="unity.html" class="btn btn-secondary">← Unity</a>
+        <a href="gms2.html" class="btn btn-primary">Next engine: GameMaker →</a>
+      </div>
+
+    </div>
+  </section>
+</main>
+<script src="../js/main.js"></script>
+</body>
+</html>
