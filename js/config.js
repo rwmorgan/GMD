@@ -11,8 +11,8 @@
    data leaves the machine. Great for previewing.
    ============================================================ */
 
-export const SUPABASE_URL = '';
-export const SUPABASE_ANON_KEY = '';
+export const SUPABASE_URL = 'https://xheysgfvmvcjtgfbxgjr.supabase.co';
+export const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoZXlzZ2Z2bXZjanRnZmJ4Z2pyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwNzA3NjQsImV4cCI6MjA5ODY0Njc2NH0.P02mOziwTpeY957X7PVW52l3Scgz2j3mPrN--xoCgZE';
 
 /* Site identity */
 export const SITE_NAME = 'Level Up';
