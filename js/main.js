@@ -26,13 +26,13 @@ function navHTML() {
       <li class="has-dropdown">
         <button onclick="toggleDropdown(this)">Units <span class="chevron">▾</span></button>
         <ul class="nav-dropdown">
-          <li><a href="${r}units/unit-1.html"><span class="badge-dot" style="background:#0EA5E9;"></span> Unit 1: Digital Foundations</a></li>
-          <li><a href="${r}units/unit-2.html"><span class="badge-dot" style="background:#0EA5E9;"></span> Unit 2: Game Design &amp; Docs</a></li>
-          <li><a href="${r}units/unit-3.html"><span class="badge-dot" style="background:#0EA5E9;"></span> Unit 3: Asset Creation</a></li>
-          <li><a href="${r}units/unit-4.html"><span class="badge-dot" style="background:#0EA5E9;"></span> Unit 4: Game Prototype</a></li>
-          <li><a href="${r}units/unit-5.html"><span class="badge-dot" style="background:#0EA5E9;"></span> Unit 5: Showcase &amp; Review</a></li>
-          <li><a href="${r}units/unit-6.html"><span class="badge-dot" style="background:#A855F7;"></span> Unit 6: Full Game Project</a></li>
-          <li><a href="${r}units/index.html">↗ All Units Overview</a></li>
+          <li><a href="${r}index.html#/units/1"><span class="badge-dot" style="background:#0EA5E9;"></span> Unit 1: Digital Foundations</a></li>
+          <li><a href="${r}index.html#/units/2"><span class="badge-dot" style="background:#0EA5E9;"></span> Unit 2: Game Design &amp; Docs</a></li>
+          <li><a href="${r}index.html#/units/3"><span class="badge-dot" style="background:#0EA5E9;"></span> Unit 3: Asset Creation</a></li>
+          <li><a href="${r}index.html#/units/4"><span class="badge-dot" style="background:#0EA5E9;"></span> Unit 4: Game Prototype</a></li>
+          <li><a href="${r}index.html#/units/5"><span class="badge-dot" style="background:#0EA5E9;"></span> Unit 5: Showcase &amp; Review</a></li>
+          <li><a href="${r}index.html#/units/6"><span class="badge-dot" style="background:#A855F7;"></span> Unit 6: Full Game Project</a></li>
+          <li><a href="${r}index.html#/units">↗ All Units Overview</a></li>
         </ul>
       </li>
       <li class="has-dropdown">
@@ -51,11 +51,11 @@ function navHTML() {
       <li class="has-dropdown">
         <button onclick="toggleDropdown(this)">Assessment <span class="chevron">▾</span></button>
         <ul class="nav-dropdown">
-          <li><a href="${r}assessment/ict205114.html"><span class="badge-dot" style="background:#F59E0B;"></span> ICT205114 – Computer Applications</a></li>
-          <li><a href="${r}assessment/esc205114.html"><span class="badge-dot" style="background:#0EA5E9;"></span> ESC205114 – Essential Skills</a></li>
-          <li><a href="${r}assessment/prj205118.html"><span class="badge-dot" style="background:#A855F7;"></span> PRJ205118 – Project Implementation</a></li>
-          <li><a href="${r}assessment/matrix.html">📊 Assessment Matrix</a></li>
-          <li><a href="${r}assessment/index.html">↗ Assessment Overview</a></li>
+          <li><a href="${r}index.html#/courses/ICT205114"><span class="badge-dot" style="background:#F59E0B;"></span> ICT205114 – Computer Applications</a></li>
+          <li><a href="${r}index.html#/courses/ESC205114"><span class="badge-dot" style="background:#0EA5E9;"></span> ESC205114 – Essential Skills</a></li>
+          <li><a href="${r}index.html#/courses/PRJ205118"><span class="badge-dot" style="background:#A855F7;"></span> PRJ205118 – Project Implementation</a></li>
+          <li><a href="${r}index.html#/matrix">📊 Coverage Matrix</a></li>
+          <li><a href="${r}index.html#/assessment">↗ Assessment Overview</a></li>
         </ul>
       </li>
       <li><a href="${r}resources/tutorials.html">Tutorials</a></li>
@@ -82,21 +82,21 @@ function footerHTML() {
     <div class="footer-col">
       <h4>Units</h4>
       <ul>
-        <li><a href="${r}units/unit-1.html">1 · Digital Foundations</a></li>
-        <li><a href="${r}units/unit-2.html">2 · Game Design &amp; Docs</a></li>
-        <li><a href="${r}units/unit-3.html">3 · Asset Creation</a></li>
-        <li><a href="${r}units/unit-4.html">4 · Game Prototype</a></li>
-        <li><a href="${r}units/unit-5.html">5 · Showcase &amp; Review</a></li>
-        <li><a href="${r}units/unit-6.html">6 · Full Game Project</a></li>
+        <li><a href="${r}index.html#/units/1">1 · Digital Foundations</a></li>
+        <li><a href="${r}index.html#/units/2">2 · Game Design &amp; Docs</a></li>
+        <li><a href="${r}index.html#/units/3">3 · Asset Creation</a></li>
+        <li><a href="${r}index.html#/units/4">4 · Game Prototype</a></li>
+        <li><a href="${r}index.html#/units/5">5 · Showcase &amp; Review</a></li>
+        <li><a href="${r}index.html#/units/6">6 · Full Game Project</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4>Assessment</h4>
       <ul>
-        <li><a href="${r}assessment/ict205114.html">ICT205114</a></li>
-        <li><a href="${r}assessment/esc205114.html">ESC205114</a></li>
-        <li><a href="${r}assessment/prj205118.html">PRJ205118</a></li>
-        <li><a href="${r}assessment/matrix.html">Assessment Matrix</a></li>
+        <li><a href="${r}index.html#/courses/ICT205114">ICT205114</a></li>
+        <li><a href="${r}index.html#/courses/ESC205114">ESC205114</a></li>
+        <li><a href="${r}index.html#/courses/PRJ205118">PRJ205118</a></li>
+        <li><a href="${r}index.html#/matrix">Coverage Matrix</a></li>
       </ul>
     </div>
     <div class="footer-col">
