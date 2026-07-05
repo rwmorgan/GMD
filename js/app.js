@@ -4,7 +4,7 @@
 
 import { IS_DEMO } from './config.js';
 import { api } from './api.js';
-import { route, setNotFound, setBeforeEach, startRouter, navigate } from './router.js';
+import { route, setNotFound, setBeforeEach, setOnError, startRouter, navigate } from './router.js';
 import { render, esc, toast } from './ui.js';
 import { invalidate } from './store.js';
 
@@ -218,6 +218,15 @@ route('/teach/students', requireTeacher(studentsView));
 route('/teach/settings', requireTeacher(settingsView));
 route('/teach/editor', requireTeacher(editorListView));
 route('/teach/editor/:id', requireTeacher(editorView));
+
+setOnError((err, path) => {
+  render(`
+    <section class="section"><div class="container">
+      <h1>That page hit a bug</h1>
+      <p class="lead">${esc(err.message || String(err))}</p>
+      <p>Try <a href="#${esc(path)}" onclick="location.reload()">reloading the page</a>. If it keeps happening, the message above is the thing to report.</p>
+    </div></section>`, { title: 'Error' });
+});
 
 setNotFound(() => {
   render(`

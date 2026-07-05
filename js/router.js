@@ -3,6 +3,7 @@
 const routes = [];
 let notFoundHandler = null;
 let beforeEach = null;
+let onError = null;
 
 export function route(pattern, handler) {
   const keys = [];
@@ -11,6 +12,7 @@ export function route(pattern, handler) {
 }
 
 export function setNotFound(handler) { notFoundHandler = handler; }
+export function setOnError(handler) { onError = handler; }
 export function setBeforeEach(fn) { beforeEach = fn; }
 
 export function currentPath() {
@@ -40,7 +42,12 @@ async function dispatch() {
         const redirect = await beforeEach(path, params);
         if (redirect) { navigate(redirect); return; }
       }
-      await r.handler(params);
+      try {
+        await r.handler(params);
+      } catch (err) {
+        if (onError) onError(err, path);
+        else throw err;
+      }
       return;
     }
   }

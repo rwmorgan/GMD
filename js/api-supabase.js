@@ -29,9 +29,12 @@ export class SupabaseAdapter {
     this.client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     const { data: { session } } = await this.client.auth.getSession();
     await this.loadProfile(session);
-    this.client.auth.onAuthStateChange(async (_event, sess) => {
-      await this.loadProfile(sess);
-      this.emit();
+    this.client.auth.onAuthStateChange((event, sess) => {
+      // supabase-js holds its auth lock while this callback runs: a query
+      // awaited here deadlocks every later request once a token refresh
+      // fires. Skip refreshes (profile unchanged) and defer the rest.
+      if (event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION') return;
+      setTimeout(() => { this.loadProfile(sess).then(() => this.emit()); }, 0);
     });
   }
 
