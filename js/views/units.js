@@ -37,7 +37,7 @@ export async function unitsView() {
   <div class="container">
     <div class="breadcrumb"><a href="#/">Home</a> › Units</div>
     <h1>Course <span class="text-teal">Units</span></h1>
-    <p class="lead">Six units across 34 weeks — from your first file structure to a published game.</p>
+    <p class="lead">Five units across the year — from your first browser game to a presented major project.</p>
   </div>
 </div>
 <section class="section">

@@ -28,12 +28,11 @@ function navHTML() {
       <li class="has-dropdown">
         <button aria-haspopup="true" data-dd>Units <span class="chevron">▾</span></button>
         <ul class="nav-dropdown">
-          <li><a href="#/units/1"><span class="badge-dot" style="background:var(--teal);"></span> 1 · Digital Foundations</a></li>
-          <li><a href="#/units/2"><span class="badge-dot" style="background:var(--teal);"></span> 2 · Game Design &amp; Docs</a></li>
-          <li><a href="#/units/3"><span class="badge-dot" style="background:var(--teal);"></span> 3 · Asset Creation</a></li>
-          <li><a href="#/units/4"><span class="badge-dot" style="background:var(--teal);"></span> 4 · Game Prototype</a></li>
-          <li><a href="#/units/5"><span class="badge-dot" style="background:var(--teal);"></span> 5 · Showcase &amp; Review</a></li>
-          <li><a href="#/units/6"><span class="badge-dot" style="background:var(--purple);"></span> 6 · Full Game Project</a></li>
+          <li><a href="#/units/1"><span class="badge-dot" style="background:var(--teal);"></span> 1 · Computers &amp; Digital Foundations</a></li>
+          <li><a href="#/units/2"><span class="badge-dot" style="background:var(--teal);"></span> 2 · Reviewing Games</a></li>
+          <li><a href="#/units/3"><span class="badge-dot" style="background:var(--teal);"></span> 3 · Game Engines</a></li>
+          <li><a href="#/units/4"><span class="badge-dot" style="background:var(--teal);"></span> 4 · Design &amp; Digital Citizenship</a></li>
+          <li><a href="#/units/5"><span class="badge-dot" style="background:var(--purple);"></span> 5 · Major Project</a></li>
           <li><a href="#/units">↗ All Units</a></li>
         </ul>
       </li>
@@ -104,12 +103,11 @@ function footerHTML() {
     <div class="footer-col">
       <h4>Units</h4>
       <ul>
-        <li><a href="#/units/1">1 · Digital Foundations</a></li>
-        <li><a href="#/units/2">2 · Game Design &amp; Docs</a></li>
-        <li><a href="#/units/3">3 · Asset Creation</a></li>
-        <li><a href="#/units/4">4 · Game Prototype</a></li>
-        <li><a href="#/units/5">5 · Showcase &amp; Review</a></li>
-        <li><a href="#/units/6">6 · Full Game Project</a></li>
+        <li><a href="#/units/1">1 · Computers &amp; Digital Foundations</a></li>
+        <li><a href="#/units/2">2 · Reviewing Games</a></li>
+        <li><a href="#/units/3">3 · Game Engines</a></li>
+        <li><a href="#/units/4">4 · Design &amp; Digital Citizenship</a></li>
+        <li><a href="#/units/5">5 · Major Project</a></li>
       </ul>
     </div>
     <div class="footer-col">

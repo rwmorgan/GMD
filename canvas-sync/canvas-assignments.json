@@ -1,0 +1,333 @@
+{
+  "extracted": "2026-07-05",
+  "source": "Canvas blueprint course 94239 'Blue Print Game Making and Design' (canvas.education.tas.gov.au)",
+  "sections_2026": [
+    { "id": 210788, "code": "ICT205114BG1A" },
+    { "id": 210840, "code": "ICT205114BG2B", "differences": "Project Brief due 2026-08-07 instead of 2026-07-31; otherwise identical to BG1A" }
+  ],
+  "notes": [
+    "Descriptions are sanitized HTML: attributes stripped, links/media replaced by [Ln] markers resolved via the 'links' map (query strings removed).",
+    "Due dates are UTC; 12:59:59Z/13:59:59Z = 11:59pm Tasmania time.",
+    "Rubric entries are 'criterion text [available ratings]'. 'Description of criterion [Full Marks/No Marks]' rows are Canvas placeholder rows, not real criteria."
+  ],
+  "assignments": [
+    {
+      "id": 805140,
+      "name": "Top Down and Platformer Games Plus Backup",
+      "due_at": "2026-02-11T12:59:59Z",
+      "published": true,
+      "types": ["online_upload"],
+      "desc_html": "<p>Assessment task – After creating with Flowlab (<a>flowlab.io [L1]</a>) or Scratch (<a>scratch.mit.edu [L2]</a>), you are do some research and write-up on Top-down and Platformer games. Students to do this in Word and save to OneDrive in a folder “Game Making and Design”. Take a screen-shot of the file after it is saved in the correct location. Ask students to keep their own backups of all their work.</p> <p><strong>Essential Skills Criteria 3.1, 3.2 and 4.3</strong></p> <p><strong>Computer Applications Criteria 1.3, 1.4, 3.1 and 3.3</strong></p>",
+      "links": { "L1": "http://flowlab.io", "L2": "http://scratch.mit.edu" },
+      "rubric": [
+        "03 - Follow procedures to perform given tasks, and review performance. [C/t/z]",
+        "Essential Skills C3 Element 1 [C/t/z]",
+        "Essential Skills C3 Element 2 [C/t/z]",
+        "04 - Use digital technologies effectively, safely and productively. [C/t/z]",
+        "Essential Skills C4 Element 3 [C/t/z]",
+        "01 - Identify and apply basic terminology and concepts relating to computer hardware and software. [A/C/t/z]",
+        "Computer Apps C1 Element 3 [C/t/z]",
+        "Computer Apps C1 Element 4 [C/t/z]",
+        "03 - Collect and communicate ideas and information using digital technologies. [A/C/t/z]",
+        "Computer Apps C3 Element 1 [A/C/t/z]",
+        "Computer Apps C3 Element 3 [C/t/z]"
+      ]
+    },
+    {
+      "id": 805951,
+      "name": "Parts of a Computer/Computer types and OS",
+      "due_at": "2026-02-13T12:59:59Z",
+      "published": true,
+      "types": ["online_upload"],
+      "desc_html": "<p><strong>Part One</strong></p> <p>What are the 5 main parts of a computer (excluding the case that they fit into)?</p> <p>List your answers in a Word Document</p> <p><span>[VIDEO L1]</span></p> <p><strong>Part Two</strong></p> <p>Watch the following video and answer the questions below:</p> <p><span>[VIDEO L2]</span></p> <p>Computers use a combination of__________ and _________</p> <p>What are the two main types of personal computers?</p> <p>What are the 3 main types of operating systems on PC’s?</p> <p>Answer the above in a two Word documents and submit it. Have TWO separate documents, one called <em>Parts</em>, and one called <em>Computers and OS</em>.</p> <p>Also, ensure you are keeping all of your work in your Game Making and Design folder on OneDrive.</p>",
+      "links": { "L1": "https://www.youtube-nocookie.com/embed/HB4I2CgkcCo", "L2": "https://www.youtube-nocookie.com/embed/Cu3R5it4cQs" },
+      "rubric": [
+        "01 - Identify digital technology tools suitable for routine tasks. [C/t/z]",
+        "02 - Interpret information to access and use digital technology. [C/t/z]",
+        "04 - Use digital technologies effectively, safely and productively. [C/t/z]",
+        "01 - Identify and apply basic terminology and concepts relating to computer hardware and software. [A/C/t/z]"
+      ]
+    },
+    {
+      "id": 919815,
+      "name": "Build a Computer",
+      "due_at": "2026-02-20T12:59:59Z",
+      "published": true,
+      "types": ["online_upload"],
+      "desc_html": "<p><span>[IMAGE L8]</span></p> <p>Computers consist of many different components. For this task, we will be looking at desktop computers, what's inside them, and how they work together for different purposes.</p> <p>The main components of a computer include:</p> <ul> <li>CPU/Processor</li> <li>Motherboard</li> <li>Hard drive</li> <li>Memory/RAM</li> <li>Graphics card/GPU</li> <li>Case</li> <li>Power supply</li> <li>Optical Drive</li> <li>Screen/Monitor</li> <li>Keyboard</li> <li>Mouse</li> </ul> <p>Your job is to fictitiously build a computer out of parts for two (2) of the following budgets. $1500, $2500 and unlimited. At the end of each build, you must explain your choices and purpose of your computer (one should be for gaming).</p> <p>Websites used must be Australian and in Australian Dollars. You do not need to factor in freight costs in your build. You must use at least 3 different sites for purchasing parts.</p> <p>Some sites that will get you started:</p> <p><a>[L1]</a> <a>[L2]</a> <a>[L3]</a> <a>[L4]</a> <a>[L5]</a> <a>[L6]</a> <a>[L7]</a></p> <p>You are to present your information in a PowerPoint, and must include the part name, a picture of the part, the price and the site where you would get this from. Duplicate the part name and price into a spreadsheet, using formula to calculate the total for each budget.</p> <p><strong>Essential Skills criteria 1, 2 and 3</strong></p> <p><strong>Computer Applications Criteria 1, 3 and 4</strong></p> <ul> <li>What parts might make a good gaming computer and why</li> </ul>",
+      "links": {
+        "L1": "https://www.pccasegear.com/",
+        "L2": "https://www.msy.com.au/",
+        "L3": "https://www.scorptec.com.au/",
+        "L4": "https://www.umart.com.au/",
+        "L5": "https://www.eyo.com.au/",
+        "L6": "https://www.computeralliance.com.au/systems",
+        "L7": "https://www.whatpsu.com/",
+        "L8": "https://canvas.education.tas.gov.au/courses/94239/files/10711000/preview"
+      },
+      "rubric": [
+        "01 - Identify digital technology tools suitable for routine tasks. [C/t/z]",
+        "02 - Interpret information to access and use digital technology. [C/t/z]",
+        "03 - Follow procedures to perform given tasks, and review performance. [C/t/z]",
+        "01 - Identify and apply basic terminology and concepts relating to computer hardware and software. [A/C/t/z]",
+        "03 - Collect and communicate ideas and information using digital technologies. [A/C/t/z]",
+        "04 - Complete tasks and solve problems using computers and other digital technologies. [A/C/t/z]"
+      ]
+    },
+    {
+      "id": 933238,
+      "name": "Safe Gaming Space",
+      "due_at": "2026-02-27T12:59:59Z",
+      "published": true,
+      "types": ["online_upload"],
+      "desc_html": "<p>Task – design a study/gaming space. Your write-up should include information about ergonomics and be submitted in Word format. Include images, 2 different font types, some words <strong>bold</strong>, some <em>italic</em> and some <u>underlined</u> (the same words may be all 3). Most words should be black but include at least one other colour at some point in your document.</p> <p>Things to consider:</p> <ul> <li>Desk</li> <li>Chair</li> <li>Lighting</li> <li>Wall colour</li> <li>Decoration</li> </ul> <p>If are welcome to do your design in any software you choose, including using the drawing tools in Word.</p> <p>Include a budget/expenses list</p> <p><strong>Essential Skills criteria 1, 2 and 3</strong></p> <p><strong>Computer Applications criteria 3, 4 and 5</strong></p>",
+      "links": {},
+      "rubric": [
+        "01 - Identify digital technology tools suitable for routine tasks. [C/t/z]",
+        "02 - Interpret information to access and use digital technology. [C/t/z]",
+        "03 - Follow procedures to perform given tasks, and review performance. [C/t/z]",
+        "03 - Collect and communicate ideas and information using digital technologies. [A/C/t/z]",
+        "04 - Complete tasks and solve problems using computers and other digital technologies. [A/C/t/z]",
+        "05 - Plan and organise resources and activities to complete computer application tasks. [A/C/t/z]"
+      ]
+    },
+    {
+      "id": 950820,
+      "name": "Web Brower Games",
+      "due_at": "2026-03-13T12:59:59Z",
+      "published": true,
+      "types": ["online_upload"],
+      "desc_html": "<p><span>[IMAGE L1]</span></p> <p>You are to play 5 different web browser games for 10 - 20 mins each. All games should be of different genres. When you have completed playing each game, you are to write a brief review on each (about 2 - 3 paragraphs), including the following as a minimum:</p> <ul> <li>Name</li> <li>Target audience</li> <li>Graphics</li> <li>Audio (sound effects and music)</li> <li>General thoughts</li> <li>Rating out of 10</li> </ul> <p>When you have finished your 5 reviews, you are to write a couple of paragraphs on which was your favourite and why (compare to the other games). Screenshots and images should be included as well as a link to the game.</p> <p>You will have 2 lessons to complete this task and, when complete, you are to submit your reviews for assessment.</p> <p><strong>Essential Skills criteria 1, 2 and 3</strong></p>",
+      "links": { "L1": "https://canvas.education.tas.gov.au/courses/94239/files/4722564/preview" },
+      "rubric": [
+        "01 - Identify digital technology tools suitable for routine tasks. [C/t/z]",
+        "02 - Interpret information to access and use digital technology. [C/t/z]",
+        "03 - Follow procedures to perform given tasks, and review performance. [C/t/z]"
+      ]
+    },
+    {
+      "id": 951675,
+      "name": "Week 7",
+      "due_at": null,
+      "published": false,
+      "types": ["none"],
+      "desc_html": "",
+      "links": {},
+      "rubric": null
+    },
+    {
+      "id": 951877,
+      "name": "Full Version Game Review",
+      "due_at": "2026-03-20T12:59:59Z",
+      "published": true,
+      "types": ["online_upload"],
+      "desc_html": "<p><span>[IMAGE L3]</span></p> <p>You are to complete a game review of a full version A release game (this is not a game you play on a mobile device like a phone or tablet, but a purchased game on either PC or a console). This should be done in poster form (A3), in either landscape or portrait. Ideally, you will chose a game you have played recently, and preferably one you have finished. Pictures would be advantageous.</p> <p>You must include the following areas:</p> <ul> <li>Name of game</li> <li>Company who released it</li> <li>Date of release</li> <li>Available formats</li> <li>Genre</li> <li>Classification</li> <li>Audio</li> <li>Graphics</li> <li>Levels</li> <li>Personal thoughts</li> <li>Game play</li> <li>Rating given by you</li> </ul> <p>You may use either Adobe Illustrator, Adobe Photoshop or MS Publisher (if available). The preference is for either Adobe product, If they are too difficult, then MS Publisher may be used, but will not allow for high marks.</p> <p><span>This not only an assessment of your gaming and reviewing capabilities, but also of your technical expertise with the software used (suggested Adobe Illustrator or Adobe Photoshop) - Google and YouTube tutorials will help here.</span></p> <p><span>An important aspect which can be considered as <strong>Part 2</strong>, but done alongside the poster is that you <strong>must</strong> keep a skills journal on the features of the software that you use. You should outline what you have used, how you use it and include pictures. Click on the link to download a template for the Skills Journal. </span><a>Skills Journal Template.docx [L1]</a></p> <p>Some example posters can be found <a>here [L2]</a>.</p> <p><span>Both the poster and the journal must be submitted on Canvas.</span></p>",
+      "links": {
+        "L1": "https://canvas.education.tas.gov.au/courses/94239/files/6208635",
+        "L2": "https://gdcvault.com/gamenarrativereview",
+        "L3": "https://canvas.education.tas.gov.au/courses/94239/files/4751942/preview"
+      },
+      "rubric": [
+        "04 - Complete tasks and solve problems using computers and other digital technologies. [A/C/t/z]",
+        "05 - Plan and organise resources and activities to complete computer application tasks. [A/C/t/z]"
+      ]
+    },
+    {
+      "id": 988827,
+      "name": "Video Game Review - Premiere Pro",
+      "due_at": "2026-04-10T13:59:59Z",
+      "published": true,
+      "types": ["online_url", "online_upload"],
+      "desc_html": "<p>For this task, you are to create a video review of a game of your choice. You will use Adobe Premiere Pro for the editing of the video, and may capture footage from either PC or console using a variety of means.</p> <p>Before creating a voiceover with review information, you should write a script outlining what you are going to say.</p> <p>The completed review should be exported (using the settings discussed in the video tutorial provided) and uploaded to YouTube.</p> <p>Your submission should include a word document of your script, plus a link to the review on YouTube. Unless you are sure you want the video available for all the world to see, I suggest keeping the video only available to those who have the link (i.e Rob).</p>",
+      "links": {},
+      "rubric": [
+        "02 - Interpret information to access and use digital technology. [C/t/z]",
+        "04 - Use digital technologies effectively, safely and productively. [C/t/z]",
+        "02 - Identify social and ethical issues related to the use of computers. [A/C/t/z]",
+        "03 - Collect and communicate ideas and information using digital technologies. [A/C/t/z]"
+      ]
+    },
+    {
+      "id": 967175,
+      "name": "Unreal Skills Journal",
+      "due_at": "2026-05-29T13:59:59Z",
+      "published": true,
+      "types": ["online_upload"],
+      "desc_html": "<p><span>The assessment component of the Unreal is not the end result of a game, but a skills journal that you will need to keep. This should be done in Word and should included tips, tricks and general software usage. You can think of this as a guide, showing someone who has no experience how to use different aspects of the software. It will also become useful when you come back to find out how to do different tasks. A sample template can be found here: <a>Skills Journal Template.docx [L1]</a></span></p>",
+      "links": { "L1": "https://canvas.education.tas.gov.au/courses/94239/files/6208635" },
+      "rubric": [
+        "04 - Complete tasks and solve problems using computers and other digital technologies. [A/C/t/z]",
+        "05 - Plan and organise resources and activities to complete computer application tasks. [A/C/t/z]"
+      ]
+    },
+    {
+      "id": 981977,
+      "name": "Unity Skills Journal",
+      "due_at": "2026-06-12T13:59:59Z",
+      "published": true,
+      "types": ["online_upload"],
+      "desc_html": "<p><span>The assessment component of the Unity is not the end result of a game, but a skills journal that you will need to keep. This should be done in Word and should included tips, tricks and general software usage. You can think of this as a guide, showing someone who has no experience how to use different aspects of the software. It will also become useful when you come back to find out how to do different tasks.</span></p> <p><span>Two sample/example/template documents can be found below.</span></p> <p><a><span>This one has a photoshop example</span> [L1]</a></p> <p><a><span>This one has an Unreal example</span> [L2]</a></p>",
+      "links": {
+        "L1": "https://canvas.education.tas.gov.au/courses/94239/files/6208635",
+        "L2": "https://canvas.education.tas.gov.au/courses/94239/files/6289651"
+      },
+      "rubric": [
+        "04 - Complete tasks and solve problems using computers and other digital technologies. [A/C/t/z]",
+        "05 - Plan and organise resources and activities to complete computer application tasks. [A/C/t/z]"
+      ]
+    },
+    {
+      "id": 991778,
+      "name": "Game Design Brief",
+      "due_at": "2026-06-24T13:59:59Z",
+      "published": true,
+      "types": ["online_upload"],
+      "desc_html": "<p>For this task you are to complete a game design brief, outlining what sort of game you are going to create.</p> <p>The blank design brief can be found <a>here [L1]</a>. If you are having trouble with any of the headings and what sort of information should go into that section, a sample design document can be found <a>here [L2]</a>.</p> <p>Be realistic in what you can achieve, bearing in mind that you will probably need to send some time working through one or more tutorials. For this task, it is completely reasonable that the game you create follows a tutorial for the most part, with small adjustments to make it your own.</p>",
+      "links": {
+        "L1": "https://canvas.education.tas.gov.au/courses/94239/files/4963036",
+        "L2": "https://canvas.education.tas.gov.au/courses/94239/files/4963037"
+      },
+      "rubric": [
+        "04 - Use digital technologies effectively, safely and productively. [C/t/z]",
+        "01 - Identify and apply basic terminology and concepts relating to computer hardware and software. [A/C/t/z]",
+        "05 - Plan and organise resources and activities to complete computer application tasks. [A/C/t/z]"
+      ]
+    },
+    {
+      "id": 1000084,
+      "name": "Game Skills Journal and Critical Reflection.",
+      "due_at": "2026-07-10T13:59:59Z",
+      "published": true,
+      "types": ["online_upload"],
+      "desc_html": "<p><span>You are to keep a Skills Journal throughout these 4-5 weeks, and update it each lesson (10 - 15 mins per lesson as a guide). Ensure you take screenshots to aid your explanation of each of the tools/features you cover. In the last lesson, you are also to critically review your own game, including multiple screenshots of your environment and any programming/blueprinting you have done.</span></p>",
+      "links": {},
+      "rubric": [
+        "02 - Identify social and ethical issues related to the use of computers. [A/C/t/z]",
+        "04 - Complete tasks and solve problems using computers and other digital technologies. [A/C/t/z]",
+        "05 - Plan and organise resources and activities to complete computer application tasks. [A/C/t/z]"
+      ]
+    },
+    {
+      "id": 1238438,
+      "name": "E-Waste",
+      "due_at": "2026-06-22T13:59:59Z",
+      "published": true,
+      "types": ["online_upload"],
+      "desc_html": "<p>Refer to the activities listed on the <a>E-Waste lesson page [L1]</a> then upload your completed document here.</p>",
+      "links": { "L1": "https://canvas.education.tas.gov.au/courses/94239/pages/reconciliation-week-slash-e-waste" },
+      "rubric": [
+        "02 - Identify social and ethical issues related to the use of computers. [A/C/t/z]",
+        "03 - Collect and communicate ideas and information using digital technologies. [A/C/t/z]",
+        "04 - Complete tasks and solve problems using computers and other digital technologies. [A/C/t/z]",
+        "02 - Interpret information to access and use digital technology. [C/t/z]"
+      ]
+    },
+    {
+      "id": 1002259,
+      "name": "OH&S Issues for Professional Gamers",
+      "due_at": "2021-07-02T13:59:59Z",
+      "published": false,
+      "types": ["online_upload"],
+      "desc_html": "<p>You are to create a presentation covering issues that relate to the OH&amp;S issues that can face professional gamers. Start your presentation with outlining what a professional gamer is, and then cover OH&amp;S. Do not just list them, but cover them in detail, explaining what they are and how they can issues can be minimised or eliminated.</p> <p>You may present your work using PowerPoint, a website, create a video, Adobe Illustrator or other software package by negotiation with Rob.</p>",
+      "links": {},
+      "rubric": [
+        "02 - Identify social and ethical issues related to the use of computers. [A/C/t/z]",
+        "04 - Complete tasks and solve problems using computers and other digital technologies. [A/C/t/z]",
+        "05 - Plan and organise resources and activities to complete computer application tasks. [A/C/t/z]"
+      ]
+    },
+    {
+      "id": 1004585,
+      "name": "Project Brief - Designing the Project + Game Design Document",
+      "due_at": "2026-07-31T13:59:59Z",
+      "due_at_BG2B": "2026-08-07T13:59:59Z",
+      "published": true,
+      "types": ["online_upload"],
+      "desc_summary": "Produce a project brief AND a game design document for the 12-week (50-hour) major project. Project should be gaming focused using software covered in class (Unreal, Unity3D or GameMaker Studio). Explains what a project brief is (objectives, scope, deliverables, milestones, timing, activities, process, resources) with a link to Asana's guide [L1] and a downloadable template [L2/L3]. Includes an inline project-brief template (Title/Genre/Target Audience/Platform/Summary/USP/Key Features/Goals/Tools/Team) with a full worked example ('Pixel Runner'). GDD section: use the term-2 template [L4] and example [L5], plus a full inline GDD template (1. Game Overview, 2. Core Gameplay, 3. Story & Narrative, 4. Art & Audio, 5. Levels/World Design, 6. Technical Details, 7. UI/UX, 8. Monetisation/Distribution) and a complete worked 'Pixel Runner' GDD example covering game pillars, core loop, controls, abilities, setting, characters, art style, sound design, level structure, biomes, hazards, HUD, menus, accessibility, monetisation, distribution, software/tools, asset sources, MVP goals and stretch goals.",
+      "desc_full_in": "See conversation extraction 2026-07-05; full 27KB HTML kept in Canvas (assignment 1004585).",
+      "links": {
+        "L1": "https://asana.com/resources/project-brief",
+        "L2": "https://canvas.education.tas.gov.au/courses/94239/files/8111431",
+        "L3": "https://canvas.education.tas.gov.au/courses/94239/files/8111431",
+        "L4": "https://canvas.education.tas.gov.au/courses/94239/files/4963036",
+        "L5": "https://canvas.education.tas.gov.au/courses/94239/files/4963037"
+      },
+      "rubric": [
+        "02 - Communicate ideas and information. [C/t/z]"
+      ]
+    },
+    {
+      "id": 1009960,
+      "name": "Project Plan",
+      "due_at": "2026-08-07T13:59:59Z",
+      "published": true,
+      "types": ["online_upload"],
+      "desc_html": "<p>For this assessment, you are to create a Project plan for the game creation project that you will be working on this term. You should spend some time researching project plans, and may use a template, modified to suit your requirements. A focus should be made on the timing/scheduling of your project, and the best way to do is to use a Gantt chart or similar. You will need to refer back to this on a regular basis to ensure your project is on track.</p> <p>You are to submit BOTH of the following documents:</p> <ul> <li>A Project Plan</li> <li>A Gantt Chart</li> </ul> <p>A template of a Project Plan document can be found <a>here [L1]</a>. There is an example of a Project Plan Document that can be found <a>here [L2]</a>. A sample <a>Gantt Chart [L3]</a> can be found <a>here [L4]</a>. Alternatively you could use different template or create your own (recommended).</p> <p><a>Another Gantt Chart example can be found here. [L5]</a></p> <p><span>[VIDEO L6]</span></p> <p>The two criteria to be assessed are:</p> <ol> <li>work productively to negotiate and complete tasks</li> <li>communicate ideas and information</li> </ol>",
+      "links": {
+        "L1": "https://canvas.education.tas.gov.au/courses/94239/files/11269333",
+        "L2": "https://canvas.education.tas.gov.au/courses/94239/files/11269338",
+        "L3": "https://canvas.education.tas.gov.au/courses/94239/files/5125847",
+        "L4": "https://canvas.education.tas.gov.au/courses/94239/files/5125847",
+        "L5": "https://canvas.education.tas.gov.au/courses/94239/files/6631827",
+        "L6": "https://www.youtube.com/embed/ORH37YP6ao0"
+      },
+      "rubric": [
+        "01 - Work productively to negotiate and complete tasks. [C/t/z]",
+        "02 - Communicate ideas and information. [C/t/z]"
+      ]
+    },
+    {
+      "id": 1034837,
+      "name": "Screen shot - Major Project",
+      "due_at": "2021-09-20T13:59:59Z",
+      "published": false,
+      "types": ["online_upload"],
+      "desc_html": "<p>Can you please take a couple of screenshots of your project and upload here. There should be at least one of your environmnet/in-game, and one of a section of programming.</p>",
+      "links": {},
+      "rubric": null
+    },
+    {
+      "id": 1036368,
+      "name": "Major Project",
+      "due_at": "2026-10-30T12:59:59Z",
+      "published": true,
+      "types": ["online_upload"],
+      "desc_html": "<p>This is the culmination of months and months of work and your journal, project and other documentation should reflect this.</p> <p><strong>The journal</strong> should contain a lesson-by-lesson entry with the following information included:</p> <ul> <li>What was achieved?</li> <li>Is the plan still to schedule?</li> <li>Are there any changes required to the plan?</li> <li>What will be worked on next time?</li> </ul> <p>The date should also be included.</p> <p>A template that you can use can be found <a>here [L1]</a>.</p> <p><strong>Write-up of project</strong>:</p> <p>You should (starting week 1 of term 4) write up an explanation of your project. Include:</p> <ul> <li>a review of what your project was</li> <li>what you achieved</li> <li>what learning took place</li> </ul> <p>This is not a a journal style document, but a number of pages detailing the points above. You should also include images and screenshots. As a guide, 1 and half pages as a <strong>minimum</strong> is required, with half as images and half as text.</p> <p><strong>Term 4 Weeks 1/2 Overview:</strong></p> <ul> <li>Finish project, including goal setting and reflection journal - Moday Week 2</li> <li>Complete project write-up (start Wednesday Week 2, due Friday Week 2)</li> <li>Submit the journal, project and provide access to your game (a link to your One-Drive is probably best)</li> <li>See presentation task and prepare for this (to be done Monday Week 3 and Wednesday Week 3)</li> </ul>",
+      "links": { "L1": "https://canvas.education.tas.gov.au/courses/94239/files/8188722" },
+      "rubric": [
+        "01 - Work productively to negotiate and complete tasks. [C/t/z]",
+        "03 - Work collaboratively with others to implement a project. [C/t/z]",
+        "04 - Apply critical thinking and problem solving strategies. [C/t/z]",
+        "05 - Reflect on thinking and processes. [C/t/z]"
+      ]
+    },
+    {
+      "id": 1039496,
+      "name": "Presentation",
+      "due_at": "2025-10-31T12:59:59Z",
+      "published": true,
+      "types": ["none"],
+      "desc_html": "<p>For this task, you are to present your finalised project to the class. This will be done at the direction of Rob on a lesson in week 3 of term 4. You should outline what your project was, what challenges you faced and how you overcame them, and did you meet the objectives set in your project plan. Demonstrate your project by playing it (on the TV). Be ready to present on Monday Week 3 (27/10/25). The order of presentations will be set randomly.</p> <p>The presentation should last for between 3 and 6 minutes.</p> <p>You should have the nominated tester of your project test it prior to your presentation.</p>",
+      "links": {},
+      "rubric": [
+        "03 - Work collaboratively with others to implement a project. [C/t/z]",
+        "04 - Apply critical thinking and problem solving strategies. [C/t/z]",
+        "05 - Reflect on thinking and processes. [C/t/z]"
+      ]
+    },
+    {
+      "id": 1276312,
+      "name": "Screenshots for AGORA",
+      "due_at": "2022-09-30T13:59:59Z",
+      "published": false,
+      "types": ["online_upload"],
+      "desc_html": "<p>Can you please upload a few screenshots of your game/terrain/models etc. This is so we have a few options to display in the yearbook, AGORA.</p>",
+      "links": {},
+      "rubric": null
+    }
+  ],
+  "modules": [
+    { "name": "Term 1", "items": ["Page: Weeks 1 - 2", "Assignment: Top Down and Platformer Games Plus Backup", "Page: Week 2", "Assignment: Parts of a Computer/Computer types and OS", "Page: Week 3", "Assignment: Build a Computer", "Page: Week 4", "Assignment: Safe Gaming Space", "Page: Week 5", "Page: Week 6", "Assignment: Web Brower Games", "Page: Week 7", "Assignment: Full Version Game Review", "Page: T2 - Weeks 1 - 4"] },
+    { "name": "Term 2", "items": ["Page: T2 - Week 1 - 2", "Page: T2 - Week 3 [unpublished]", "Page: T1 - Weeks 8 - 10", "Page: T2 - Weeks 8-10", "Page: T2 - Week 11 [unpublished]"] }
+  ]
+}

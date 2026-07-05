@@ -54,7 +54,7 @@ export function homeView() {
       <a class="card card-link" href="#/courses/PRJ205118">
         <span class="badge badge-prj">PRJ205118</span>
         <h3>Project Implementation</h3>
-        <p>A 12-week full game project — planned, built, playtested and published like a real studio release.</p>
+        <p>A 12-week full game project — planned, built, playtested and presented like a real studio release.</p>
         <span class="card-cta">5 criteria · 5 points →</span>
       </a>
     </div>
@@ -67,13 +67,13 @@ export function homeView() {
     <div class="grid grid-3" style="margin-top:2rem;">
       <div class="card">
         <div class="how-icon">🗺️</div>
-        <h3>Phase 1 · Weeks 1–22</h3>
-        <p>Units 1–5: digital foundations, design docs, asset creation, and a working prototype. Every task earns evidence toward ESC and ICT criteria.</p>
+        <h3>Phase 1 · Terms 1–2</h3>
+        <p>Units 1–4: computers and digital foundations, three kinds of game review, the Unreal and Unity engines, and your first design brief. Every task earns evidence toward ESC and ICT criteria.</p>
       </div>
       <div class="card">
         <div class="how-icon">🚀</div>
-        <h3>Phase 2 · Weeks 23–34</h3>
-        <p>Unit 6: the full game project. Brief, Gantt, sprints, playtesting, and a published game page — the complete PRJ205118 framework.</p>
+        <h3>Phase 2 · Terms 3–4</h3>
+        <p>Unit 5: the major project. Project brief + GDD, Gantt chart, a 12-week build with a development journal, and a final presentation — the complete PRJ205118 framework.</p>
       </div>
       <div class="card">
         <div class="how-icon">🏆</div>

@@ -134,17 +134,16 @@ export const elements = [
   E('PRJ-C5', 'e', 'C', 5, 'Reflects on progress towards meeting goals and articulates ways goals can be met in the future'),
 ];
 
+/* Units mirror the real Canvas course (blueprint 94239), synced 2026-07-05. */
 export const units = [
-  { id: 'u1', number: 1, title: 'Digital Foundations', subtitle: 'Master the tools before you build', weeks: 'Weeks 1–4', phase: 1, sort: 1,
-    description: 'Before you build a game, you need to master the tools. This unit establishes your digital literacy — hardware, software, file management, and ethical use — all in the context of game development.' },
-  { id: 'u2', number: 2, title: 'Game Design & Documentation', subtitle: 'Research, plan, document', weeks: 'Weeks 5–9', phase: 1, sort: 2,
-    description: "This is where your game starts. Professionals don't open their engine and start clicking — they research, plan, and document first. A solid Game Design Document prevents wasted time, scope creep, and unfinished projects." },
-  { id: 'u3', number: 3, title: 'Asset Creation', subtitle: 'Sprites, tilesets and sound', weeks: 'Weeks 10–14', phase: 1, sort: 3,
-    description: 'Games are made of assets — sprites, tilesets, sounds, animations. This unit is your dedicated production time for building the visual and audio building blocks of your game, using industry-standard Adobe tools.' },
-  { id: 'u4', number: 4, title: 'Game Prototype', subtitle: 'From GDD to playable build', weeks: 'Weeks 15–19', phase: 1, sort: 4,
-    description: "This is where your GDD becomes a real, playable thing. You'll set up your engine, import your assets, and implement the core mechanic you planned in Unit 2. By the end, you'll have a working prototype to take into Unit 5." },
-  { id: 'u5', number: 5, title: 'Showcase & Review', subtitle: 'Portfolio and presentation', weeks: 'Weeks 20–22', phase: 1, sort: 5,
-    description: "Phase 1 closes here. You'll compile a portfolio documenting your full journey from research to prototype, and present your game to the class. This is your chance to demonstrate the full breadth of your ESC and ICT criteria work." },
-  { id: 'u6', number: 6, title: 'Full Game Project', subtitle: 'PRJ205118 — 12-week project', weeks: 'Weeks 23–34', phase: 2, sort: 6,
-    description: "This is the big one. Over 12 weeks you'll plan, build, playtest, and publish a complete game — applying everything from Phase 1 through the full TASC Project Implementation framework. Individual or pairs." },
+  { id: 'u1', number: 1, title: 'Computers & Digital Foundations', subtitle: 'Know your machine, work safely', weeks: 'Term 1 · Weeks 1–4', phase: 1, sort: 1,
+    description: 'Game developers need to know the hardware they build on. This unit starts with simple browser game-making, then digs into what a computer actually is — its parts, types and operating systems — before you spec and cost a build of your own and design a safe, ergonomic space to game and study in.' },
+  { id: 'u2', number: 2, title: 'Reviewing Games', subtitle: 'Play, analyse, publish your verdict', weeks: 'Term 1 · Weeks 5–10', phase: 1, sort: 2,
+    description: "Before you make games, learn to read them. You'll review browser games in writing, review a full-release game as a designed A3 poster in Adobe Illustrator or Photoshop, and finish with a video review edited in Premiere Pro and published to YouTube — three reviews, three different ways of communicating to an audience." },
+  { id: 'u3', number: 3, title: 'Game Engines', subtitle: 'Unreal & Unity skills journals', weeks: 'Term 2 · Weeks 1–9', phase: 1, sort: 3,
+    description: "Hands-on time in the two industry engines. You'll work through Unreal Engine and then Unity, and the assessment isn't the games you make — it's the skills journal you keep as you learn: a how-to guide good enough to teach someone else, finished with a critical review of your own work." },
+  { id: 'u4', number: 4, title: 'Design & Digital Citizenship', subtitle: 'Design briefs, ethics and e-waste', weeks: 'Term 2 · Weeks 8–11', phase: 1, sort: 4,
+    description: "Two ways of thinking like a professional: the ethical and the creative. You'll examine where our technology really ends up — the e-waste flows from our devices to places like Agbogbloshie, Ghana — then switch to designer mode and write the design brief for a game of your own." },
+  { id: 'u5', number: 5, title: 'Major Project', subtitle: 'PRJ205118 — 12-week game project', weeks: 'Terms 3–4 · 12 weeks (~50 hours)', phase: 2, sort: 5,
+    description: "The big one. Over 12 weeks you'll brief, plan, build, playtest and present a complete game in Unreal, Unity3D or GameMaker Studio — running it like a real project with a project brief, a Gantt chart, a development journal, and a final presentation to the class. This unit delivers the TASC Project Implementation course." },
 ];
