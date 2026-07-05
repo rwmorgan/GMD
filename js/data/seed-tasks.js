@@ -16,9 +16,8 @@
    then cleanly replace — the pre-sync T- and Q-prefixed tasks
    in the live database (see canvas-sync/cleanup.sql).
 
-   Due dates verified against Canvas 2026-07-05 (updated after
-   Rob fixed the stale 2025 dates). Presentation is still TBC in
-   Canvas — fix there, then update here.
+   Due dates synced with Canvas 2026-07-06, after Rob fixed the
+   stale 2025 dates there.
    ============================================================ */
 
 export const tasks = [
@@ -635,7 +634,7 @@ export const tasks = [
 
   {
     id: 'A5.4', unit_id: 'u5', code: '5.4', title: 'Presentation',
-    type: 'submission', sort: 58, est_time: '3–6 minutes + prep', tools: 'Your game, the classroom TV', weeks: 'T4 Week 3 · date TBC in Canvas',
+    type: 'submission', sort: 58, est_time: '3–6 minutes + prep', tools: 'Your game, the classroom TV', weeks: 'T4 Week 3 · due Fri 30 Oct',
     overview: "Present your finished project to the class: what it was, what went wrong, how you fixed it, and whether you hit the goals in your plan — then prove it by playing the game on the TV.",
     criteria: ['PRJ-C3', 'PRJ-C4', 'PRJ-C5'],
     elements: ['PRJ-C3-d', 'PRJ-C3-e', 'PRJ-C4-b', 'PRJ-C4-d', 'PRJ-C5-b', 'PRJ-C5-e'],
