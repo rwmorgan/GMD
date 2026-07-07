@@ -4,10 +4,11 @@
 import { api } from '../api.js';
 import { IS_DEMO } from '../config.js';
 import { render, esc, spinner, badge, courseBadgeClass, statusChip, toast, openModal, closeModal, fmtDate, downloadCSV, progressBar } from '../ui.js';
-import { getCurriculum, invalidate, taskStatus, criterionLabel, provisionalAward, coverageMatrix } from '../store.js';
+import { getCurriculum, invalidate, taskStatus, criterionLabel, provisionalAward, coverageMatrix, filterCurByProgram } from '../store.js';
+import { getScope, setScope } from '../scope.js';
 import { navigate } from '../router.js';
 
-function teacherHeader(title, sub) {
+function teacherHeader(title, sub, scopeHtml = '') {
   return `
 <div class="page-header page-header--teach">
   <div class="container container--wide">
@@ -23,8 +24,39 @@ function teacherHeader(title, sub) {
       <a class="btn btn-secondary btn-sm" href="#/teach/students">👥 Students</a>
       <a class="btn btn-secondary btn-sm" href="#/teach/settings">⚙️ Settings</a>
     </div>
+    ${scopeHtml}
   </div>
 </div>`;
+}
+
+/* Program + class filter shown in the teacher header. Only appears once
+   the Gen2 classes/programs exist; degrades to nothing otherwise. */
+function scopeBar(classesData) {
+  if (!classesData || !classesData.classes.length) return '';
+  const scope = getScope();
+  const programs = classesData.programs.length
+    ? classesData.programs
+    : [...new Set(classesData.classes.map(c => c.program_id))].map(id => ({ id, title: id }));
+  const classesForProg = classesData.classes.filter(c => !scope.programId || c.program_id === scope.programId);
+  return `
+    <div class="meta-row scope-bar">
+      <span class="unit-counts">Viewing:</span>
+      <select id="scope-program" class="scope-select" aria-label="Filter by program">
+        <option value="">All programs</option>
+        ${programs.map(p => `<option value="${esc(p.id)}" ${scope.programId === p.id ? 'selected' : ''}>${esc(p.title || p.id)}</option>`).join('')}
+      </select>
+      <select id="scope-class" class="scope-select" aria-label="Filter by class">
+        <option value="">All classes</option>
+        ${classesForProg.map(c => `<option value="${esc(c.id)}" ${scope.classId === c.id ? 'selected' : ''}>${esc(c.name)} (${c.roster.length})</option>`).join('')}
+      </select>
+    </div>`;
+}
+
+function wireScopeBar() {
+  const prog = document.getElementById('scope-program');
+  const cls = document.getElementById('scope-class');
+  if (prog) prog.addEventListener('change', () => { setScope({ programId: prog.value || null, classId: null }); location.reload(); });
+  if (cls) cls.addEventListener('change', () => { setScope({ classId: cls.value || null }); location.reload(); });
 }
 
 function studentState(data, studentId) {
@@ -40,7 +72,11 @@ function studentState(data, studentId) {
 /* ---------- class overview ---------- */
 export async function teacherHomeView() {
   render(spinner('Loading class data…'));
-  const [cur, data] = await Promise.all([getCurriculum(), api.getClassData()]);
+  const scope = getScope();
+  const [curAll, data, classesData] = await Promise.all([
+    getCurriculum(), api.getClassData(scope.classId || null), api.getClasses(),
+  ]);
+  const cur = filterCurByProgram(curAll, scope.programId);
   const { gaps } = coverageMatrix(cur);
 
   const queue = unmarkedQueue(cur, data);
@@ -66,7 +102,7 @@ export async function teacherHomeView() {
   }).join('');
 
   render(`
-${teacherHeader('Class Overview', `${data.profiles.length} students · ${cur.tasks.length} published tasks &amp; quizzes`)}
+${teacherHeader('Class Overview', `${data.profiles.length} students · ${cur.tasks.length} published tasks &amp; quizzes`, scopeBar(classesData))}
 <section class="section section--sm">
   <div class="container container--wide">
     <div class="grid grid-4 stat-grid">
@@ -86,9 +122,10 @@ ${teacherHeader('Class Overview', `${data.profiles.length} students · ${cur.tas
         <tbody>${rows || '<tr><td colspan="6"><em>No students enrolled yet. Share the join code from Settings.</em></td></tr>'}</tbody>
       </table>
     </div>
-    <p class="unit-counts" style="margin-top:0.75rem;">Provisional awards use the best rating per criterion so far. PRJ also requires all six work requirements — check manually before finalising. Export everything from <a href="#/teach/settings">Settings</a>.</p>
+    <p class="unit-counts" style="margin-top:0.75rem;">Provisional awards use the best rating per criterion so far. PRJ also requires all six work requirements — check manually before finalising. General Maths (A/B/C) awards are exam-moderated and shown as “—”. Export everything from <a href="#/teach/settings">Settings</a>.</p>
   </div>
 </section>`, { title: 'Class Overview' });
+  wireScopeBar();
 }
 
 /* ---------- marking queue ---------- */
@@ -321,10 +358,14 @@ ${teacherHeader('Students', `${students.length} enrolled. Deactivating blocks si
 /* ---------- settings + export ---------- */
 export async function settingsView() {
   render(spinner());
-  const [cur, data, settings] = await Promise.all([getCurriculum(), api.getClassData(), api.getSettings()]);
+  const scope = getScope();
+  const [curAll, data, settings, classesData] = await Promise.all([
+    getCurriculum(), api.getClassData(scope.classId || null), api.getSettings(), api.getClasses(),
+  ]);
+  const cur = filterCurByProgram(curAll, scope.programId);
 
   render(`
-${teacherHeader('Settings & Export')}
+${teacherHeader('Settings & Export', 'CSV exports respect the program/class filter below.', scopeBar(classesData))}
 <section class="section section--sm">
   <div class="container">
     <div class="grid grid-2" style="align-items:start;">
@@ -360,6 +401,8 @@ ${teacherHeader('Settings & Export')}
     </div>
   </div>
 </section>`, { title: 'Settings' });
+
+  wireScopeBar();
 
   document.getElementById('settings-form').addEventListener('submit', async (e) => {
     e.preventDefault();

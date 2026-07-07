@@ -142,6 +142,30 @@ export function courseProgress(cur, state) {
 }
 
 /* ---------- coverage matrix + gap detection ---------- */
+/* Distinct programs present in the loaded curriculum (empty if the
+   program column isn't populated yet, e.g. pre-migration or demo). */
+export function programsIn(cur) {
+  const seen = new Map();
+  for (const c of cur.courses) if (c.program_id) seen.set(c.program_id, c.program_id);
+  return [...seen.keys()];
+}
+
+/* Return a shallow copy of `cur` restricted to one program. If the
+   program column isn't populated, returns `cur` unchanged so GMD and
+   demo mode keep working exactly as before. */
+export function filterCurByProgram(cur, programId) {
+  if (!programId || !cur.courses.some(c => c.program_id)) return cur;
+  const courses = cur.courses.filter(c => c.program_id === programId);
+  const courseIds = new Set(courses.map(c => c.id));
+  const criteria = cur.criteria.filter(c => courseIds.has(c.course_id));
+  const critIds = new Set(criteria.map(c => c.id));
+  const elements = cur.elements.filter(e => critIds.has(e.criterion_id));
+  const units = cur.units.filter(u => u.program_id === programId);
+  const unitIds = new Set(units.map(u => u.id));
+  const tasks = cur.tasks.filter(t => unitIds.has(t.unit_id));
+  return { ...cur, courses, criteria, elements, units, tasks };
+}
+
 export function coverageMatrix(cur) {
   const perCriterion = {};
   const perElement = {};
@@ -167,7 +191,7 @@ export function coverageMatrix(cur) {
    Uses the BEST rating per criterion across all marked tasks.
    ESC/PRJ use C-only standards; ICT uses A and C.
    PRJ additionally requires all 6 work requirements (manual check). */
-const RANK = { A: 3, C: 2, t: 1, z: 0 };
+const RANK = { A: 4, B: 3, C: 2, t: 1, z: 0 };
 
 export function bestRatingsFor(cur, marks) {
   const best = {};
@@ -190,6 +214,10 @@ export function provisionalAward(cur, courseId, marks) {
     else if (nA >= 2 && nC >= 5) award = 'CA';
     else if (nC >= 5) award = 'SA';
     else if (nC >= 2) award = 'PA';
+  } else if (courseId.startsWith('MTG')) {
+    // General Maths uses TASC's A/B/C ratings across 8 criteria with
+    // exam-moderated award bands — not computed here. Show ratings only.
+    award = '—';
   } else {
     if (nC >= n) award = 'SA';
     else if (nC >= n - 1) award = 'PA';

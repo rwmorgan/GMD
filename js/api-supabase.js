@@ -189,7 +189,36 @@ export class SupabaseAdapter {
     return data;
   }
 
-  async getClassData() {
+  /* Classes the signed-in user can see (RLS scopes this: a teacher gets
+     their own classes, the LAL gets all). Returns rosters + programs.
+     Degrades gracefully to empty if the Gen2 tables aren't present yet. */
+  async getClasses() {
+    const c = this.client;
+    try {
+      const [classes, enrol, ct, programs] = await Promise.all([
+        c.from('classes').select('*').order('name'),
+        c.from('enrolments').select('student_id, class_id'),
+        c.from('class_teachers').select('class_id, teacher_id, role'),
+        c.from('programs').select('*').order('sort'),
+      ]);
+      for (const r of [classes, enrol, ct, programs]) if (r.error) throw r.error;
+      const rosters = {};
+      for (const e of enrol.data) (rosters[e.class_id] ||= []).push(e.student_id);
+      return {
+        programs: programs.data,
+        classes: classes.data.map(cl => ({
+          ...cl,
+          roster: rosters[cl.id] || [],
+          teachers: ct.data.filter(t => t.class_id === cl.id),
+        })),
+      };
+    } catch (e) {
+      console.warn('getClasses: Gen2 tables not available yet.', e?.message || e);
+      return { programs: [], classes: [] };
+    }
+  }
+
+  async getClassData(classId = null) {
     const c = this.client;
     const [profiles, attempts, submissions, marks, feedback, progress] = await Promise.all([
       this.listStudents(),
@@ -200,11 +229,25 @@ export class SupabaseAdapter {
       c.from('task_progress').select('*'),
     ]);
     for (const r of [attempts, submissions, marks, feedback, progress]) if (r.error) fail(r.error);
-    return {
+    let data = {
       profiles,
       attempts: attempts.data, submissions: submissions.data,
       marks: marks.data, feedback: feedback.data, progress: progress.data,
     };
+    if (classId) {
+      const enrol = await c.from('enrolments').select('student_id').eq('class_id', classId);
+      if (enrol.error) fail(enrol.error);
+      const ids = new Set(enrol.data.map(e => e.student_id));
+      data = {
+        profiles: data.profiles.filter(p => ids.has(p.id)),
+        attempts: data.attempts.filter(a => ids.has(a.student_id)),
+        submissions: data.submissions.filter(s => ids.has(s.student_id)),
+        marks: data.marks.filter(m => ids.has(m.student_id)),
+        feedback: data.feedback.filter(f => ids.has(f.student_id)),
+        progress: data.progress.filter(p => ids.has(p.student_id)),
+      };
+    }
+    return data;
   }
 
   async saveMarks(studentId, taskId, ratings, feedbackText) {

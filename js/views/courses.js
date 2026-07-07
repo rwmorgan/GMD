@@ -2,7 +2,8 @@
    live coverage matrix (criterion + element level, gap flags). */
 
 import { render, esc, spinner, badge, courseBadgeClass } from '../ui.js';
-import { getCurriculum, coverageMatrix, criterionLabel } from '../store.js';
+import { getCurriculum, coverageMatrix, criterionLabel, filterCurByProgram } from '../store.js';
+import { getScope } from '../scope.js';
 import { api } from '../api.js';
 
 const COURSE_ACCENT = { ESC205114: 'teal', ICT205114: 'amber', PRJ205118: 'purple' };
@@ -101,7 +102,7 @@ export async function courseView({ id }) {
 
 export async function matrixView() {
   render(spinner('Building matrix…'));
-  const cur = await getCurriculum();
+  const cur = filterCurByProgram(await getCurriculum(), getScope().programId);
   const { perCriterion, perElement, gaps } = coverageMatrix(cur);
   const isTeacher = api.currentUser()?.role === 'teacher';
 

@@ -342,6 +342,12 @@ a.task-row:hover { border-color: var(--teal); transform: translateX(4px); box-sh
 .q-order-btns button:hover { background: var(--teal-dark); color: #fff; }
 .q-inline { display: flex; gap: 0.6rem; align-items: center; max-width: 280px; }
 .q-unit { color: var(--text-dim); font-size: 0.85rem; }
+.scope-bar { margin-top: 0.6rem; gap: 0.5rem; align-items: center; }
+.scope-select {
+  background: var(--navy-700); color: var(--text); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.4rem 0.6rem; font-size: 0.85rem; width: auto;
+}
+.scope-select:focus { border-color: var(--teal); outline: none; }
 .q-matrix-wrap { display: flex; align-items: flex-end; gap: 0.6rem; flex-wrap: wrap; }
 .q-matrix { border-collapse: separate; border-spacing: 0.4rem; }
 .q-matrix th { color: var(--text-muted); font-size: 0.8rem; font-weight: 600; padding: 0 0.2rem; text-align: center; }

@@ -2,17 +2,37 @@
 
 import { api } from '../api.js';
 import { render, esc, spinner, statusChip, badge, courseBadgeClass, progressBar } from '../ui.js';
-import { getCurriculum, getMyState, taskStatus, criterionLabel, bestAttempt } from '../store.js';
+import { getCurriculum, getMyState, taskStatus, criterionLabel, bestAttempt, filterCurByProgram, programsIn } from '../store.js';
+import { getScope, setScope } from '../scope.js';
+
+const PROGRAM_LABEL = { GMD: 'Game Design', GEN2: 'General Maths' };
+
+/* Choose which program's units to show. When more than one program exists,
+   default to the scope's program (or the first) and offer a switcher, so
+   GMD and General Maths units don't collide on shared unit numbers. */
+export function unitBanner(u) {
+  if (u.program_id === 'GEN2') {
+    return `<span class="phase-banner phase-2">◈ ${esc(u.subtitle || 'General Maths')}</span>`;
+  }
+  return `<span class="phase-banner ${u.phase === 2 ? 'phase-2' : 'phase-1'}">${u.phase === 2 ? '◈ Phase 2 · PRJ' : '⬡ Phase 1 · ESC + ICT'}</span>`;
+}
 
 export async function unitsView() {
   render(spinner('Loading units…'));
-  const cur = await getCurriculum();
+  const curAll = await getCurriculum();
+  const progs = programsIn(curAll);
+  const programId = getScope().programId || (progs.length > 1 ? progs[0] : null);
+  const cur = filterCurByProgram(curAll, programId);
   const user = api.currentUser();
   const state = user ? await getMyState() : null;
+
+  const switcher = progs.length > 1 ? `<div class="meta-row" style="margin-top:0.75rem;">${progs.map(p =>
+    `<button class="btn btn-sm ${p === programId ? 'btn-primary' : 'btn-secondary'}" data-prog="${esc(p)}">${esc(PROGRAM_LABEL[p] || p)}</button>`).join('')}</div>` : '';
 
   const cards = cur.units.map(u => {
     const tasks = cur.tasks.filter(t => t.unit_id === u.id);
     const quizCount = tasks.filter(t => t.type === 'quiz').length;
+    const lessonCount = tasks.filter(t => t.type === 'lesson').length;
     let progressHtml = '';
     if (state && tasks.length) {
       const done = tasks.filter(t => ['submitted', 'marked'].includes(taskStatus(t, state))).length;
@@ -22,12 +42,12 @@ export async function unitsView() {
       <a class="card unit-card ${u.phase === 2 ? 'unit-card--prj' : ''}" href="#/units/${u.number}">
         <div class="unit-num">${u.number}</div>
         <div class="unit-meta">
-          <span class="phase-banner ${u.phase === 2 ? 'phase-2' : 'phase-1'}">${u.phase === 2 ? '◈ Phase 2 · PRJ' : '⬡ Phase 1 · ESC + ICT'}</span>
+          ${unitBanner(u)}
           <span class="unit-weeks">${esc(u.weeks)}</span>
         </div>
         <h3>${esc(u.title)}</h3>
         <p>${esc(u.subtitle || '')}</p>
-        <p class="unit-counts">${tasks.length - quizCount} tasks · ${quizCount} quizzes</p>
+        <p class="unit-counts">${tasks.length - quizCount - lessonCount} tasks · ${lessonCount ? `${lessonCount} lessons · ` : ''}${quizCount} quizzes</p>
         ${progressHtml}
       </a>`;
   }).join('');
@@ -37,7 +57,8 @@ export async function unitsView() {
   <div class="container">
     <div class="breadcrumb"><a href="#/">Home</a> › Units</div>
     <h1>Course <span class="text-teal">Units</span></h1>
-    <p class="lead">Five units across the year — from your first browser game to a presented major project.</p>
+    <p class="lead">Work through the year unit by unit.</p>
+    ${switcher}
   </div>
 </div>
 <section class="section">
@@ -45,11 +66,17 @@ export async function unitsView() {
     <div class="grid grid-3 units-grid">${cards}</div>
   </div>
 </section>`, { title: 'Units' });
+
+  document.querySelectorAll('[data-prog]').forEach(b => b.addEventListener('click', (e) => {
+    e.preventDefault();
+    setScope({ programId: b.dataset.prog, classId: null });
+    location.reload();
+  }));
 }
 
 export async function unitView({ n }) {
   render(spinner('Loading unit…'));
-  const cur = await getCurriculum();
+  const cur = filterCurByProgram(await getCurriculum(), getScope().programId);
   const unit = cur.units.find(u => String(u.number) === String(n));
   if (!unit) { render(`<section class="section"><div class="container"><h1>Unit not found</h1><a class="btn btn-secondary" href="#/units">← All units</a></div></section>`); return; }
   const user = api.currentUser();

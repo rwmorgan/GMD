@@ -327,9 +327,20 @@ export class DemoAdapter {
       .map(u => ({ id: u.id, email: u.email, display_name: u.display_name, role: u.role, active: u.active }));
   }
 
-  async getClassData() {
+  async getClasses() {
+    this.requireTeacher();
+    const roster = (await this.listStudents()).map(p => p.id);
+    return {
+      programs: [{ id: 'GMD', title: 'Level Up', site_path: 'GMD', sort: 0 }],
+      classes: [{ id: 'demo-class', program_id: 'GMD', name: 'Demo Class', join_code: DEMO_JOIN_CODE, roster, teachers: [] }],
+    };
+  }
+
+  async getClassData(classId = null) {
     this.requireTeacher();
     const s = this.state;
+    // Demo mode has a single class, so classId is accepted but not filtered.
+    void classId;
     return {
       profiles: await this.listStudents(),
       attempts: [...s.attempts],
