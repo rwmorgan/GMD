@@ -71,6 +71,24 @@ function questionHTML(q, idx) {
     case 'short':
       body = `<input type="text" class="q-short" name="${esc(q.id)}" placeholder="${esc(q.options.placeholder || 'Type your answer')}" aria-label="Short answer">`;
       break;
+    case 'matrix': {
+      const rows = q.options.rows, cols = q.options.cols;
+      const colLabels = q.options.colLabels || [];
+      const rowLabels = q.options.rowLabels || [];
+      const thead = colLabels.length
+        ? `<thead><tr>${rowLabels.length ? '<th></th>' : ''}${colLabels.map(c => `<th scope="col">${esc(c)}</th>`).join('')}</tr></thead>`
+        : '';
+      let tbody = '';
+      for (let r = 0; r < rows; r++) {
+        tbody += `<tr>${rowLabels.length ? `<th scope="row">${esc(rowLabels[r] || '')}</th>` : ''}`;
+        for (let c = 0; c < cols; c++) {
+          tbody += `<td><input type="number" step="any" data-cell data-row="${r}" data-col="${c}" aria-label="Row ${r + 1}, column ${c + 1}"></td>`;
+        }
+        tbody += `</tr>`;
+      }
+      body = `<div class="q-matrix-wrap"><table class="q-matrix">${thead}<tbody>${tbody}</tbody></table>${q.options.unit ? `<span class="q-unit">${esc(q.options.unit)}</span>` : ''}</div>`;
+      break;
+    }
   }
   return `<div class="q-card" data-q="${esc(q.id)}" data-qtype="${esc(q.qtype)}">${head}<div class="q-body">${body}</div><div class="q-feedback" hidden></div></div>`;
 }
@@ -115,6 +133,21 @@ function collectAnswers(container, questions) {
       case 'short': {
         const v = card.querySelector('input').value.trim();
         if (v !== '') given[q.id] = v;
+        break;
+      }
+      case 'matrix': {
+        const grid = [];
+        let any = false;
+        for (let r = 0; r < q.options.rows; r++) {
+          const row = [];
+          for (let c = 0; c < q.options.cols; c++) {
+            const inp = card.querySelector(`input[data-cell][data-row="${r}"][data-col="${c}"]`);
+            const v = inp ? inp.value.trim() : '';
+            if (v !== '') { row.push(parseFloat(v)); any = true; } else { row.push(null); }
+          }
+          grid.push(row);
+        }
+        if (any) given[q.id] = grid;
         break;
       }
     }
@@ -322,7 +355,8 @@ function wireQuiz(task) {
     e.preventDefault();
     const given = collectAnswers(form, task.questions);
     const unanswered = task.questions.filter(q => given[q.id] === undefined ||
-      (q.qtype === 'match' && (given[q.id] || []).some(v => v === null || v === undefined)));
+      (q.qtype === 'match' && (given[q.id] || []).some(v => v === null || v === undefined)) ||
+      (q.qtype === 'matrix' && (given[q.id] || []).some(row => row.some(v => v === null || v === undefined))));
     if (unanswered.length && !confirm(`You have ${unanswered.length} unanswered question${unanswered.length === 1 ? '' : 's'}. Submit anyway?`)) return;
 
     const submitBtn = form.querySelector('button[type=submit]');

@@ -49,6 +49,20 @@ function gradeQuestion(q, answer, given) {
       }
       return 0;
     }
+    case 'matrix': {
+      // answer.cells = [[..],..]; per-cell numeric-with-tolerance. Fraction of correct cells.
+      const cells = answer.cells || [];
+      const tol = answer.tolerance ?? 0;
+      let tot = 0, hit = 0;
+      for (let r = 0; r < cells.length; r++) {
+        for (let c = 0; c < cells[r].length; c++) {
+          tot++;
+          const g = Array.isArray(given) && Array.isArray(given[r]) ? parseFloat(given[r][c]) : NaN;
+          if (!Number.isNaN(g) && Math.abs(g - cells[r][c]) <= tol) hit++;
+        }
+      }
+      return tot ? hit / tot : 0;
+    }
     default:
       return 0;
   }

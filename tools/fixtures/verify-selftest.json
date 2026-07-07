@@ -1,0 +1,40 @@
+{
+  "_comment": "Self-test fixture for verify_answers.py. NOT curriculum — these are test vectors. It contains three correct computed keys across types plus ONE deliberately-wrong key (id ends -BAD) so the verifier proves it catches errors. Do not import into the site.",
+  "topic": "selftest",
+  "questions": [
+    {
+      "id": "ST-CI-1", "qtype": "numeric", "points": 1,
+      "prompt": "$1000 invested at 5% p.a. compounded annually for 5 years. Final amount?",
+      "options": { "unit": "$" },
+      "answer": { "value": 1276.28, "tolerance": 5 },
+      "check": "compound_interest", "expect": "amount",
+      "params": { "P": 1000, "r": 0.05, "n": 5 },
+      "verify_tol": 0.005
+    },
+    {
+      "id": "ST-PYTH-1", "qtype": "numeric", "points": 1,
+      "prompt": "Right triangle with legs 3 and 4. Length of the hypotenuse?",
+      "options": {},
+      "answer": { "value": 5, "tolerance": 0.1 },
+      "check": "pythagoras", "expect": "hyp",
+      "params": { "a": 3, "b": 4 }
+    },
+    {
+      "id": "ST-MAT-1", "qtype": "matrix", "points": 2,
+      "prompt": "Multiply the two 2x2 matrices.",
+      "options": { "rows": 2, "cols": 2 },
+      "answer": { "cells": [[19, 22], [43, 50]], "tolerance": 0 },
+      "check": "matrix_mult",
+      "params": { "A": [[1, 2], [3, 4]], "B": [[5, 6], [7, 8]] }
+    },
+    {
+      "id": "ST-CI-BAD", "qtype": "numeric", "points": 1,
+      "prompt": "$2000 at 3% p.a. compounded annually for 4 years. Final amount? (key is WRONG on purpose)",
+      "options": { "unit": "$" },
+      "answer": { "value": 2260.00, "tolerance": 5 },
+      "check": "compound_interest", "expect": "amount",
+      "params": { "P": 2000, "r": 0.03, "n": 4 },
+      "verify_tol": 0.005
+    }
+  ]
+}

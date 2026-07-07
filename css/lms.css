@@ -342,6 +342,16 @@ a.task-row:hover { border-color: var(--teal); transform: translateX(4px); box-sh
 .q-order-btns button:hover { background: var(--teal-dark); color: #fff; }
 .q-inline { display: flex; gap: 0.6rem; align-items: center; max-width: 280px; }
 .q-unit { color: var(--text-dim); font-size: 0.85rem; }
+.q-matrix-wrap { display: flex; align-items: flex-end; gap: 0.6rem; flex-wrap: wrap; }
+.q-matrix { border-collapse: separate; border-spacing: 0.4rem; }
+.q-matrix th { color: var(--text-muted); font-size: 0.8rem; font-weight: 600; padding: 0 0.2rem; text-align: center; }
+.q-matrix td input {
+  width: 4.2rem; text-align: center; padding: 0.5rem 0.4rem;
+  background: var(--navy-700); border: 1px solid var(--border); border-radius: 8px; color: var(--text);
+}
+.q-matrix td input:focus { border-color: var(--teal); outline: none; }
+.q-card.q-correct .q-matrix td input { border-color: var(--teal); }
+.q-card.q-incorrect .q-matrix td input { border-color: #ef4444; }
 .q-short { max-width: 420px; }
 .q-feedback {
   margin-top: 0.9rem; padding: 0.7rem 0.9rem; border-radius: 8px;
