@@ -1,0 +1,172 @@
+{
+  "topic": "shape-measurement",
+  "_source": "Gen 2 Compendiums/MEASUREMENT.pdf (Set 1 Measurement, Set 2 Scale), TASC MTG215123 Module 3 Topic 2. Answer keys verified by tools/verify_answers.py (pi from math library).",
+  "unit": {
+    "id": "gm-measurement",
+    "number": 5,
+    "title": "Shape & Measurement",
+    "subtitle": "Module 3 · Topic 2",
+    "weeks": "Module 3",
+    "phase": 2,
+    "description": "Mensuration and scale: perimeter, circumference and area of plane shapes and composites; volume and surface area of standard solids; and ratio, similarity and scale factors, including the effect of scale on area and volume. Criteria C8 and C1.",
+    "sort": 105,
+    "program_id": "GEN2"
+  },
+  "lessons": [
+    {
+      "id": "GM-SM-L1", "unit_id": "gm-measurement", "code": "5.1", "type": "lesson",
+      "title": "Perimeter, circumference & area", "sort": 10510,
+      "est_time": "1 lesson", "tools": "Calculator", "weeks": "Module 3",
+      "criteria": ["GM-C8", "GM-C1"],
+      "overview": "Measuring around and inside plane shapes.",
+      "body": { "sections": [
+        { "title": "Perimeter and circumference", "html": "<p>The <strong>perimeter</strong> is the distance around a shape — add the side lengths. For a circle this is the <strong>circumference</strong>: C = 2&pi;r (or &pi;d). A circle of radius 5 has circumference 2&pi;&times;5 &asymp; <strong>31.42</strong>. An <strong>arc</strong> is a fraction of the circumference.</p>" },
+        { "title": "Area", "html": "<p>Common areas:</p><ul><li>Rectangle: length &times; width.</li><li>Triangle: &frac12; &times; base &times; height.</li><li>Circle: &pi;r². A circle of radius 7 has area &pi;&times;49 &asymp; <strong>153.94</strong>.</li><li>A <strong>sector</strong> is a fraction of a circle's area.</li></ul><p><strong>Composite shapes</strong> are broken into standard pieces, whose areas are then added or subtracted.</p>" }
+      ] }
+    },
+    {
+      "id": "GM-SM-L2", "unit_id": "gm-measurement", "code": "5.2", "type": "lesson",
+      "title": "Volume & surface area of solids", "sort": 10520,
+      "est_time": "1 lesson", "tools": "Calculator", "weeks": "Module 3",
+      "criteria": ["GM-C8", "GM-C1"],
+      "overview": "Measuring three-dimensional objects.",
+      "body": { "sections": [
+        { "title": "Volume", "html": "<p><strong>Volume</strong> is the space inside a solid:</p><ul><li>Rectangular prism (cuboid): L &times; w &times; h.</li><li>Any prism: cross-sectional area &times; length (A &times; h).</li><li>Cylinder: &pi;r²h.</li><li>Cone: &frac13;&pi;r²h &nbsp;(a tapered solid is &frac13; of the prism it fits inside).</li><li>Pyramid: &frac13; &times; base area &times; height.</li><li>Sphere: &frac43;&pi;r³.</li></ul>" },
+        { "title": "Surface area", "html": "<p>The <strong>total surface area</strong> is the sum of the areas of every face. Cuboid: 2Lw + 2Lh + 2wh. Sphere: 4&pi;r². Cone: &pi;rs + &pi;r² (s = slant height). For composites, add the exposed faces.</p>" }
+      ] }
+    },
+    {
+      "id": "GM-SM-L3", "unit_id": "gm-measurement", "code": "5.3", "type": "lesson",
+      "title": "Ratio, similarity & scale", "sort": 10530,
+      "est_time": "1 lesson", "tools": "Calculator", "weeks": "Module 3",
+      "criteria": ["GM-C8", "GM-C1"],
+      "overview": "Comparing quantities and scaling figures.",
+      "body": { "sections": [
+        { "title": "Ratio and scale", "html": "<p>A <strong>ratio</strong> compares quantities. To divide a quantity in a ratio, share it into the total number of parts. Dividing $60 in the ratio 2:3 gives parts of 60&divide;5 = $12, so the shares are $24 and <strong>$36</strong>.</p><p>A <strong>map scale</strong> such as 1:50 000 means 1 unit on the map is 50 000 units in reality. A 4 cm map distance represents 4&times;50 000 = <strong>200 000 cm</strong> (= 2 km).</p>" },
+        { "title": "Similarity and the effect of scale", "html": "<p><strong>Similar</strong> figures have the same shape; corresponding lengths share a common <strong>scale factor</strong> k. Crucially:</p><ul><li>Lengths scale by <strong>k</strong>.</li><li>Areas scale by <strong>k²</strong>.</li><li>Volumes scale by <strong>k³</strong>.</li></ul><p>So doubling every length (k = 2) multiplies area by 4 and volume by 8.</p>" }
+      ] }
+    }
+  ],
+  "quizzes": [
+    {
+      "id": "GM-SM-Q1", "unit_id": "gm-measurement", "code": "Q5.1", "type": "quiz",
+      "title": "Quiz: Perimeter & area", "sort": 10515,
+      "est_time": "15 min", "tools": "This site, calculator", "weeks": "Module 3",
+      "max_attempts": null, "pass_pct": 80,
+      "overview": "Circumference and areas of plane shapes. Use π = 3.14159. Unlimited attempts.",
+      "criteria": ["GM-C8", "GM-C1"],
+      "questions": [
+        { "id": "GM-SM-Q1-1", "ord": 1, "qtype": "numeric", "points": 1,
+          "prompt": "Find the circumference of a circle with radius 5 cm. (π ≈ 3.14159)", "options": { "unit": "cm" },
+          "answer": { "value": 31.42, "tolerance": 0.1 },
+          "explain": "C = 2πr = 2 × π × 5 ≈ 31.42 cm.",
+          "check": "circle", "expect": "circumference", "params": { "r": 5 }, "verify_tol": 0.005 },
+        { "id": "GM-SM-Q1-2", "ord": 2, "qtype": "numeric", "points": 1,
+          "prompt": "Find the area of a circle with radius 7 cm. (π ≈ 3.14159)", "options": { "unit": "cm²" },
+          "answer": { "value": 153.94, "tolerance": 0.1 },
+          "explain": "A = πr² = π × 49 ≈ 153.94 cm².",
+          "check": "circle", "expect": "area", "params": { "r": 7 }, "verify_tol": 0.005 },
+        { "id": "GM-SM-Q1-3", "ord": 3, "qtype": "numeric", "points": 1,
+          "prompt": "Find the area of a rectangle 8 cm by 5 cm.", "options": { "unit": "cm²" },
+          "answer": { "value": 40, "tolerance": 0.01 },
+          "explain": "Area = length × width = 8 × 5 = 40 cm².",
+          "check": "rectangle", "expect": "area", "params": { "l": 8, "w": 5 } },
+        { "id": "GM-SM-Q1-4", "ord": 4, "qtype": "numeric", "points": 1,
+          "prompt": "Find the perimeter of a rectangle 8 cm by 5 cm.", "options": { "unit": "cm" },
+          "answer": { "value": 26, "tolerance": 0.01 },
+          "explain": "Perimeter = 2(l + w) = 2(8 + 5) = 26 cm.",
+          "check": "rectangle", "expect": "perimeter", "params": { "l": 8, "w": 5 } },
+        { "id": "GM-SM-Q1-5", "ord": 5, "qtype": "numeric", "points": 1,
+          "prompt": "Find the area of a triangle with base 10 cm and height 6 cm.", "options": { "unit": "cm²" },
+          "answer": { "value": 30, "tolerance": 0.01 },
+          "explain": "Area = ½ × base × height = ½ × 10 × 6 = 30 cm².",
+          "check": "triangle_area", "expect": "area", "params": { "b": 10, "h": 6 } },
+        { "id": "GM-SM-Q1-6", "ord": 6, "qtype": "mc", "points": 1,
+          "prompt": "The area of a circle is given by which formula?",
+          "options": { "choices": ["2πr", "πr²", "πd", "4πr²"] },
+          "answer": { "correct": "1" },
+          "explain": "Area of a circle is πr². 2πr and πd are the circumference; 4πr² is the surface area of a sphere." }
+      ]
+    },
+    {
+      "id": "GM-SM-Q2", "unit_id": "gm-measurement", "code": "Q5.2", "type": "quiz",
+      "title": "Quiz: Volume & surface area", "sort": 10525,
+      "est_time": "20 min", "tools": "This site, calculator", "weeks": "Module 3",
+      "max_attempts": null, "pass_pct": 80,
+      "overview": "Volumes and surface areas of solids. Use π = 3.14159. Unlimited attempts.",
+      "criteria": ["GM-C8", "GM-C1"],
+      "questions": [
+        { "id": "GM-SM-Q2-1", "ord": 1, "qtype": "numeric", "points": 1,
+          "prompt": "Find the volume of a rectangular prism 4 cm × 3 cm × 2 cm.", "options": { "unit": "cm³" },
+          "answer": { "value": 24, "tolerance": 0.01 },
+          "explain": "V = L × w × h = 4 × 3 × 2 = 24 cm³.",
+          "check": "rect_prism", "expect": "volume", "params": { "l": 4, "w": 3, "h": 2 } },
+        { "id": "GM-SM-Q2-2", "ord": 2, "qtype": "numeric", "points": 1,
+          "prompt": "Find the total surface area of a rectangular prism 4 cm × 3 cm × 2 cm.", "options": { "unit": "cm²" },
+          "answer": { "value": 52, "tolerance": 0.01 },
+          "explain": "TSA = 2(Lw + Lh + wh) = 2(12 + 8 + 6) = 52 cm².",
+          "check": "rect_prism", "expect": "surface", "params": { "l": 4, "w": 3, "h": 2 } },
+        { "id": "GM-SM-Q2-3", "ord": 3, "qtype": "numeric", "points": 1,
+          "prompt": "Find the volume of a cylinder with radius 3 cm and height 10 cm. (π ≈ 3.14159)", "options": { "unit": "cm³" },
+          "answer": { "value": 282.74, "tolerance": 0.5 },
+          "explain": "V = πr²h = π × 9 × 10 ≈ 282.74 cm³.",
+          "check": "cylinder", "expect": "volume", "params": { "r": 3, "h": 10 }, "verify_tol": 0.005 },
+        { "id": "GM-SM-Q2-4", "ord": 4, "qtype": "numeric", "points": 1,
+          "prompt": "Find the volume of a cone with radius 3 cm and height 4 cm. (π ≈ 3.14159)", "options": { "unit": "cm³" },
+          "answer": { "value": 37.70, "tolerance": 0.1 },
+          "explain": "V = ⅓πr²h = ⅓ × π × 9 × 4 ≈ 37.70 cm³.",
+          "check": "cone", "expect": "volume", "params": { "r": 3, "h": 4 }, "verify_tol": 0.005 },
+        { "id": "GM-SM-Q2-5", "ord": 5, "qtype": "numeric", "points": 1,
+          "prompt": "Find the volume of a sphere with radius 6 cm. (π ≈ 3.14159)", "options": { "unit": "cm³" },
+          "answer": { "value": 904.78, "tolerance": 1 },
+          "explain": "V = 4/3 πr³ = 4/3 × π × 216 ≈ 904.78 cm³.",
+          "check": "sphere", "expect": "volume", "params": { "r": 6 }, "verify_tol": 0.01 },
+        { "id": "GM-SM-Q2-6", "ord": 6, "qtype": "numeric", "points": 1,
+          "prompt": "Find the surface area of a sphere with radius 6 cm. (π ≈ 3.14159)", "options": { "unit": "cm²" },
+          "answer": { "value": 452.39, "tolerance": 0.5 },
+          "explain": "SA = 4πr² = 4 × π × 36 ≈ 452.39 cm².",
+          "check": "sphere", "expect": "surface", "params": { "r": 6 }, "verify_tol": 0.005 },
+        { "id": "GM-SM-Q2-7", "ord": 7, "qtype": "mc", "points": 1,
+          "prompt": "The volume of a cone is what fraction of a cylinder with the same radius and height?",
+          "options": { "choices": ["One half", "One third", "One quarter", "The same"] },
+          "answer": { "correct": "1" },
+          "explain": "A cone (a tapered solid) has one third of the volume of the prism/cylinder it fits inside." }
+      ]
+    },
+    {
+      "id": "GM-SM-Q3", "unit_id": "gm-measurement", "code": "Q5.3", "type": "quiz",
+      "title": "Quiz: Ratio, scale & similarity", "sort": 10535,
+      "est_time": "15 min", "tools": "This site, calculator", "weeks": "Module 3",
+      "max_attempts": null, "pass_pct": 80,
+      "overview": "Dividing in a ratio, map scales and the effect of scale on area and volume. Unlimited attempts.",
+      "criteria": ["GM-C8", "GM-C1"],
+      "questions": [
+        { "id": "GM-SM-Q3-1", "ord": 1, "qtype": "numeric", "points": 1,
+          "prompt": "Divide $60 in the ratio 2 : 3. What is the LARGER share?", "options": { "unit": "$" },
+          "answer": { "value": 36, "tolerance": 0.01 },
+          "explain": "5 parts: 60 ÷ 5 = $12 per part; the larger share is 3 × 12 = $36.",
+          "check": "evaluate", "params": { "expr": "total/(a+b)*b", "total": 60, "a": 2, "b": 3 } },
+        { "id": "GM-SM-Q3-2", "ord": 2, "qtype": "numeric", "points": 1,
+          "prompt": "On a 1:50 000 map, a distance measures 4 cm. What real distance does this represent, in centimetres?", "options": { "unit": "cm" },
+          "answer": { "value": 200000, "tolerance": 1 },
+          "explain": "Actual = map distance × scale = 4 × 50 000 = 200 000 cm (2 km).",
+          "check": "scale", "expect": "actual", "params": { "measured": 4, "sf": 50000 } },
+        { "id": "GM-SM-Q3-3", "ord": 3, "qtype": "numeric", "points": 1,
+          "prompt": "Two similar figures have a length scale factor of 3. By what factor is the AREA scaled?", "options": {},
+          "answer": { "value": 9, "tolerance": 0.01 },
+          "explain": "Area scales by the square of the length scale factor: 3² = 9.",
+          "check": "evaluate", "params": { "expr": "k**2", "k": 3 } },
+        { "id": "GM-SM-Q3-4", "ord": 4, "qtype": "numeric", "points": 1,
+          "prompt": "Two similar solids have a length scale factor of 2. By what factor is the VOLUME scaled?", "options": {},
+          "answer": { "value": 8, "tolerance": 0.01 },
+          "explain": "Volume scales by the cube of the length scale factor: 2³ = 8.",
+          "check": "evaluate", "params": { "expr": "k**3", "k": 2 } },
+        { "id": "GM-SM-Q3-5", "ord": 5, "qtype": "mc", "points": 1,
+          "prompt": "If every length of a shape is enlarged by a scale factor of 4, its area is enlarged by a factor of:",
+          "options": { "choices": ["4", "8", "16", "64"] },
+          "answer": { "correct": "2" },
+          "explain": "Area scales by k² = 4² = 16." }
+      ]
+    }
+  ]
+}
