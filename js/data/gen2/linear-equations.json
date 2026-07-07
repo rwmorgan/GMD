@@ -1,0 +1,148 @@
+{
+  "topic": "linear-equations",
+  "_source": "Gen 2 Compendiums/LINEAR MODELLING.pdf, TASC MTG215123 Module 2 Topic 2. NOTE: this compendium covers lines, intersection and linear modelling but NOT piecewise-linear/step graphs (a TASC requirement) — that gap is flagged to the teacher, not filled from general knowledge. Answer keys verified by tools/verify_answers.py.",
+  "unit": {
+    "id": "gm-linear",
+    "number": 3,
+    "title": "Linear Equations & Graphs",
+    "subtitle": "Module 2 · Topic 2",
+    "weeks": "Module 2",
+    "phase": 2,
+    "description": "Straight-line graphs and their equations: gradient, intercepts, sketching, the point of intersection of two lines, and using lines of best fit to model data and make predictions. Criteria C6 and C1. (Piecewise-linear and step graphs are taught in class — not in this compendium.)",
+    "sort": 103,
+    "program_id": "GEN2"
+  },
+  "lessons": [
+    {
+      "id": "GM-LE-L1", "unit_id": "gm-linear", "code": "3.1", "type": "lesson",
+      "title": "The gradient of a line", "sort": 10310,
+      "est_time": "1 lesson", "tools": "Calculator, grid paper", "weeks": "Module 2",
+      "criteria": ["GM-C6", "GM-C1"],
+      "overview": "Measuring how steeply a line slopes.",
+      "body": { "sections": [
+        { "title": "Gradient formula", "html": "<p>The <strong>gradient</strong> measures how steeply a line slopes:</p><p style=\"text-align:center\"><strong>gradient = rise &divide; run = (y₂ &minus; y₁) &divide; (x₂ &minus; x₁)</strong></p><ul><li>Positive gradient &rarr; slopes up left-to-right.</li><li>Negative gradient &rarr; slopes down left-to-right.</li><li>Zero gradient &rarr; horizontal line.</li><li>The larger the size of the gradient, the steeper the line.</li></ul>" },
+        { "title": "Worked example", "html": "<p>The gradient between (1, 2) and (4, 11) is (11 &minus; 2) &divide; (4 &minus; 1) = 9 &divide; 3 = <strong>3</strong>. Between (&minus;5, 6) and (1, &minus;6) it is (&minus;6 &minus; 6) &divide; (1 &minus; &minus;5) = &minus;12 &divide; 6 = <strong>&minus;2</strong> (a downward slope).</p>" }
+      ] }
+    },
+    {
+      "id": "GM-LE-L2", "unit_id": "gm-linear", "code": "3.2", "type": "lesson",
+      "title": "The equation of a straight line", "sort": 10320,
+      "est_time": "1 lesson", "tools": "Calculator, grid paper", "weeks": "Module 2",
+      "criteria": ["GM-C6", "GM-C1"],
+      "overview": "Reading gradient and intercepts from y = ax + b.",
+      "body": { "sections": [
+        { "title": "y = ax + b", "html": "<p>A straight line can be written <strong>y = ax + b</strong>, where <strong>a is the gradient</strong> and <strong>b is the y-intercept</strong> (the value of y when x = 0).</p><ul><li>y = 3x &minus; 2: gradient 3, y-intercept &minus;2.</li><li>y = &minus;x + 4: gradient &minus;1, y-intercept 4.</li><li>y = 6: gradient 0, y-intercept 6.</li></ul>" },
+        { "title": "Intercepts and sketching", "html": "<p>You only need two points to draw a line. The <strong>y-intercept</strong> is b. The <strong>x-intercept</strong> is where the line cuts the x-axis — set y = 0 and solve. For y = 4x + 8: 0 = 4x + 8, so x = &minus;2. Plot (0, 8) and (&minus;2, 0) and join them.</p>" }
+      ] }
+    },
+    {
+      "id": "GM-LE-L3", "unit_id": "gm-linear", "code": "3.3", "type": "lesson",
+      "title": "The intersection of two lines", "sort": 10330,
+      "est_time": "1 lesson", "tools": "Calculator", "weeks": "Module 2",
+      "criteria": ["GM-C6", "GM-C1"],
+      "overview": "Solving two linear equations at once.",
+      "body": { "sections": [
+        { "title": "Point of intersection", "html": "<p>Two lines cross where they share the same x and y — the <strong>point of intersection</strong>, found by solving them <strong>simultaneously</strong>. When both are in the form y = ax + b, equate the right-hand sides.</p><p>Find where y = 4x + 9 meets y = &minus;2x &minus; 3: set 4x + 9 = &minus;2x &minus; 3, giving 6x = &minus;12, so x = &minus;2. Substitute back: y = 4(&minus;2) + 9 = 1. They meet at <strong>(&minus;2, 1)</strong>.</p>" },
+        { "title": "Break-even problems", "html": "<p>Intersections model <strong>break-even</strong> points, where a cost line and a revenue line cross — below it you make a loss, above it a profit.</p>" }
+      ] }
+    },
+    {
+      "id": "GM-LE-L4", "unit_id": "gm-linear", "code": "3.4", "type": "lesson",
+      "title": "Linear modelling & predictions", "sort": 10340,
+      "est_time": "1 lesson", "tools": "Calculator, spreadsheet/CAS", "weeks": "Module 2",
+      "criteria": ["GM-C6", "GM-C1"],
+      "overview": "Fitting a line to data and using it to predict.",
+      "body": { "sections": [
+        { "title": "Scatter plots and lines of best fit", "html": "<p>A <strong>scatter plot</strong> shows paired data as points. If the points roughly follow a straight-line trend, a <strong>line of best fit</strong> (by eye or by calculator regression) summarises the relationship and lets us make predictions.</p>" },
+        { "title": "Interpolation, extrapolation & reliability", "html": "<p>Predicting <em>within</em> the range of the data is <strong>interpolation</strong> and is generally reliable. Predicting <em>outside</em> the data range is <strong>extrapolation</strong> and is far less reliable, because the trend may not continue.</p>" }
+      ] }
+    }
+  ],
+  "quizzes": [
+    {
+      "id": "GM-LE-Q1", "unit_id": "gm-linear", "code": "Q3.1", "type": "quiz",
+      "title": "Quiz: Gradient & equations of lines", "sort": 10325,
+      "est_time": "15 min", "tools": "This site, calculator", "weeks": "Module 2",
+      "max_attempts": null, "pass_pct": 80,
+      "overview": "Gradients, intercepts and reading straight-line equations. Unlimited attempts.",
+      "criteria": ["GM-C6", "GM-C1"],
+      "questions": [
+        { "id": "GM-LE-Q1-1", "ord": 1, "qtype": "numeric", "points": 1,
+          "prompt": "Find the gradient of the line through (1, 2) and (4, 11).", "options": {},
+          "answer": { "value": 3, "tolerance": 0.01 },
+          "explain": "(11 − 2) ÷ (4 − 1) = 9 ÷ 3 = 3.",
+          "check": "gradient", "expect": "gradient", "params": { "x1": 1, "y1": 2, "x2": 4, "y2": 11 } },
+        { "id": "GM-LE-Q1-2", "ord": 2, "qtype": "numeric", "points": 1,
+          "prompt": "Find the gradient of the line through (−5, 6) and (1, −6).", "options": {},
+          "answer": { "value": -2, "tolerance": 0.01 },
+          "explain": "(−6 − 6) ÷ (1 − −5) = −12 ÷ 6 = −2.",
+          "check": "gradient", "expect": "gradient", "params": { "x1": -5, "y1": 6, "x2": 1, "y2": -6 } },
+        { "id": "GM-LE-Q1-3", "ord": 3, "qtype": "numeric", "points": 1,
+          "prompt": "State the y-intercept of the line y = 3x − 2.", "options": {},
+          "answer": { "value": -2, "tolerance": 0.01 },
+          "explain": "In y = ax + b, b is the y-intercept, so it is −2.",
+          "check": "evaluate", "params": { "expr": "b", "b": -2 } },
+        { "id": "GM-LE-Q1-4", "ord": 4, "qtype": "numeric", "points": 1,
+          "prompt": "Find the x-intercept of the line y = 4x + 8 (the value of x when y = 0).", "options": {},
+          "answer": { "value": -2, "tolerance": 0.01 },
+          "explain": "0 = 4x + 8 gives x = −8/4 = −2.",
+          "check": "evaluate", "params": { "expr": "-c/m", "c": 8, "m": 4 } },
+        { "id": "GM-LE-Q1-5", "ord": 5, "qtype": "numeric", "points": 1,
+          "prompt": "For the line y = 2x − 5, find y when x = 3.", "options": {},
+          "answer": { "value": 1, "tolerance": 0.01 },
+          "explain": "y = 2×3 − 5 = 1.",
+          "check": "line_eval", "expect": "y", "params": { "m": 2, "c": -5, "x": 3 } },
+        { "id": "GM-LE-Q1-6", "ord": 6, "qtype": "mc", "points": 1,
+          "prompt": "A horizontal line has a gradient of:",
+          "options": { "choices": ["1", "0", "undefined", "−1"] },
+          "answer": { "correct": "1" },
+          "explain": "A horizontal line has zero rise, so its gradient is 0." },
+        { "id": "GM-LE-Q1-7", "ord": 7, "qtype": "mc", "points": 1,
+          "prompt": "In the equation y = ax + b, the value of a represents the:",
+          "options": { "choices": ["y-intercept", "x-intercept", "gradient", "origin"] },
+          "answer": { "correct": "2" },
+          "explain": "a is the gradient; b is the y-intercept." }
+      ]
+    },
+    {
+      "id": "GM-LE-Q2", "unit_id": "gm-linear", "code": "Q3.2", "type": "quiz",
+      "title": "Quiz: Intersections & linear modelling", "sort": 10345,
+      "est_time": "15 min", "tools": "This site, calculator", "weeks": "Module 2",
+      "max_attempts": null, "pass_pct": 80,
+      "overview": "Points of intersection and predicting from a line of best fit. Unlimited attempts.",
+      "criteria": ["GM-C6", "GM-C1"],
+      "questions": [
+        { "id": "GM-LE-Q2-1", "ord": 1, "qtype": "numeric", "points": 1,
+          "prompt": "Lines y = 4x + 9 and y = −2x − 3 intersect. Find the x-coordinate of the intersection.", "options": {},
+          "answer": { "value": -2, "tolerance": 0.01 },
+          "explain": "4x + 9 = −2x − 3 gives 6x = −12, so x = −2.",
+          "check": "intersection", "expect": "x", "params": { "m1": 4, "c1": 9, "m2": -2, "c2": -3 } },
+        { "id": "GM-LE-Q2-2", "ord": 2, "qtype": "numeric", "points": 1,
+          "prompt": "Lines y = 4x + 9 and y = −2x − 3 intersect. Find the y-coordinate of the intersection.", "options": {},
+          "answer": { "value": 1, "tolerance": 0.01 },
+          "explain": "At x = −2, y = 4(−2) + 9 = 1.",
+          "check": "intersection", "expect": "y", "params": { "m1": 4, "c1": 9, "m2": -2, "c2": -3 } },
+        { "id": "GM-LE-Q2-3", "ord": 3, "qtype": "numeric", "points": 1,
+          "prompt": "Find the x-coordinate where y = 2x − 5 meets y = −3x + 10.", "options": {},
+          "answer": { "value": 3, "tolerance": 0.01 },
+          "explain": "2x − 5 = −3x + 10 gives 5x = 15, so x = 3.",
+          "check": "intersection", "expect": "x", "params": { "m1": 2, "c1": -5, "m2": -3, "c2": 10 } },
+        { "id": "GM-LE-Q2-4", "ord": 4, "qtype": "numeric", "points": 1,
+          "prompt": "A cost line C = 5n + 200 and revenue line R = 9n meet at the break-even point. Find n (solve 9n = 5n + 200).", "options": { "unit": "items" },
+          "answer": { "value": 50, "tolerance": 0.01 },
+          "explain": "9n = 5n + 200 gives 4n = 200, so n = 50 items.",
+          "check": "intersection", "expect": "x", "params": { "m1": 9, "c1": 0, "m2": 5, "c2": 200 } },
+        { "id": "GM-LE-Q2-5", "ord": 5, "qtype": "mc", "points": 1,
+          "prompt": "Predicting a value INSIDE the range of the collected data is called:",
+          "options": { "choices": ["extrapolation", "interpolation", "regression", "correlation"] },
+          "answer": { "correct": "1" },
+          "explain": "Predicting within the data range is interpolation; outside it is extrapolation." },
+        { "id": "GM-LE-Q2-6", "ord": 6, "qtype": "short", "points": 1,
+          "prompt": "A prediction made well beyond the range of the data (extrapolation) is generally considered less ______ than interpolation.",
+          "options": { "placeholder": "one word" },
+          "answer": { "accept": ["reliable"] },
+          "explain": "Extrapolation is less reliable because the trend may not continue beyond the data." }
+      ]
+    }
+  ]
+}
