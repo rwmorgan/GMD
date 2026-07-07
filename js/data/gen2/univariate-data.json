@@ -1,0 +1,169 @@
+{
+  "topic": "univariate-data",
+  "_source": "Gen 2 Compendiums/DATA ANALYSIS - VOL 1 & 2, TASC MTG215123 Module 3 Topic 1. Standard deviation questions use the POPULATION SD (÷n), matching the compendium's stated formula. Answer keys verified by tools/verify_answers.py.",
+  "unit": {
+    "id": "gm-data",
+    "number": 4,
+    "title": "Univariate Data Analysis",
+    "subtitle": "Module 3 · Topic 1",
+    "weeks": "Module 3",
+    "phase": 2,
+    "description": "The statistical investigation process: classifying data, displaying it, and summarising a single numerical variable with measures of centre (mean, median) and spread (range, IQR, standard deviation), including outliers and comparing groups. Criteria C7 and C1.",
+    "sort": 104,
+    "program_id": "GEN2"
+  },
+  "lessons": [
+    {
+      "id": "GM-UD-L1", "unit_id": "gm-data", "code": "4.1", "type": "lesson",
+      "title": "Types of data", "sort": 10410,
+      "est_time": "1 lesson", "tools": "—", "weeks": "Module 3",
+      "criteria": ["GM-C7", "GM-C1"],
+      "overview": "Classifying the variable before you analyse it.",
+      "body": { "sections": [
+        { "title": "Categorical vs numerical", "html": "<p><strong>Categorical</strong> data sorts responses into qualitative categories (no numerical size):</p><ul><li><strong>Nominal</strong> — categories with no order (e.g. mode of transport, place of birth).</li><li><strong>Ordinal</strong> — categories with a natural order (e.g. strongly agree &rarr; strongly disagree, small/medium/large).</li></ul><p><strong>Numerical</strong> data is quantitative — things counted or measured:</p><ul><li><strong>Discrete</strong> — fixed values, usually from counting (e.g. number of siblings).</li><li><strong>Continuous</strong> — any value in a range, usually from measuring (e.g. height, temperature).</li></ul>" }
+      ] }
+    },
+    {
+      "id": "GM-UD-L2", "unit_id": "gm-data", "code": "4.2", "type": "lesson",
+      "title": "Displaying data & describing shape", "sort": 10420,
+      "est_time": "1 lesson", "tools": "Calculator/spreadsheet", "weeks": "Module 3",
+      "criteria": ["GM-C7", "GM-C1"],
+      "overview": "Choosing a display and reading its shape.",
+      "body": { "sections": [
+        { "title": "Displays", "html": "<p>Categorical data suits <strong>bar charts</strong> and tables. Numerical data suits <strong>frequency tables</strong>, <strong>stem plots</strong>, <strong>histograms</strong> and <strong>box plots</strong>. A histogram is a bar chart for numerical data where the bars touch.</p>" },
+        { "title": "Shape of a distribution", "html": "<p>Describe a numerical distribution by its:</p><ul><li><strong>Modality</strong> — one peak (unimodal) or several (multimodal).</li><li><strong>Shape</strong> — symmetric, or skewed (a long tail to the positive or negative side).</li><li><strong>Centre, spread and outliers</strong> — where it sits, how variable it is, and any unusual values.</li></ul>" }
+      ] }
+    },
+    {
+      "id": "GM-UD-L3", "unit_id": "gm-data", "code": "4.3", "type": "lesson",
+      "title": "Measures of centre: mean & median", "sort": 10430,
+      "est_time": "1 lesson", "tools": "Calculator", "weeks": "Module 3",
+      "criteria": ["GM-C7", "GM-C1"],
+      "overview": "Two ways to describe the middle of the data.",
+      "body": { "sections": [
+        { "title": "Mean", "html": "<p>The <strong>mean</strong> is the sum of all scores divided by how many there are. For 4, 8, 6, 10, 7: (4+8+6+10+7) &divide; 5 = 35 &divide; 5 = <strong>7</strong>.</p>" },
+        { "title": "Median", "html": "<p>The <strong>median</strong> is the middle score when the data is arranged in order. With an odd count it is the middle value; with an even count it is halfway between the two middle values. For 4, 6, 8, 10 the median is (6 + 8) &divide; 2 = <strong>7</strong>.</p>" }
+      ] }
+    },
+    {
+      "id": "GM-UD-L4", "unit_id": "gm-data", "code": "4.4", "type": "lesson",
+      "title": "Measures of spread & outliers", "sort": 10440,
+      "est_time": "1 lesson", "tools": "Calculator", "weeks": "Module 3",
+      "criteria": ["GM-C7", "GM-C1"],
+      "overview": "How variable the data is, and spotting unusual values.",
+      "body": { "sections": [
+        { "title": "Range and interquartile range", "html": "<p>The <strong>range</strong> is highest &minus; lowest. The <strong>interquartile range (IQR)</strong> is the spread of the middle half: <strong>IQR = Q₃ &minus; Q₁</strong>, where Q₁ and Q₃ are the lower and upper quartiles. The IQR is not affected by extreme values, so it is a robust measure of spread.</p>" },
+        { "title": "Standard deviation", "html": "<p>The <strong>standard deviation</strong> measures the average distance of scores from the mean — a larger value means more variability. It is calculated with your calculator's statistics summary rather than by hand.</p>" },
+        { "title": "Outliers", "html": "<p>A value is treated as an <strong>outlier</strong> if it lies below <strong>Q₁ &minus; 1.5&times;IQR</strong> or above <strong>Q₃ + 1.5&times;IQR</strong>. Box plots make outliers easy to see.</p>" }
+      ] }
+    },
+    {
+      "id": "GM-UD-L5", "unit_id": "gm-data", "code": "4.5", "type": "lesson",
+      "title": "Comparing groups & the statistical investigation process", "sort": 10450,
+      "est_time": "1 lesson", "tools": "Calculator", "weeks": "Module 3",
+      "criteria": ["GM-C7", "GM-C1"],
+      "overview": "Using statistics to answer a real question.",
+      "body": { "sections": [
+        { "title": "Comparing two groups", "html": "<p>To compare a numerical variable across groups, compare their centres (median or mean) and spreads (IQR, range or standard deviation) — often with <strong>parallel box plots</strong> — and interpret the differences in context.</p>" },
+        { "title": "The statistical investigation process", "html": "<p>A statistical investigation follows a cycle: <strong>pose</strong> a question &rarr; <strong>collect</strong> data &rarr; <strong>analyse</strong> (display and summarise) &rarr; <strong>interpret and communicate</strong> the findings. The formal statistical investigation is a teacher-assessed Work Requirement.</p>" }
+      ] }
+    }
+  ],
+  "quizzes": [
+    {
+      "id": "GM-UD-Q1", "unit_id": "gm-data", "code": "Q4.1", "type": "quiz",
+      "title": "Quiz: Types of data & displays", "sort": 10425,
+      "est_time": "10 min", "tools": "This site", "weeks": "Module 3",
+      "max_attempts": null, "pass_pct": 80,
+      "overview": "Classifying variables and choosing displays. Unlimited attempts.",
+      "criteria": ["GM-C7", "GM-C1"],
+      "questions": [
+        { "id": "GM-UD-Q1-1", "ord": 1, "qtype": "mc", "points": 1,
+          "prompt": "\"Mode of transport to college (car, bus, bike, walk)\" is what type of data?",
+          "options": { "choices": ["Numerical discrete", "Numerical continuous", "Categorical nominal", "Categorical ordinal"] },
+          "answer": { "correct": "2" },
+          "explain": "The categories have no natural order, so it is categorical nominal." },
+        { "id": "GM-UD-Q1-2", "ord": 2, "qtype": "mc", "points": 1,
+          "prompt": "\"T-shirt size: Small, Medium, Large\" is what type of data?",
+          "options": { "choices": ["Categorical nominal", "Categorical ordinal", "Numerical discrete", "Numerical continuous"] },
+          "answer": { "correct": "1" },
+          "explain": "The categories have a natural order (S < M < L), so it is categorical ordinal." },
+        { "id": "GM-UD-Q1-3", "ord": 3, "qtype": "mc", "points": 1,
+          "prompt": "\"The number of siblings a student has\" is what type of data?",
+          "options": { "choices": ["Numerical discrete", "Numerical continuous", "Categorical nominal", "Categorical ordinal"] },
+          "answer": { "correct": "0" },
+          "explain": "It is a count of whole things, so numerical discrete." },
+        { "id": "GM-UD-Q1-4", "ord": 4, "qtype": "mc", "points": 1,
+          "prompt": "\"The height of a plant in centimetres\" is what type of data?",
+          "options": { "choices": ["Numerical discrete", "Numerical continuous", "Categorical nominal", "Categorical ordinal"] },
+          "answer": { "correct": "1" },
+          "explain": "A measurement that can take any value in a range is numerical continuous." },
+        { "id": "GM-UD-Q1-5", "ord": 5, "qtype": "short", "points": 1,
+          "prompt": "Which numerical display is a bar chart whose bars touch, used for grouped numerical data? (one word)",
+          "options": { "placeholder": "one word" },
+          "answer": { "accept": ["histogram"] },
+          "explain": "A histogram is a bar chart for numerical data with touching bars." }
+      ]
+    },
+    {
+      "id": "GM-UD-Q2", "unit_id": "gm-data", "code": "Q4.2", "type": "quiz",
+      "title": "Quiz: Centre, spread & outliers", "sort": 10445,
+      "est_time": "20 min", "tools": "This site, calculator", "weeks": "Module 3",
+      "max_attempts": null, "pass_pct": 80,
+      "overview": "Mean, median, range, IQR, standard deviation and outliers. Unlimited attempts.",
+      "criteria": ["GM-C7", "GM-C1"],
+      "questions": [
+        { "id": "GM-UD-Q2-1", "ord": 1, "qtype": "numeric", "points": 1,
+          "prompt": "Find the mean of 4, 8, 6, 10, 7.", "options": {},
+          "answer": { "value": 7, "tolerance": 0.01 },
+          "explain": "(4+8+6+10+7) ÷ 5 = 35 ÷ 5 = 7.",
+          "check": "mean", "expect": "mean", "params": { "data": [4, 8, 6, 10, 7] } },
+        { "id": "GM-UD-Q2-2", "ord": 2, "qtype": "numeric", "points": 1,
+          "prompt": "Find the median of 3, 7, 2, 9, 5.", "options": {},
+          "answer": { "value": 5, "tolerance": 0.01 },
+          "explain": "In order: 2, 3, 5, 7, 9. The middle value is 5.",
+          "check": "median", "expect": "median", "params": { "data": [3, 7, 2, 9, 5] } },
+        { "id": "GM-UD-Q2-3", "ord": 3, "qtype": "numeric", "points": 1,
+          "prompt": "Find the median of 4, 8, 6, 10.", "options": {},
+          "answer": { "value": 7, "tolerance": 0.01 },
+          "explain": "In order: 4, 6, 8, 10. Median = (6 + 8) ÷ 2 = 7.",
+          "check": "median", "expect": "median", "params": { "data": [4, 8, 6, 10] } },
+        { "id": "GM-UD-Q2-4", "ord": 4, "qtype": "numeric", "points": 1,
+          "prompt": "Find the range of 12, 4, 9, 15, 7.", "options": {},
+          "answer": { "value": 11, "tolerance": 0.01 },
+          "explain": "Range = highest − lowest = 15 − 4 = 11.",
+          "check": "quartiles", "expect": "range", "params": { "data": [12, 4, 9, 15, 7] } },
+        { "id": "GM-UD-Q2-5", "ord": 5, "qtype": "numeric", "points": 1,
+          "prompt": "Find the interquartile range (IQR) of 1, 2, 3, 4, 5, 6, 7, 8.", "options": {},
+          "answer": { "value": 4, "tolerance": 0.01 },
+          "explain": "Q1 = 2.5, Q3 = 6.5, so IQR = 6.5 − 2.5 = 4.",
+          "check": "quartiles", "expect": "iqr", "params": { "data": [1, 2, 3, 4, 5, 6, 7, 8] } },
+        { "id": "GM-UD-Q2-6", "ord": 6, "qtype": "numeric", "points": 1,
+          "prompt": "Find the lower quartile Q1 of 1, 3, 5, 7, 9, 11, 13.", "options": {},
+          "answer": { "value": 3, "tolerance": 0.01 },
+          "explain": "Median is 7. The lower half is 1, 3, 5, so Q1 = 3.",
+          "check": "quartiles", "expect": "q1", "params": { "data": [1, 3, 5, 7, 9, 11, 13] } },
+        { "id": "GM-UD-Q2-7", "ord": 7, "qtype": "numeric", "points": 1,
+          "prompt": "Find the POPULATION standard deviation of 2, 4, 6, 8, 10.", "options": {},
+          "answer": { "value": 2.83, "tolerance": 0.05 },
+          "explain": "Mean = 6; squared deviations sum to 40; 40 ÷ 5 = 8; √8 ≈ 2.83.",
+          "check": "stdev", "expect": "population", "params": { "data": [2, 4, 6, 8, 10] }, "verify_tol": 0.005 },
+        { "id": "GM-UD-Q2-8", "ord": 8, "qtype": "numeric", "points": 1,
+          "prompt": "A data set has Q1 = 10 and Q3 = 20. Find the upper outlier boundary, Q3 + 1.5×IQR.", "options": {},
+          "answer": { "value": 35, "tolerance": 0.01 },
+          "explain": "IQR = 20 − 10 = 10; Q3 + 1.5×IQR = 20 + 15 = 35.",
+          "check": "evaluate", "params": { "expr": "Q3 + 1.5*(Q3 - Q1)", "Q3": 20, "Q1": 10 } },
+        { "id": "GM-UD-Q2-9", "ord": 9, "qtype": "mc", "points": 1,
+          "prompt": "Two data sets have the same mean. Set B has a much larger standard deviation than Set A. This means Set B's data is:",
+          "options": { "choices": ["More spread out from the mean", "Closer to the mean", "All identical", "Always larger numbers"] },
+          "answer": { "correct": "0" },
+          "explain": "A larger standard deviation means the values are, on average, further from the mean — more spread out." },
+        { "id": "GM-UD-Q2-10", "ord": 10, "qtype": "short", "points": 1,
+          "prompt": "The interquartile range equals Q3 minus ______.",
+          "options": { "placeholder": "e.g. Q2" },
+          "answer": { "accept": ["q1", "the lower quartile", "lower quartile"] },
+          "explain": "IQR = Q3 − Q1 (upper quartile minus lower quartile)." }
+      ]
+    }
+  ]
+}
