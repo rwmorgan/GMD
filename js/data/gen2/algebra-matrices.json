@@ -1,0 +1,206 @@
+{
+  "topic": "algebra-matrices",
+  "_source": "Gen 2 Compendiums/ALGEBRA AND MATRICES - VOL 1 (algebra) & VOL 2 (matrices), TASC MTG215123 Module 2 Topic 1. Answer keys verified by tools/verify_answers.py.",
+  "unit": {
+    "id": "gm-algebra",
+    "number": 2,
+    "title": "Algebra & Matrices",
+    "subtitle": "Module 2 · Topic 1",
+    "weeks": "Module 2",
+    "phase": 2,
+    "description": "Evaluate and rearrange linear and non-linear expressions, and use matrices to store information and solve problems: order and types of matrices, addition, subtraction, scalar multiplication, matrix multiplication and powers. Criteria C5 (algebra & matrices) and C1.",
+    "sort": 102,
+    "program_id": "GEN2"
+  },
+  "lessons": [
+    {
+      "id": "GM-AM-L1", "unit_id": "gm-algebra", "code": "2.1", "type": "lesson",
+      "title": "Substitution & evaluating formulas", "sort": 10210,
+      "est_time": "1 lesson", "tools": "Calculator, spreadsheet", "weeks": "Module 2",
+      "criteria": ["GM-C5", "GM-C1", "GM-C4"],
+      "overview": "Finding the value of an expression when the variables are known.",
+      "body": { "sections": [
+        { "title": "Substitution", "html": "<p><strong>Substitution</strong> replaces each variable (pronumeral) with its value, then evaluates. To evaluate 3x + 5 when x = 4: 3&times;4 + 5 = <strong>17</strong>. Non-linear expressions work the same way — evaluate x² &minus; 2x when x = 5: 25 &minus; 10 = <strong>15</strong>.</p><p>Follow the order of operations: brackets, indices, then multiply/divide, then add/subtract.</p>" },
+        { "title": "Substituting into real formulas", "html": "<p>Formulas relate quantities. Examples:</p><ul><li><strong>Temperature:</strong> C = 5/9(F &minus; 32). At F = 68: 5/9&times;36 = <strong>20&deg;C</strong>.</li><li><strong>Body Mass Index:</strong> BMI = weight &divide; height². For 72 kg and 1.8 m: 72 &divide; 3.24 = <strong>22.22</strong>.</li></ul>" },
+        { "title": "Tables of values with a spreadsheet", "html": "<p>A spreadsheet formula (always starting with <code>=</code>) can evaluate the same formula for many inputs at once. Entering <code>=5/9*(A2-32)</code> and filling down builds a whole table of Celsius values from a column of Fahrenheit values — far faster than repeating the calculation by hand.</p>" }
+      ] }
+    },
+    {
+      "id": "GM-AM-L2", "unit_id": "gm-algebra", "code": "2.2", "type": "lesson",
+      "title": "Transposition: changing the subject", "sort": 10220,
+      "est_time": "1 lesson", "tools": "Calculator", "weeks": "Module 2",
+      "criteria": ["GM-C5", "GM-C1"],
+      "overview": "Rearranging a formula so a different variable is the subject.",
+      "body": { "sections": [
+        { "title": "Making a variable the subject", "html": "<p><strong>Transposition</strong> rearranges an equation so an alternative variable becomes the subject. Do the same operation to both sides, undoing operations in reverse order.</p><p>To make x the subject of y = 3x + 6: subtract 6 (y &minus; 6 = 3x), then divide by 3, giving <strong>x = (y &minus; 6) &divide; 3</strong>. Now any y gives x directly — at y = 18, x = 12 &divide; 3 = 4.</p>" },
+        { "title": "Worked example", "html": "<p>The perimeter of a rectangle is P = 2(l + w). To find the width: P &divide; 2 = l + w, so <strong>w = P&divide;2 &minus; l</strong>. If P = 30 and l = 8, then w = 15 &minus; 8 = <strong>7</strong>.</p>" }
+      ] }
+    },
+    {
+      "id": "GM-AM-L3", "unit_id": "gm-algebra", "code": "2.3", "type": "lesson",
+      "title": "Matrices: order, types & elements", "sort": 10230,
+      "est_time": "1 lesson", "tools": "Calculator", "weeks": "Module 2",
+      "criteria": ["GM-C5", "GM-C1"],
+      "overview": "What a matrix is and how to describe one.",
+      "body": { "sections": [
+        { "title": "What is a matrix?", "html": "<p>A <strong>matrix</strong> is a rectangular array of numbers in rows and columns, used to store and organise information (databases, prices, networks).</p><p>The <strong>order</strong> (or dimensions) of a matrix is <em>rows &times; columns</em> — always rows first. A matrix with 2 rows and 3 columns has order <strong>2 &times; 3</strong>.</p>" },
+        { "title": "Elements and special matrices", "html": "<p>Each number is an <strong>element</strong>, located by its (row, column) position — row first. Types you must recognise:</p><ul><li><strong>Row</strong> matrix: one row. <strong>Column</strong> matrix: one column.</li><li><strong>Square</strong> matrix: equal rows and columns.</li><li><strong>Zero</strong> matrix: every element is 0.</li><li><strong>Identity</strong> matrix: 1s on the leading diagonal, 0s elsewhere — the matrix equivalent of the number 1.</li></ul>" }
+      ] }
+    },
+    {
+      "id": "GM-AM-L4", "unit_id": "gm-algebra", "code": "2.4", "type": "lesson",
+      "title": "Adding, subtracting & scaling matrices", "sort": 10240,
+      "est_time": "1 lesson", "tools": "Calculator", "weeks": "Module 2",
+      "criteria": ["GM-C5", "GM-C1"],
+      "overview": "The straightforward matrix operations.",
+      "body": { "sections": [
+        { "title": "Addition and subtraction", "html": "<p>You can add or subtract two matrices only if they have the <strong>same order</strong>. Add (or subtract) <strong>corresponding elements</strong>:</p><p>[1 2; 3 4] + [5 6; 7 8] = [6 8; 10 12].</p>" },
+        { "title": "Scalar multiplication", "html": "<p>To multiply a matrix by a <strong>scalar</strong> (a single number), multiply <strong>every element</strong> by that scalar:</p><p>3 &times; [1 2; 0 4] = [3 6; 0 12].</p>" }
+      ] }
+    },
+    {
+      "id": "GM-AM-L5", "unit_id": "gm-algebra", "code": "2.5", "type": "lesson",
+      "title": "Matrix multiplication, powers & networks", "sort": 10250,
+      "est_time": "1 lesson", "tools": "Calculator", "weeks": "Module 2",
+      "criteria": ["GM-C5", "GM-C1"],
+      "overview": "Multiplying matrices and using them to model.",
+      "body": { "sections": [
+        { "title": "Matrix multiplication", "html": "<p>To multiply matrices, take each <strong>row</strong> of the first with each <strong>column</strong> of the second: multiply matching entries and add. For 2&times;2 matrices:</p><p>[1 2; 3 4] &times; [5 6; 7 8] = [ (1&times;5+2&times;7) (1&times;6+2&times;8); (3&times;5+4&times;7) (3&times;6+4&times;8) ] = [19 22; 43 50].</p><p>The number of columns of the first must equal the number of rows of the second.</p>" },
+        { "title": "Powers and applications", "html": "<p>A <strong>power</strong> of a square matrix means repeated multiplication: A² = A &times; A. Matrices model <strong>costing</strong> problems (quantities &times; prices) and <strong>networks</strong> — an adjacency matrix records direct links, and squaring it counts the two-step connections (e.g. how many ways two people can communicate via a third person).</p>" }
+      ] }
+    }
+  ],
+  "quizzes": [
+    {
+      "id": "GM-AM-Q1", "unit_id": "gm-algebra", "code": "Q2.1", "type": "quiz",
+      "title": "Quiz: Substitution & transposition", "sort": 10225,
+      "est_time": "15 min", "tools": "This site, calculator", "weeks": "Module 2",
+      "max_attempts": null, "pass_pct": 80,
+      "overview": "Evaluating and rearranging expressions. Unlimited attempts.",
+      "criteria": ["GM-C5", "GM-C1"],
+      "questions": [
+        { "id": "GM-AM-Q1-1", "ord": 1, "qtype": "numeric", "points": 1,
+          "prompt": "Evaluate 3x + 5 when x = 4.", "options": {},
+          "answer": { "value": 17, "tolerance": 0.01 },
+          "explain": "3×4 + 5 = 17.",
+          "check": "evaluate", "params": { "expr": "3*x + 5", "x": 4 } },
+        { "id": "GM-AM-Q1-2", "ord": 2, "qtype": "numeric", "points": 1,
+          "prompt": "Evaluate x² − 2x when x = 5.", "options": {},
+          "answer": { "value": 15, "tolerance": 0.01 },
+          "explain": "5² − 2×5 = 25 − 10 = 15.",
+          "check": "evaluate", "params": { "expr": "x**2 - 2*x", "x": 5 } },
+        { "id": "GM-AM-Q1-3", "ord": 3, "qtype": "numeric", "points": 1,
+          "prompt": "Convert 68°F to Celsius using C = 5/9(F − 32).", "options": { "unit": "°C" },
+          "answer": { "value": 20, "tolerance": 0.05 },
+          "explain": "5/9 × (68 − 32) = 5/9 × 36 = 20°C.",
+          "check": "evaluate", "params": { "expr": "5/9*(F - 32)", "F": 68 } },
+        { "id": "GM-AM-Q1-4", "ord": 4, "qtype": "numeric", "points": 1,
+          "prompt": "Find the BMI of a person weighing 72 kg and 1.8 m tall, using BMI = weight ÷ height².", "options": {},
+          "answer": { "value": 22.22, "tolerance": 0.05 },
+          "explain": "72 ÷ 1.8² = 72 ÷ 3.24 = 22.22.",
+          "check": "evaluate", "params": { "expr": "w/h**2", "w": 72, "h": 1.8 }, "verify_tol": 0.005 },
+        { "id": "GM-AM-Q1-5", "ord": 5, "qtype": "numeric", "points": 1,
+          "prompt": "Make x the subject of y = 3x + 6, then find x when y = 18.", "options": {},
+          "answer": { "value": 4, "tolerance": 0.01 },
+          "explain": "x = (y − 6)/3 = (18 − 6)/3 = 4.",
+          "check": "evaluate", "params": { "expr": "(y - 6)/3", "y": 18 } },
+        { "id": "GM-AM-Q1-6", "ord": 6, "qtype": "numeric", "points": 1,
+          "prompt": "The perimeter of a rectangle is P = 2(l + w). Find w when P = 30 and l = 8.", "options": {},
+          "answer": { "value": 7, "tolerance": 0.01 },
+          "explain": "w = P/2 − l = 15 − 8 = 7.",
+          "check": "evaluate", "params": { "expr": "P/2 - l", "P": 30, "l": 8 } },
+        { "id": "GM-AM-Q1-7", "ord": 7, "qtype": "short", "points": 1,
+          "prompt": "Rearranging a formula so a different variable is the subject is called ______.",
+          "options": { "placeholder": "one word" },
+          "answer": { "accept": ["transposition", "transposing"] },
+          "explain": "Rearranging to change the subject is transposition." }
+      ]
+    },
+    {
+      "id": "GM-AM-Q2", "unit_id": "gm-algebra", "code": "Q2.2", "type": "quiz",
+      "title": "Quiz: Matrices — order, types & basic operations", "sort": 10245,
+      "est_time": "15 min", "tools": "This site", "weeks": "Module 2",
+      "max_attempts": null, "pass_pct": 80,
+      "overview": "Describing matrices and adding, subtracting and scaling them. Unlimited attempts.",
+      "criteria": ["GM-C5", "GM-C1"],
+      "questions": [
+        { "id": "GM-AM-Q2-1", "ord": 1, "qtype": "short", "points": 1,
+          "prompt": "A matrix has 2 rows and 3 columns. State its order (write it like 2x3).",
+          "options": { "placeholder": "e.g. 2x3" },
+          "answer": { "accept": ["2x3", "2 x 3", "2×3"] },
+          "explain": "Order is rows × columns = 2 × 3." },
+        { "id": "GM-AM-Q2-2", "ord": 2, "qtype": "numeric", "points": 1,
+          "prompt": "In the matrix [4 6 1; 3 2 5], what is the element in row 2, column 1?", "options": {},
+          "answer": { "value": 3, "tolerance": 0 },
+          "explain": "Row 2 is (3 2 5); its first entry is 3." },
+        { "id": "GM-AM-Q2-3", "ord": 3, "qtype": "mc", "points": 1,
+          "prompt": "Which of these is the 2×2 identity matrix?",
+          "options": { "choices": ["[0 0; 0 0]", "[1 1; 1 1]", "[1 0; 0 1]", "[2 0; 0 2]"] },
+          "answer": { "correct": "2" },
+          "explain": "The identity matrix has 1s on the leading diagonal and 0s elsewhere: [1 0; 0 1]." },
+        { "id": "GM-AM-Q2-4", "ord": 4, "qtype": "matrix", "points": 2,
+          "prompt": "Find [1 2; 3 4] + [5 6; 7 8].",
+          "options": { "rows": 2, "cols": 2 },
+          "answer": { "cells": [[6, 8], [10, 12]], "tolerance": 0 },
+          "explain": "Add corresponding elements: [1+5 2+6; 3+7 4+8] = [6 8; 10 12].",
+          "check": "matrix_add", "params": { "A": [[1, 2], [3, 4]], "B": [[5, 6], [7, 8]] } },
+        { "id": "GM-AM-Q2-5", "ord": 5, "qtype": "matrix", "points": 2,
+          "prompt": "Find [9 5; 4 7] − [2 3; 1 6].",
+          "options": { "rows": 2, "cols": 2 },
+          "answer": { "cells": [[7, 2], [3, 1]], "tolerance": 0 },
+          "explain": "Subtract corresponding elements: [9-2 5-3; 4-1 7-6] = [7 2; 3 1].",
+          "check": "matrix_sub", "params": { "A": [[9, 5], [4, 7]], "B": [[2, 3], [1, 6]] } },
+        { "id": "GM-AM-Q2-6", "ord": 6, "qtype": "matrix", "points": 2,
+          "prompt": "Find 3 × [1 2; 0 4] (scalar multiplication).",
+          "options": { "rows": 2, "cols": 2 },
+          "answer": { "cells": [[3, 6], [0, 12]], "tolerance": 0 },
+          "explain": "Multiply every element by 3: [3 6; 0 12].",
+          "check": "matrix_scalar", "params": { "A": [[1, 2], [0, 4]], "k": 3 } }
+      ]
+    },
+    {
+      "id": "GM-AM-Q3", "unit_id": "gm-algebra", "code": "Q2.3", "type": "quiz",
+      "title": "Quiz: Matrix multiplication & powers", "sort": 10255,
+      "est_time": "20 min", "tools": "This site, calculator", "weeks": "Module 2",
+      "max_attempts": null, "pass_pct": 80,
+      "overview": "Multiplying matrices, powers and simple applications. Unlimited attempts.",
+      "criteria": ["GM-C5", "GM-C1"],
+      "questions": [
+        { "id": "GM-AM-Q3-1", "ord": 1, "qtype": "matrix", "points": 2,
+          "prompt": "Find [1 2; 3 4] × [5 6; 7 8].",
+          "options": { "rows": 2, "cols": 2 },
+          "answer": { "cells": [[19, 22], [43, 50]], "tolerance": 0 },
+          "explain": "Row × column: [1·5+2·7 1·6+2·8; 3·5+4·7 3·6+4·8] = [19 22; 43 50].",
+          "check": "matrix_mult", "params": { "A": [[1, 2], [3, 4]], "B": [[5, 6], [7, 8]] } },
+        { "id": "GM-AM-Q3-2", "ord": 2, "qtype": "matrix", "points": 2,
+          "prompt": "Find [2 0; 1 3] × [4 1; 2 5].",
+          "options": { "rows": 2, "cols": 2 },
+          "answer": { "cells": [[8, 2], [10, 16]], "tolerance": 0 },
+          "explain": "[2·4+0·2 2·1+0·5; 1·4+3·2 1·1+3·5] = [8 2; 10 16].",
+          "check": "matrix_mult", "params": { "A": [[2, 0], [1, 3]], "B": [[4, 1], [2, 5]] } },
+        { "id": "GM-AM-Q3-3", "ord": 3, "qtype": "matrix", "points": 2,
+          "prompt": "Find [1 1; 0 1]² (that is, the matrix multiplied by itself).",
+          "options": { "rows": 2, "cols": 2 },
+          "answer": { "cells": [[1, 2], [0, 1]], "tolerance": 0 },
+          "explain": "[1 1; 0 1] × [1 1; 0 1] = [1 2; 0 1].",
+          "check": "matrix_power", "params": { "A": [[1, 1], [0, 1]], "power": 2 } },
+        { "id": "GM-AM-Q3-4", "ord": 4, "qtype": "matrix", "points": 1,
+          "prompt": "A cafe sells 3 coffees at $5 and 2 muffins at $4. Using the row matrix [3 2] and price column [5; 4], find the total takings as a 1×1 matrix.",
+          "options": { "rows": 1, "cols": 1 },
+          "answer": { "cells": [[23]], "tolerance": 0 },
+          "explain": "[3 2] × [5; 4] = [3·5 + 2·4] = [23], i.e. $23.",
+          "check": "matrix_mult", "params": { "A": [[3, 2]], "B": [[5], [4]] } },
+        { "id": "GM-AM-Q3-5", "ord": 5, "qtype": "mc", "points": 1,
+          "prompt": "You can multiply matrix A (order 2×3) by matrix B only if B has:",
+          "options": { "choices": ["3 rows", "2 rows", "3 columns", "2 columns"] },
+          "answer": { "correct": "0" },
+          "explain": "The columns of A (3) must equal the rows of B, so B must have 3 rows." },
+        { "id": "GM-AM-Q3-6", "ord": 6, "qtype": "short", "points": 1,
+          "prompt": "Squaring a network's adjacency matrix counts the connections that use how many steps? (Type the number as a word or digit.)",
+          "options": { "placeholder": "e.g. two" },
+          "answer": { "accept": ["two", "2", "2-step", "two-step"] },
+          "explain": "A² counts two-step (via one intermediate) connections in a network." }
+      ]
+    }
+  ]
+}
