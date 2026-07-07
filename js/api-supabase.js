@@ -298,6 +298,22 @@ export class SupabaseAdapter {
   async importCurriculum(onProgress = () => {}) {
     const c = this.client;
     const data = flattenSeed(seed);
+
+    // Merge any authored Gen2 (General Maths) content. Its course + criteria
+    // are seeded by the migration; here we add units/tasks/questions/answers.
+    try {
+      const { loadGen2Banks, flattenGen2 } = await import('./data/gen2/index.js');
+      const g = flattenGen2(await loadGen2Banks());
+      data.units.push(...g.units);
+      data.tasks.push(...g.tasks);
+      data.task_criteria.push(...g.task_criteria);
+      data.task_elements.push(...g.task_elements);
+      data.questions.push(...g.questions);
+      data.answers.push(...g.answers);
+    } catch (e) {
+      console.warn('Gen2 content not merged:', e);
+    }
+
     const steps = [
       ['courses', data.courses],
       ['criteria', data.criteria],

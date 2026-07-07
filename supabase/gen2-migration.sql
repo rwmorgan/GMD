@@ -46,6 +46,12 @@ alter table public.marks drop constraint if exists marks_rating_check;
 alter table public.marks add  constraint marks_rating_check
   check (rating in ('A','B','C','t','z'));
 
+-- Add a content-only 'lesson' task type (teaching pages + worked examples,
+-- no submission box, no quiz). submission/quiz behave as before.
+alter table public.tasks drop constraint if exists tasks_type_check;
+alter table public.tasks add  constraint tasks_type_check
+  check (type in ('submission','quiz','lesson'));
+
 -- ------------------------------------------------------------
 -- 3. CLASSES / TEACHERS / ENROLMENTS
 -- ------------------------------------------------------------

@@ -61,16 +61,17 @@ export async function unitView({ n }) {
     .map(c => badge(criterionLabel(cur, c), courseBadgeClass(c))).join(' ');
 
   const rows = tasks.map(t => {
-    const st = state ? taskStatus(t, state) : null;
     const isQuiz = t.type === 'quiz';
+    const isLesson = t.type === 'lesson';
+    const st = state && !isLesson ? taskStatus(t, state) : null;
     let scoreNote = '';
     if (state && isQuiz) {
       const best = bestAttempt(t.id, state);
       if (best) scoreNote = `<span class="score-note">Best: ${Math.round((best.score / best.max_score) * 100)}%</span>`;
     }
     return `
-    <a class="task-row ${isQuiz ? 'task-row--quiz' : ''}" href="#/task/${encodeURIComponent(t.id)}">
-      <div class="task-row-num">${isQuiz ? '⚡' : esc(t.code)}</div>
+    <a class="task-row ${isQuiz ? 'task-row--quiz' : ''} ${isLesson ? 'task-row--lesson' : ''}" href="#/task/${encodeURIComponent(t.id)}">
+      <div class="task-row-num">${isQuiz ? '⚡' : isLesson ? '📖' : esc(t.code)}</div>
       <div class="task-row-main">
         <h3>${esc(t.title)} ${t.published === false ? '<span class="chip chip-idle">Hidden</span>' : ''}</h3>
         <div class="task-row-badges">
@@ -80,6 +81,7 @@ export async function unitView({ n }) {
       </div>
       <div class="task-row-side">
         ${isQuiz ? '<span class="chip chip-quiz">Auto-marked quiz</span>' : ''}
+        ${isLesson ? '<span class="chip chip-idle">Lesson</span>' : ''}
         ${st ? statusChip(st) : ''}
         ${scoreNote}
       </div>

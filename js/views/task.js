@@ -176,8 +176,9 @@ export async function taskView({ id }) {
   const state = user ? await getMyState() : null;
   const status = state ? taskStatus(task, state) : null;
   const isQuiz = task.type === 'quiz';
+  const isLesson = task.type === 'lesson';
 
-  if (isStudent && status === 'not_started') {
+  if (isStudent && status === 'not_started' && !isLesson) {
     api.startTask(task.id).then(() => invalidate({ state: true })).catch(() => {});
   }
 
@@ -207,7 +208,10 @@ export async function taskView({ id }) {
 
   /* --- interactive area --- */
   let actionArea = '';
-  if (isQuiz) {
+  if (isLesson) {
+    // Content-only page: lesson body + worked examples render above; no action area.
+    actionArea = '';
+  } else if (isQuiz) {
     const attempts = state ? state.attempts.filter(a => a.task_id === task.id) : [];
     const best = state ? bestAttempt(task.id, state) : null;
     const attemptsLeft = task.max_attempts == null ? null : Math.max(0, task.max_attempts - attempts.length);

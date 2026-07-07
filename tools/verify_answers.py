@@ -69,8 +69,18 @@ def simple_interest(p):
 
 
 def compound_interest(p):
-    # TASC form: A = P(1 + r)^n, r = periodic rate (decimal), n = number of periods.
-    P, r, n = _n(p, "P", "r", "n")
+    # TASC form: A = P(1 + i)^n, i = rate PER PERIOD, n = number of periods.
+    # Accept either the periodic form {P, r, n} or the annual form
+    # {P, annual_rate, years, compounds_per_year} — the recipe does the
+    # per-period conversion itself so verification stays independent.
+    P = float(p["P"])
+    if "r" in p and "n" in p:
+        r, n = float(p["r"]), float(p["n"])
+    else:
+        annual = float(p["annual_rate"])
+        years = float(p["years"])
+        m = float(p.get("compounds_per_year", 1))
+        r, n = annual / m, years * m
     A = P * (1 + r) ** n
     return {"amount": A, "interest": A - P}
 
@@ -279,7 +289,7 @@ def evaluate(p):
     env = {k: float(v) for k, v in p.items() if k != "expr"}
     allowed = {"sqrt": math.sqrt, "pi": math.pi, "abs": abs,
                "sin": math.sin, "cos": math.cos, "tan": math.tan}
-    return {"value": eval(expr, {"__builtins__": {}}, {**env, **allowed})}
+    return float(eval(expr, {"__builtins__": {}}, {**env, **allowed}))
 
 
 def _mat(p, key):
