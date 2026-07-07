@@ -1,0 +1,143 @@
+{
+  "topic": "trigonometry",
+  "_source": "Gen 2 Compendiums/MEASUREMENT.pdf (Set 3 Trigonometry), TASC MTG215123 Module 3 Topic 3. Angles in degrees. Answer keys verified by tools/verify_answers.py.",
+  "unit": {
+    "id": "gm-trig",
+    "number": 6,
+    "title": "Trigonometry",
+    "subtitle": "Module 3 · Topic 3",
+    "weeks": "Module 3",
+    "phase": 2,
+    "description": "Right-angled trigonometry: Pythagoras' theorem, the trigonometric ratios to find sides and angles, the area rule ½ab·sinC, and applications involving angles of elevation and depression and bearings. Criteria C8 and C1.",
+    "sort": 106,
+    "program_id": "GEN2"
+  },
+  "lessons": [
+    {
+      "id": "GM-TR-L1", "unit_id": "gm-trig", "code": "6.1", "type": "lesson",
+      "title": "Pythagoras' theorem", "sort": 10610,
+      "est_time": "1 lesson", "tools": "Calculator", "weeks": "Module 3",
+      "criteria": ["GM-C8", "GM-C1"],
+      "overview": "Relating the three sides of a right-angled triangle.",
+      "body": { "sections": [
+        { "title": "The theorem", "html": "<p><strong>Pythagoras' theorem:</strong> in a right-angled triangle, the square of the <strong>hypotenuse</strong> (the longest side, opposite the right angle) equals the sum of the squares of the other two sides:</p><p style=\"text-align:center\"><strong>c² = a² + b²</strong></p>" },
+        { "title": "Finding a side", "html": "<p>To find the hypotenuse, add the squares and take the square root: legs 6 and 8 give c = &radic;(36 + 64) = &radic;100 = <strong>10</strong>. To find a shorter side, subtract: with hypotenuse 13 and one leg 5, the other leg is &radic;(169 &minus; 25) = &radic;144 = <strong>12</strong>.</p>" }
+      ] }
+    },
+    {
+      "id": "GM-TR-L2", "unit_id": "gm-trig", "code": "6.2", "type": "lesson",
+      "title": "The trigonometric ratios", "sort": 10620,
+      "est_time": "1 lesson", "tools": "Calculator (degrees mode)", "weeks": "Module 3",
+      "criteria": ["GM-C8", "GM-C1"],
+      "overview": "Using sine, cosine and tangent to find sides and angles.",
+      "body": { "sections": [
+        { "title": "SOH CAH TOA", "html": "<p>Label the sides relative to a known angle: the <strong>hypotenuse</strong> (opposite the right angle), the <strong>opposite</strong> (across from the angle) and the <strong>adjacent</strong> (beside the angle). The three ratios are:</p><ul><li><strong>sin</strong>&theta; = opposite &divide; hypotenuse (SOH)</li><li><strong>cos</strong>&theta; = adjacent &divide; hypotenuse (CAH)</li><li><strong>tan</strong>&theta; = opposite &divide; adjacent (TOA)</li></ul>" },
+        { "title": "Finding a side and finding an angle", "html": "<p><strong>Side:</strong> with a 30&deg; angle and hypotenuse 10, the opposite side is 10&times;sin30&deg; = <strong>5</strong>.</p><p><strong>Angle:</strong> if the opposite is 5 and the hypotenuse is 10, then sin&theta; = 0.5, so &theta; = sin⁻¹(0.5) = <strong>30&deg;</strong>. Make sure your calculator is in <strong>degrees</strong> mode.</p>" }
+      ] }
+    },
+    {
+      "id": "GM-TR-L3", "unit_id": "gm-trig", "code": "6.3", "type": "lesson",
+      "title": "Applications: elevation, depression, bearings & area", "sort": 10630,
+      "est_time": "1 lesson", "tools": "Calculator (degrees mode)", "weeks": "Module 3",
+      "criteria": ["GM-C8", "GM-C1"],
+      "overview": "Using trigonometry to solve practical problems.",
+      "body": { "sections": [
+        { "title": "Elevation and depression", "html": "<p>An <strong>angle of elevation</strong> is measured upward from the horizontal to an object above; an <strong>angle of depression</strong> is measured downward from the horizontal to an object below. Both create right-angled triangles you can solve with the trig ratios.</p>" },
+        { "title": "Bearings", "html": "<p>A <strong>true bearing</strong> is measured clockwise from north, written with three digits (e.g. 075&deg;, 240&deg;). Bearings turn navigation problems into right-angled (or general) triangles.</p>" },
+        { "title": "Area of a triangle (two sides and the included angle)", "html": "<p>When you know two sides and the angle <em>between</em> them, the area is:</p><p style=\"text-align:center\"><strong>Area = ½ &times; a &times; b &times; sin C</strong></p><p>For a = 6, b = 8 and C = 30&deg;: ½&times;6&times;8&times;sin30&deg; = 24&times;0.5 = <strong>12</strong>.</p>" }
+      ] }
+    }
+  ],
+  "quizzes": [
+    {
+      "id": "GM-TR-Q1", "unit_id": "gm-trig", "code": "Q6.1", "type": "quiz",
+      "title": "Quiz: Pythagoras & finding sides", "sort": 10615,
+      "est_time": "15 min", "tools": "This site, calculator", "weeks": "Module 3",
+      "max_attempts": null, "pass_pct": 80,
+      "overview": "Pythagoras' theorem and finding sides with the trig ratios. Calculator in degrees mode. Unlimited attempts.",
+      "criteria": ["GM-C8", "GM-C1"],
+      "questions": [
+        { "id": "GM-TR-Q1-1", "ord": 1, "qtype": "numeric", "points": 1,
+          "prompt": "A right-angled triangle has legs 6 and 8. Find the hypotenuse.", "options": {},
+          "answer": { "value": 10, "tolerance": 0.01 },
+          "explain": "c = √(6² + 8²) = √100 = 10.",
+          "check": "pythagoras", "expect": "hyp", "params": { "a": 6, "b": 8 } },
+        { "id": "GM-TR-Q1-2", "ord": 2, "qtype": "numeric", "points": 1,
+          "prompt": "A right-angled triangle has hypotenuse 13 and one leg 5. Find the other leg.", "options": {},
+          "answer": { "value": 12, "tolerance": 0.01 },
+          "explain": "leg = √(13² − 5²) = √144 = 12.",
+          "check": "pythagoras_leg", "expect": "leg", "params": { "hyp": 13, "leg": 5 } },
+        { "id": "GM-TR-Q1-3", "ord": 3, "qtype": "numeric", "points": 1,
+          "prompt": "In a right-angled triangle the angle is 30° and the hypotenuse is 10. Find the side OPPOSITE the angle.", "options": {},
+          "answer": { "value": 5, "tolerance": 0.05 },
+          "explain": "opposite = hyp × sin30° = 10 × 0.5 = 5.",
+          "check": "trig_side", "expect": "opp", "params": { "angle": 30, "hyp": 10 }, "verify_tol": 0.001 },
+        { "id": "GM-TR-Q1-4", "ord": 4, "qtype": "numeric", "points": 1,
+          "prompt": "In a right-angled triangle the angle is 60° and the hypotenuse is 20. Find the side ADJACENT to the angle.", "options": {},
+          "answer": { "value": 10, "tolerance": 0.05 },
+          "explain": "adjacent = hyp × cos60° = 20 × 0.5 = 10.",
+          "check": "trig_side", "expect": "adj", "params": { "angle": 60, "hyp": 20 }, "verify_tol": 0.001 },
+        { "id": "GM-TR-Q1-5", "ord": 5, "qtype": "numeric", "points": 1,
+          "prompt": "In a right-angled triangle the angle is 45° and the ADJACENT side is 10. Find the OPPOSITE side.", "options": {},
+          "answer": { "value": 10, "tolerance": 0.05 },
+          "explain": "opposite = adjacent × tan45° = 10 × 1 = 10.",
+          "check": "trig_side", "expect": "opp", "params": { "angle": 45, "adj": 10 }, "verify_tol": 0.001 },
+        { "id": "GM-TR-Q1-6", "ord": 6, "qtype": "short", "points": 1,
+          "prompt": "Which trig ratio equals opposite ÷ hypotenuse? (Type: sin, cos, or tan)",
+          "options": { "placeholder": "sin, cos or tan" },
+          "answer": { "accept": ["sin", "sine"] },
+          "explain": "SOH: sine = opposite ÷ hypotenuse." },
+        { "id": "GM-TR-Q1-7", "ord": 7, "qtype": "mc", "points": 1,
+          "prompt": "In a right-angled triangle, the hypotenuse is:",
+          "options": { "choices": ["The shortest side", "The side opposite the right angle", "Always the vertical side", "The side adjacent to the right angle"] },
+          "answer": { "correct": "1" },
+          "explain": "The hypotenuse is the longest side, opposite the right angle." }
+      ]
+    },
+    {
+      "id": "GM-TR-Q2", "unit_id": "gm-trig", "code": "Q6.2", "type": "quiz",
+      "title": "Quiz: Finding angles & applications", "sort": 10625,
+      "est_time": "15 min", "tools": "This site, calculator", "weeks": "Module 3",
+      "max_attempts": null, "pass_pct": 80,
+      "overview": "Finding angles, the area rule and applications. Calculator in degrees mode. Unlimited attempts.",
+      "criteria": ["GM-C8", "GM-C1"],
+      "questions": [
+        { "id": "GM-TR-Q2-1", "ord": 1, "qtype": "numeric", "points": 1,
+          "prompt": "In a right-angled triangle the opposite side is 5 and the hypotenuse is 10. Find the angle (degrees).", "options": { "unit": "°" },
+          "answer": { "value": 30, "tolerance": 0.1 },
+          "explain": "sinθ = 5/10 = 0.5, so θ = sin⁻¹(0.5) = 30°.",
+          "check": "trig_angle", "expect": "angle", "params": { "ratio": "sin", "num": 5, "den": 10 }, "verify_tol": 0.01 },
+        { "id": "GM-TR-Q2-2", "ord": 2, "qtype": "numeric", "points": 1,
+          "prompt": "In a right-angled triangle the opposite and adjacent sides are both 3. Find the angle (degrees).", "options": { "unit": "°" },
+          "answer": { "value": 45, "tolerance": 0.1 },
+          "explain": "tanθ = 3/3 = 1, so θ = tan⁻¹(1) = 45°.",
+          "check": "trig_angle", "expect": "angle", "params": { "ratio": "tan", "num": 3, "den": 3 }, "verify_tol": 0.01 },
+        { "id": "GM-TR-Q2-3", "ord": 3, "qtype": "numeric", "points": 1,
+          "prompt": "In a right-angled triangle the adjacent side is 8 and the hypotenuse is 16. Find the angle (degrees).", "options": { "unit": "°" },
+          "answer": { "value": 60, "tolerance": 0.1 },
+          "explain": "cosθ = 8/16 = 0.5, so θ = cos⁻¹(0.5) = 60°.",
+          "check": "trig_angle", "expect": "angle", "params": { "ratio": "cos", "num": 8, "den": 16 }, "verify_tol": 0.01 },
+        { "id": "GM-TR-Q2-4", "ord": 4, "qtype": "numeric", "points": 1,
+          "prompt": "Find the area of a triangle with sides a = 6 and b = 8 and included angle C = 30°.", "options": { "unit": "units²" },
+          "answer": { "value": 12, "tolerance": 0.05 },
+          "explain": "Area = ½ab·sinC = ½ × 6 × 8 × sin30° = 24 × 0.5 = 12.",
+          "check": "triangle_area_sas", "expect": "area", "params": { "a": 6, "b": 8, "C": 30 }, "verify_tol": 0.001 },
+        { "id": "GM-TR-Q2-5", "ord": 5, "qtype": "numeric", "points": 1,
+          "prompt": "A person 50 m from the base of a tower sees the top at an angle of elevation of 40°. Find the tower's height (metres, 2 d.p.).", "options": { "unit": "m" },
+          "answer": { "value": 41.95, "tolerance": 0.2 },
+          "explain": "height = 50 × tan40° ≈ 41.95 m (opposite = adjacent × tanθ).",
+          "check": "trig_side", "expect": "opp", "params": { "angle": 40, "adj": 50 }, "verify_tol": 0.01 },
+        { "id": "GM-TR-Q2-6", "ord": 6, "qtype": "mc", "points": 1,
+          "prompt": "The angle of depression from the top of a cliff down to a boat is measured:",
+          "options": { "choices": ["Upward from the horizontal", "Downward from the horizontal", "From the vertical", "Clockwise from north"] },
+          "answer": { "correct": "1" },
+          "explain": "An angle of depression is measured downward from the horizontal to an object below." },
+        { "id": "GM-TR-Q2-7", "ord": 7, "qtype": "mc", "points": 1,
+          "prompt": "A true bearing is measured:",
+          "options": { "choices": ["Anticlockwise from east", "Clockwise from north", "From the nearest axis", "Clockwise from south"] },
+          "answer": { "correct": "1" },
+          "explain": "True bearings are measured clockwise from north, written with three digits." }
+      ]
+    }
+  ]
+}

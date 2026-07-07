@@ -245,24 +245,19 @@ def pythagoras_leg(p):
 
 
 def trig_side(p):
-    # solve for an unknown side given an angle (deg) and one known side.
-    ang = math.radians(float(p["angle"]))
-    ratio = p["ratio"]         # 'sin' | 'cos' | 'tan'
-    known = float(p["known"])
-    find = p["find"]           # 'opp' | 'adj' | 'hyp'
-    if ratio == "sin":         # sin = opp/hyp
-        val = {"opp": known * math.sin(ang) if p["known_side"] == "hyp" else known / math.sin(ang),
-               "hyp": known / math.sin(ang) if p["known_side"] == "opp" else None}
-        return {"value": val[find]}
-    if ratio == "cos":         # cos = adj/hyp
-        if p["known_side"] == "hyp":
-            return {"value": known * math.cos(ang)}
-        return {"value": known / math.cos(ang)}
-    if ratio == "tan":         # tan = opp/adj
-        if p["known_side"] == "adj":
-            return {"value": known * math.tan(ang)}
-        return {"value": known / math.tan(ang)}
-    raise ValueError("bad ratio")
+    # Given the angle (deg) and exactly ONE known side (opp / adj / hyp),
+    # return all three sides via SOH-CAH-TOA. The question's `expect`
+    # selects which side it is asking for.
+    th = math.radians(float(p["angle"]))
+    if "hyp" in p:
+        hyp = float(p["hyp"]); opp = hyp * math.sin(th); adj = hyp * math.cos(th)
+    elif "opp" in p:
+        opp = float(p["opp"]); hyp = opp / math.sin(th); adj = opp / math.tan(th)
+    elif "adj" in p:
+        adj = float(p["adj"]); hyp = adj / math.cos(th); opp = adj * math.tan(th)
+    else:
+        raise ValueError("trig_side needs one of opp/adj/hyp")
+    return {"opp": opp, "adj": adj, "hyp": hyp}
 
 
 def trig_angle(p):
