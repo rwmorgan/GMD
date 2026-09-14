@@ -342,9 +342,14 @@ export class SupabaseAdapter {
     const c = this.client;
     const data = flattenSeed(seed);
 
-    // Merge any authored Gen2 (General Maths) content. Its course + criteria
-    // are seeded by the migration; here we add units/tasks/questions/answers.
+    // Merge any authored Gen2 (General Maths) content — but only if this
+    // database has actually had supabase/gen2-migration.sql applied. Without
+    // this probe, Gen2's units (which carry a program_id column) would fail
+    // the upsert below on any GMD-only database with a schema-cache error,
+    // blocking the whole import including plain GMD content.
     try {
+      const probe = await c.from('programs').select('id').limit(1);
+      if (probe.error) throw probe.error;
       const { loadGen2Banks, flattenGen2 } = await import('./data/gen2/index.js');
       const g = flattenGen2(await loadGen2Banks());
       data.units.push(...g.units);
@@ -354,7 +359,7 @@ export class SupabaseAdapter {
       data.questions.push(...g.questions);
       data.answers.push(...g.answers);
     } catch (e) {
-      console.warn('Gen2 content not merged:', e);
+      console.warn('Gen2 content not merged (migration not applied on this database yet):', e?.message || e);
     }
 
     const steps = [
