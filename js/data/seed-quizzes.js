@@ -1,9 +1,11 @@
 /* ============================================================
-   Quiz seed: 12 auto-marked quizzes distributed across the 5
+   Quiz seed: 14 auto-marked quizzes distributed across the 5
    units of the Canvas-synced curriculum (2026-07-05). Quizzes
    are site-only enrichment — they have no Canvas counterpart —
    and were re-homed from the pre-sync curriculum with
-   references updated to the current tasks.
+   references updated to the current tasks. QZ2.3 and QZ5.5
+   (added 2026-07-07) close the four element gaps the coverage
+   matrix flagged: ESC-C3-c, PRJ-C1-d, PRJ-C2-e, PRJ-C3-b.
 
    Question types and answer formats:
      mc      options.choices[]        answer.correct = index
@@ -200,6 +202,47 @@ export const quizzes = [
         options: { placeholder: 'one word' },
         answer: { accept: ['spritesheet', 'sprite sheet', 'tileset', 'tile set'] },
         explain: 'A spritesheet (or tileset) lets an engine slice one image into many tiles — you\'ll meet these inside Unreal and Unity.' },
+    ],
+  },
+
+  {
+    id: 'QZ2.3', unit_id: 'u2', code: 'Q2.3', title: 'Quiz: Following the Spec & Reviewing Your Work',
+    type: 'quiz', sort: 26, est_time: '10 min', tools: 'This site', weeks: 'T1 Weeks 9–10',
+    max_attempts: null, pass_pct: 80,
+    overview: 'Three review tasks in, you\'ve read a lot of specs. This quiz checks the habit that separates strong submissions from resubmissions: following the instructions exactly, then honestly reviewing your own work before you hand it in.',
+    criteria: ['ESC-C3'],
+    elements: ['ESC-C3-a', 'ESC-C3-b', 'ESC-C3-c'],
+    questions: [
+      { id: 'QZ2.3-1', ord: 1, qtype: 'mc', points: 1,
+        prompt: 'A task spec says: "poster, A3, made in Illustrator or Photoshop". You realise you\'ve made an A4 poster in Publisher. What is the correct next step?',
+        options: { choices: ['Submit it anyway and hope', 'Re-read the spec and fix the size and software before the deadline', 'Ask a friend to submit theirs twice', 'Argue that A4 is basically A3'] },
+        answer: { correct: 1 },
+        explain: 'Following given instructions and specifications is exactly what ESC Criterion 3 assesses. Specs aren\'t suggestions.' },
+      { id: 'QZ2.3-2', ord: 2, qtype: 'mc', points: 1,
+        prompt: 'When should you read a task\'s checklist?',
+        options: { choices: ['Never — checklists are for teachers', 'Only if you finish early', 'Before you start AND again before you submit', 'After marks come back'] },
+        answer: { correct: 2 },
+        explain: 'Read it first so you build the right thing; read it last so you catch what\'s missing while you can still fix it.' },
+      { id: 'QZ2.3-3', ord: 3, qtype: 'order', points: 2,
+        prompt: 'Put the professional task workflow in order.',
+        options: { items: ['Read the instructions and checklist', 'Do the work', 'Check your work against the checklist', 'Fix anything that\'s missing', 'Submit'] },
+        answer: { correct: seq(5) },
+        explain: 'The check-and-fix pass before submitting is the cheapest marks you\'ll ever earn.' },
+      { id: 'QZ2.3-4', ord: 4, qtype: 'multi', points: 2,
+        prompt: 'Which of these belong in an honest self-review of a finished task? Select all that apply.',
+        options: { choices: ['What went well', 'What you\'d do differently next time', 'Whether every checklist item is actually done', 'Whose fault everything was', 'Nothing — done is done'] },
+        answer: { correct: [0, 1, 2] },
+        explain: 'Reviewing your own performance — and saying how you\'d improve — is the third element of ESC Criterion 3.' },
+      { id: 'QZ2.3-5', ord: 5, qtype: 'mc', points: 1,
+        prompt: 'Your self-review before submitting the browser-game reviews shows you forgot the rating /10 on two games. You should:',
+        options: { choices: ['Add the missing ratings, then submit', 'Submit — close enough', 'Delete those two reviews', 'Change the task to suit what you did'] },
+        answer: { correct: 0 },
+        explain: 'That\'s the whole point of the final check: catch the gap while it still costs you nothing.' },
+      { id: 'QZ2.3-6', ord: 6, qtype: 'mc', points: 1,
+        prompt: 'Your review of your own performance says: "I ran out of time because I spent three lessons on the artwork." The most useful improvement to plan for next time is:',
+        options: { choices: ['Skip artwork in every future task', 'Set a time budget per part of the task and check it each lesson', 'Ask for extensions earlier', 'Work faster'] },
+        answer: { correct: 1 },
+        explain: 'A useful review names a specific, doable change — not a vibe. "Work faster" isn\'t a plan; a time budget is.' },
     ],
   },
 
@@ -453,8 +496,54 @@ export const quizzes = [
   },
 
   {
+    id: 'QZ5.5', unit_id: 'u5', code: 'Q5.5', title: 'Quiz: Lab Safety, Roles & Feedback',
+    type: 'quiz', sort: 55, est_time: '10–15 min', tools: 'This site', weeks: 'T3 Weeks 3–4',
+    max_attempts: null, pass_pct: 80,
+    overview: 'Before the build ramps up: how to work safely with the lab\'s equipment, who does what in your project, and what to actually do with feedback when it arrives.',
+    criteria: ['PRJ-C1', 'PRJ-C2', 'PRJ-C3'],
+    elements: ['PRJ-C1-d', 'PRJ-C2-e', 'PRJ-C3-a', 'PRJ-C3-b'],
+    questions: [
+      { id: 'QZ5.5-1', ord: 1, qtype: 'match', points: 2,
+        prompt: 'Match each lab situation to the established safety procedure.',
+        options: { left: ['Cables trailing across a walkway', 'A drink arrives at a workstation', 'Equipment you\'ve never used before', 'A powerboard already full of plugs'], right: ['Report it and route the cables safely', 'Keep liquids away from the equipment', 'Get the teacher\'s directions/induction before using it', 'Don\'t add more devices — report it'] },
+        answer: { correct: [0, 1, 2, 3] },
+        explain: 'PRJ Criterion 1 includes following established safety procedures for equipment and facilities, as directed.' },
+      { id: 'QZ5.5-2', ord: 2, qtype: 'multi', points: 2,
+        prompt: 'Which of these are established safety procedures in the lab? Select all that apply.',
+        options: { choices: ['Food and drink stay away from the computers', 'Cables and equipment are kept secured and tidy', 'Follow the teacher\'s directions for specialised equipment', 'Prop the fire door open with a chair for airflow', 'Daisy-chain powerboards when you run out of sockets'] },
+        answer: { correct: [0, 1, 2] },
+        explain: 'The last two are hazards, not procedures. If you\'re unsure whether something is safe, that\'s a question for Rob, not an experiment.' },
+      { id: 'QZ5.5-3', ord: 3, qtype: 'match', points: 2,
+        prompt: 'Match each person to their role in YOUR major project.',
+        options: { left: ['You', 'Rob (teacher)', 'Your nominated tester', 'A teammate (if working in a pair)'], right: ['Plans, builds and documents the game', 'Approves scope, gives direction, marks the work', 'Plays builds and reports issues before the presentation', 'Shares the agreed responsibilities from the plan'] },
+        answer: { correct: [0, 1, 2, 3] },
+        explain: 'Correctly identifying your own role and others\' roles and responsibilities is PRJ Criterion 3.' },
+      { id: 'QZ5.5-4', ord: 4, qtype: 'mc', points: 1,
+        prompt: 'Your tester says Level 2 is way too hard. Your best response is:',
+        options: { choices: ['Record it in your journal, decide what to change, and note what you did', 'Explain at length why they\'re wrong', 'Rebuild the whole level immediately without thinking it through', 'Quietly drop them as your tester'] },
+        answer: { correct: 0 },
+        explain: 'Incorporating AND documenting feedback is a PRJ Criterion 2 element — the paper trail matters as much as the change.' },
+      { id: 'QZ5.5-5', ord: 5, qtype: 'short', points: 1,
+        prompt: 'Which document is where you record feedback you received and what you did about it? (One or two words.)',
+        options: { placeholder: 'e.g. project plan' },
+        answer: { accept: ['journal', 'development journal', 'the journal', 'dev journal', 'my journal'] },
+        explain: 'Your development journal is the evidence trail: feedback in, decision made, outcome noted.' },
+      { id: 'QZ5.5-6', ord: 6, qtype: 'order', points: 2,
+        prompt: 'Put the feedback loop in order.',
+        options: { items: ['Receive the feedback', 'Record it in your journal', 'Decide what (if anything) to change', 'Make the change', 'Note the outcome in your journal'] },
+        answer: { correct: seq(5) },
+        explain: 'Notice the journal appears twice — feedback you acted on but never documented earns you nothing at marking time.' },
+      { id: 'QZ5.5-7', ord: 7, qtype: 'mc', points: 1,
+        prompt: 'You disagree with a piece of feedback after thinking it through. What\'s the professional move?',
+        options: { choices: ['Ignore it and delete it from your journal', 'Record it, note WHY you chose not to act on it, and move on', 'Change your game anyway against your own judgement', 'Stop collecting feedback'] },
+        answer: { correct: 1 },
+        explain: 'You don\'t have to act on every piece of feedback — but you do have to document it and justify the decision.' },
+    ],
+  },
+
+  {
     id: 'QZ5.3', unit_id: 'u5', code: 'Q5.3', title: 'Quiz: Playtesting & Quality',
-    type: 'quiz', sort: 56, est_time: '10 min', tools: 'This site', weeks: 'T3–T4 build weeks',
+    type: 'quiz', sort: 57, est_time: '10 min', tools: 'This site', weeks: 'T3–T4 build weeks',
     max_attempts: null, pass_pct: 80,
     overview: 'Bug severity, test workflow and quality thinking — sharpen these during the build, before your tester gets hands on the game.',
     criteria: ['PRJ-C4', 'PRJ-C5'],
@@ -495,7 +584,7 @@ export const quizzes = [
 
   {
     id: 'QZ5.4', unit_id: 'u5', code: 'Q5.4', title: 'Quiz: Presentation Craft',
-    type: 'quiz', sort: 57, est_time: '10 min', tools: 'This site', weeks: 'T4 Weeks 1–3',
+    type: 'quiz', sort: 58, est_time: '10 min', tools: 'This site', weeks: 'T4 Weeks 1–3',
     max_attempts: null, pass_pct: 80,
     overview: 'Communicating your project to an audience — warm-up for the final presentation and write-up.',
     criteria: ['PRJ-C2', 'ICT-C3'],

@@ -586,7 +586,7 @@ export const tasks = [
 
   {
     id: 'A5.3', unit_id: 'u5', code: '5.3', title: 'Major Project — Build, Journal & Write-Up',
-    type: 'submission', sort: 55, est_time: 'Terms 3–4', tools: 'Your engine, Word, OneDrive', weeks: 'T3–T4 · due Fri 30 Oct',
+    type: 'submission', sort: 56, est_time: 'Terms 3–4', tools: 'Your engine, Word, OneDrive', weeks: 'T3–T4 · due Fri 30 Oct',
     overview: "The culmination of months of work — and your journal, project and documentation should reflect this. Three parts: the game itself, the lesson-by-lesson development journal, and a final write-up of what you built and learned.",
     criteria: ['PRJ-C1', 'PRJ-C3', 'PRJ-C4', 'PRJ-C5'],
     elements: ['PRJ-C1-b', 'PRJ-C1-c', 'PRJ-C1-e', 'PRJ-C3-a', 'PRJ-C3-c', 'PRJ-C3-d', 'PRJ-C4-a', 'PRJ-C4-b', 'PRJ-C4-d', 'PRJ-C5-a', 'PRJ-C5-d', 'PRJ-C5-e'],
@@ -634,7 +634,7 @@ export const tasks = [
 
   {
     id: 'A5.4', unit_id: 'u5', code: '5.4', title: 'Presentation',
-    type: 'submission', sort: 58, est_time: '3–6 minutes + prep', tools: 'Your game, the classroom TV', weeks: 'T4 Week 3 · due Fri 30 Oct',
+    type: 'submission', sort: 59, est_time: '3–6 minutes + prep', tools: 'Your game, the classroom TV', weeks: 'T4 Week 3 · due Fri 30 Oct',
     overview: "Present your finished project to the class: what it was, what went wrong, how you fixed it, and whether you hit the goals in your plan — then prove it by playing the game on the TV.",
     criteria: ['PRJ-C3', 'PRJ-C4', 'PRJ-C5'],
     elements: ['PRJ-C3-d', 'PRJ-C3-e', 'PRJ-C4-b', 'PRJ-C4-d', 'PRJ-C5-b', 'PRJ-C5-e'],
