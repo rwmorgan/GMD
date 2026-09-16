@@ -278,6 +278,15 @@ export class SupabaseAdapter {
     return data.signedUrl;
   }
 
+  /* AI-drafted mark for a submission. Never writes marks/feedback —
+     returns {ok, ratings, feedback} for the teacher to review and
+     save via the normal saveMarks() path, or {ok:false, message}. */
+  async aiDraftMark(studentId, taskId) {
+    const { data, error } = await this.client.functions.invoke('ai-mark', { body: { studentId, taskId } });
+    if (error) fail(error, 'AI drafting is unavailable right now.');
+    return data;
+  }
+
   async getTaskAnswers(taskId) {
     const { data: qs, error: qErr } = await this.client.from('questions').select('id').eq('task_id', taskId);
     if (qErr) fail(qErr);

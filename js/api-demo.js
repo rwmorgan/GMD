@@ -100,44 +100,50 @@ function freshState() {
   const day = 86400000;
   const at = (d) => new Date(Date.now() - d * day).toISOString();
 
-  /* Sample activity so the demo dashboards feel alive. */
+  /* Sample activity so the demo dashboards feel alive.
+     Task/quiz IDs here must match the real current curriculum
+     (js/data/seed-tasks.js, seed-quizzes.js) — A1.1-A5.4 for
+     submission tasks, QZ1.1-QZ5.5 for quizzes — or they silently
+     vanish from the marking queue / render blank. */
   const attempts = [
-    { id: 1, task_id: 'Q1.1', student_id: 'u-ava', score: 9, max_score: 10, created_at: at(24), responses: [] },
-    { id: 2, task_id: 'Q1.2', student_id: 'u-ava', score: 8, max_score: 9, created_at: at(20), responses: [] },
-    { id: 3, task_id: 'Q1.1', student_id: 'u-ben', score: 6, max_score: 10, created_at: at(23), responses: [] },
-    { id: 4, task_id: 'Q1.1', student_id: 'u-ben', score: 8.5, max_score: 10, created_at: at(22), responses: [] },
-    { id: 5, task_id: 'Q1.1', student_id: 'u-chloe', score: 10, max_score: 10, created_at: at(24), responses: [] },
-    { id: 6, task_id: 'Q1.2', student_id: 'u-chloe', score: 9, max_score: 9, created_at: at(19), responses: [] },
-    { id: 7, task_id: 'Q2.1', student_id: 'u-chloe', score: 7.5, max_score: 9, created_at: at(10), responses: [] },
-    { id: 8, task_id: 'Q1.1', student_id: 'u-dev', score: 7, max_score: 10, created_at: at(21), responses: [] },
+    { id: 1, task_id: 'QZ1.1', student_id: 'u-ava', score: 9, max_score: 10, created_at: at(24), responses: [] },
+    { id: 2, task_id: 'QZ1.2', student_id: 'u-ava', score: 8, max_score: 9, created_at: at(20), responses: [] },
+    { id: 3, task_id: 'QZ1.1', student_id: 'u-ben', score: 6, max_score: 10, created_at: at(23), responses: [] },
+    { id: 4, task_id: 'QZ1.1', student_id: 'u-ben', score: 8.5, max_score: 10, created_at: at(22), responses: [] },
+    { id: 5, task_id: 'QZ1.1', student_id: 'u-chloe', score: 10, max_score: 10, created_at: at(24), responses: [] },
+    { id: 6, task_id: 'QZ1.2', student_id: 'u-chloe', score: 9, max_score: 9, created_at: at(19), responses: [] },
+    { id: 7, task_id: 'QZ2.1', student_id: 'u-chloe', score: 7.5, max_score: 9, created_at: at(10), responses: [] },
+    { id: 8, task_id: 'QZ1.1', student_id: 'u-dev', score: 7, max_score: 10, created_at: at(21), responses: [] },
   ];
 
   const submissions = [
-    { id: 1, task_id: 'T1.1', student_id: 'u-ava', url: null, file_path: null, file_name: 'Task1.1_Ava_P.docx', comment: 'Finished Part B conclusion in class today.', created_at: at(18) },
-    { id: 2, task_id: 'T1.1', student_id: 'u-ben', url: null, file_path: null, file_name: 'Task1.1_Ben_T.docx', comment: '', created_at: at(17) },
-    { id: 3, task_id: 'T1.2', student_id: 'u-ava', url: null, file_path: null, file_name: 'Task1.2_Ava_P.docx', comment: '', created_at: at(12) },
-    { id: 4, task_id: 'T1.1', student_id: 'u-chloe', url: 'https://onedrive.live.com/example-chloe-t11', file_path: null, file_name: null, comment: 'Shared via OneDrive link.', created_at: at(16) },
-    { id: 5, task_id: 'T1.3', student_id: 'u-chloe', url: null, file_path: null, file_name: 'Task1.3_Chloe_M.pdf', comment: '', created_at: at(8) },
+    { id: 1, task_id: 'A1.1', student_id: 'u-ava', url: null, file_path: null, file_name: 'Task1.1_Ava_P.docx', comment: 'Finished Part B conclusion in class today.', created_at: at(18) },
+    { id: 2, task_id: 'A1.1', student_id: 'u-ben', url: null, file_path: null, file_name: 'Task1.1_Ben_T.docx', comment: '', created_at: at(17) },
+    { id: 3, task_id: 'A1.2', student_id: 'u-ava', url: null, file_path: null, file_name: 'Task1.2_Ava_P.docx', comment: '', created_at: at(12) },
+    { id: 4, task_id: 'A1.1', student_id: 'u-chloe', url: 'https://onedrive.live.com/example-chloe-t11', file_path: null, file_name: null, comment: 'Shared via OneDrive link.', created_at: at(16) },
+    { id: 5, task_id: 'A1.3', student_id: 'u-chloe', url: null, file_path: null, file_name: 'Task1.3_Chloe_M.pdf', comment: '', created_at: at(8) },
   ];
 
   const marks = [
-    { student_id: 'u-ava', task_id: 'T1.1', criterion_id: 'ESC-C1', rating: 'C' },
-    { student_id: 'u-ava', task_id: 'T1.1', criterion_id: 'ESC-C2', rating: 'C' },
-    { student_id: 'u-ava', task_id: 'T1.1', criterion_id: 'ICT-C1', rating: 'A' },
-    { student_id: 'u-chloe', task_id: 'T1.1', criterion_id: 'ESC-C1', rating: 'C' },
-    { student_id: 'u-chloe', task_id: 'T1.1', criterion_id: 'ESC-C2', rating: 'C' },
-    { student_id: 'u-chloe', task_id: 'T1.1', criterion_id: 'ICT-C1', rating: 'A' },
+    { student_id: 'u-ava', task_id: 'A1.1', criterion_id: 'ESC-C3', rating: 'C' },
+    { student_id: 'u-ava', task_id: 'A1.1', criterion_id: 'ESC-C4', rating: 'C' },
+    { student_id: 'u-ava', task_id: 'A1.1', criterion_id: 'ICT-C1', rating: 'A' },
+    { student_id: 'u-ava', task_id: 'A1.1', criterion_id: 'ICT-C3', rating: 'C' },
+    { student_id: 'u-chloe', task_id: 'A1.1', criterion_id: 'ESC-C3', rating: 'C' },
+    { student_id: 'u-chloe', task_id: 'A1.1', criterion_id: 'ESC-C4', rating: 'C' },
+    { student_id: 'u-chloe', task_id: 'A1.1', criterion_id: 'ICT-C1', rating: 'A' },
+    { student_id: 'u-chloe', task_id: 'A1.1', criterion_id: 'ICT-C3', rating: 'C' },
   ];
 
   const feedback = [
-    { student_id: 'u-ava', task_id: 'T1.1', feedback: 'Excellent justification of engine choices — your lab suitability conclusion showed real analysis. Watch APA formatting on web sources.', marked_at: at(15) },
-    { student_id: 'u-chloe', task_id: 'T1.1', feedback: 'Thorough comparison table. To push into A-standard consistently, justify hardware picks against the specific game type in each scenario.', marked_at: at(14) },
+    { student_id: 'u-ava', task_id: 'A1.1', feedback: 'Great follow-through on the OneDrive folder structure and backup — that ICT-C1 evidence was clear. To lift your genre comparison into A-standard, dig a bit deeper into what specifically makes platformers different from top-down games to build.', marked_at: at(15) },
+    { student_id: 'u-chloe', task_id: 'A1.1', feedback: 'Thorough genre comparison with well-organised OneDrive backups. To be even stronger, document each build step as you go rather than just at the end.', marked_at: at(14) },
   ];
 
   const progress = [
-    { student_id: 'u-ava', task_id: 'T1.3', started_at: at(9) },
-    { student_id: 'u-ben', task_id: 'T1.2', started_at: at(11) },
-    { student_id: 'u-dev', task_id: 'T1.1', started_at: at(15) },
+    { student_id: 'u-ava', task_id: 'A1.3', started_at: at(9) },
+    { student_id: 'u-ben', task_id: 'A1.2', started_at: at(11) },
+    { student_id: 'u-dev', task_id: 'A1.1', started_at: at(15) },
   ];
 
   return {
@@ -371,6 +377,25 @@ export class DemoAdapter {
 
   async getFileUrl(path) {
     return null; // demo files aren't real uploads
+  }
+
+  /* Demo mode has no Anthropic key / Edge Function — return a clearly
+     labeled canned draft so the reviewer flow is still testable. */
+  async aiDraftMark(studentId, taskId) {
+    this.requireTeacher();
+    const task = this.state.tasks.find(t => t.id === taskId);
+    if (!task) return { ok: false, reason: 'not_found', message: 'Task not found.' };
+    const sub = this.state.submissions
+      .filter(s => s.student_id === studentId && s.task_id === taskId)
+      .sort((a, b) => a.created_at.localeCompare(b.created_at)).pop();
+    if (!sub) return { ok: false, reason: 'no_submission', message: 'No submission found for this student/task.' };
+    if (!sub.file_path && !sub.file_name) return { ok: false, reason: 'external_link', message: 'This submission is an external link — open it and mark manually.' };
+    const criteria = this.state.task_criteria.filter(tc => tc.task_id === taskId).map(tc => tc.criterion_id);
+    const ratings = Object.fromEntries(criteria.map(cid => [cid, cid.startsWith('ICT') ? 'A' : 'C']));
+    return {
+      ok: true, demo: true, ratings,
+      feedback: 'Demo mode: this is a placeholder draft (Anthropic isn’t connected here) — solid effort overall, with clear evidence against the rubric. Connect Supabase + deploy the ai-mark function to get real AI-drafted feedback.',
+    };
   }
 
   async getTaskAnswers(taskId) {

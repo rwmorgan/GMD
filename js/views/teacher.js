@@ -210,6 +210,10 @@ function openMarkingModal(cur, data, studentId, task) {
   const existing = Object.fromEntries(
     data.marks.filter(m => m.student_id === studentId && m.task_id === task.id).map(m => [m.criterion_id, m.rating]));
   const existingFb = data.feedback.find(f => f.student_id === studentId && f.task_id === task.id)?.feedback || '';
+  const latestSub = data.submissions
+    .filter(s => s.student_id === studentId && s.task_id === task.id)
+    .sort((a, b) => a.created_at.localeCompare(b.created_at)).pop();
+  const canAiDraft = !!(latestSub && (latestSub.file_path || latestSub.file_name));
 
   const rubricRows = task.criteria.map(cid => {
     const isICT = cid.startsWith('ICT');
@@ -232,6 +236,11 @@ function openMarkingModal(cur, data, studentId, task) {
   const modal = openModal(`
     <h2>Mark: ${esc(profile?.display_name || '?')} — ${esc(task.code)}</h2>
     <p class="unit-counts">${esc(task.title)} · Ratings: A = high standard (ICT only), C = satisfactory, t = below standard, z = no evidence.</p>
+    ${canAiDraft ? `<div class="quiz-actions" style="margin-bottom:1rem;">
+      <button type="button" class="btn btn-secondary btn-sm" id="ai-draft-btn">✨ AI Draft</button>
+      <span class="unit-counts">Drafts ratings + feedback from the submitted file — always review before saving.</span>
+    </div>` : ''}
+    <div id="ai-draft-note" class="info-box" style="display:none; margin-bottom:1rem;"><p>✨ <strong>AI draft</strong> — check every rating and the feedback wording before you save. Nothing has been saved yet.</p></div>
     <div class="rubric">${rubricRows}</div>
     <label class="field"><span>Feedback for the student</span>
       <textarea id="mark-feedback" rows="4" placeholder="What worked, and one specific way to level up…">${esc(existingFb)}</textarea>
@@ -249,6 +258,34 @@ function openMarkingModal(cur, data, studentId, task) {
       btn.classList.add('selected');
     });
   });
+
+  const aiBtn = modal.el.querySelector('#ai-draft-btn');
+  if (aiBtn) {
+    aiBtn.addEventListener('click', async () => {
+      aiBtn.disabled = true;
+      const origLabel = aiBtn.textContent;
+      aiBtn.textContent = '✨ Thinking…';
+      try {
+        const draft = await api.aiDraftMark(studentId, task.id);
+        if (!draft.ok) { toast(draft.message || 'AI draft unavailable — mark manually.', 'error'); return; }
+        modal.el.querySelectorAll('.rubric-row').forEach(row => {
+          const cid = row.dataset.crit;
+          const rating = draft.ratings?.[cid] || '';
+          row.querySelectorAll('.rate-btn').forEach(b => b.classList.remove('selected'));
+          const match = [...row.querySelectorAll('.rate-btn')].find(b => b.dataset.rating === rating);
+          (match || row.querySelector('.rate-clear')).classList.add('selected');
+        });
+        modal.el.querySelector('#mark-feedback').value = draft.feedback || '';
+        modal.el.querySelector('#ai-draft-note').style.display = '';
+        toast(draft.demo ? 'Demo mode: showing a placeholder draft.' : 'AI draft ready — review before saving.', 'info');
+      } catch (err) {
+        toast(err.message, 'error');
+      } finally {
+        aiBtn.disabled = false;
+        aiBtn.textContent = origLabel;
+      }
+    });
+  }
 
   modal.el.querySelector('#save-marks').addEventListener('click', async () => {
     const ratings = {};
