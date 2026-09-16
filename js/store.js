@@ -147,6 +147,50 @@ const BADGES = [
     earned: (cur, s) => [...s.submissions, ...s.attempts].some(x => new Date(x.created_at).getHours() < 8) },
   { id: 'night-owl', icon: '🦉', name: 'Night Owl', desc: 'Submitted work or sat a quiz after 9pm',
     earned: (cur, s) => [...s.submissions, ...s.attempts].some(x => new Date(x.created_at).getHours() >= 21) },
+  { id: 'triple-crown', icon: '🎖️', name: 'Triple Crown', desc: 'Earned a mark in all three courses',
+    earned: (cur, s) => {
+      const courses = new Set(s.marks.map(m => courseOfCriterion(cur, m.criterion_id)));
+      return cur.courses.length > 0 && cur.courses.every(c => courses.has(c.id));
+    } },
+  { id: 'subject-mastery', icon: '📘', name: 'Subject Mastery', desc: 'Full criterion coverage in one course',
+    earned: (cur, s) => {
+      const covered = studentCriterionEvidence(cur, s);
+      return cur.courses.some(course => {
+        const courseCriteria = cur.criteria.filter(c => c.course_id === course.id);
+        return courseCriteria.length > 0 && courseCriteria.every(c => (covered[c.id] || []).length > 0);
+      });
+    } },
+  { id: 'steady-hand', icon: '🛡️', name: 'Steady Hand', desc: 'No rating below C on any marked criterion',
+    earned: (cur, s) => s.marks.length > 0 && s.marks.every(m => m.rating === 'A' || m.rating === 'C') },
+  { id: 'consistent', icon: '📅', name: 'Consistent', desc: 'Active on 5 different days',
+    earned: (cur, s) => {
+      const days = new Set([...s.submissions, ...s.attempts].map(x => new Date(x.created_at).toDateString()));
+      return days.size >= 5;
+    } },
+  { id: 'halfway-there', icon: '🏔️', name: 'Halfway There', desc: 'Reached the halfway point across all tasks',
+    earned: (cur, s) => {
+      if (!cur.tasks.length) return false;
+      const done = cur.tasks.filter(t => ['submitted', 'marked'].includes(taskStatus(t, s))).length;
+      return done >= Math.ceil(cur.tasks.length / 2);
+    } },
+  { id: 'quick-draw', icon: '⚡', name: 'Quick Draw', desc: 'Started and finished a task on the same day',
+    earned: (cur, s) => s.progress.some(p => {
+      const startDay = new Date(p.started_at).toDateString();
+      const sameDay = x => x.task_id === p.task_id && new Date(x.created_at).toDateString() === startDay;
+      return s.submissions.some(sameDay) || s.attempts.some(sameDay);
+    }) },
+  { id: 'jack-of-all-trades', icon: '🎲', name: 'Jack of All Trades', desc: 'Answered every question type correctly at least once',
+    earned: (cur, s) => {
+      const qtypeById = {};
+      const allTypes = new Set();
+      for (const t of cur.tasks) for (const q of (t.questions || [])) { qtypeById[q.id] = q.qtype; allTypes.add(q.qtype); }
+      if (!allTypes.size) return false;
+      const correctTypes = new Set();
+      for (const a of s.attempts) for (const r of (a.responses || [])) {
+        if (r.result === 'correct' && qtypeById[r.question_id]) correctTypes.add(qtypeById[r.question_id]);
+      }
+      return [...allTypes].every(t => correctTypes.has(t));
+    } },
 ];
 
 export function computeBadges(cur, state) {
