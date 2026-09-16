@@ -106,6 +106,47 @@ const BADGES = [
       const covered = studentCriterionEvidence(cur, s);
       return cur.criteria.every(c => (covered[c.id] || []).length > 0);
     } },
+  { id: 'graduate', icon: '🎓', name: 'Graduate', desc: 'Completed every task in every unit',
+    earned: (cur, s) => cur.units.length > 0 && cur.units.every(u => {
+      const unitTasks = cur.tasks.filter(t => t.unit_id === u.id);
+      return unitTasks.length > 0 && unitTasks.every(t => ['submitted', 'marked'].includes(taskStatus(t, s)));
+    }) },
+  { id: 'quiz-legend', icon: '🧙', name: 'Quiz Legend', desc: '80%+ on every quiz in the course',
+    earned: (cur, s) => {
+      const quizzes = cur.tasks.filter(t => t.type === 'quiz');
+      return quizzes.length > 0 && quizzes.every(t => {
+        const best = bestAttempt(t.id, s);
+        return best && best.max_score > 0 && best.score / best.max_score >= 0.8;
+      });
+    } },
+  { id: 'triple-threat', icon: '👑', name: 'Triple Threat', desc: 'Earned an A rating on 3 different criteria',
+    earned: (cur, s) => new Set(s.marks.filter(m => m.rating === 'A').map(m => m.criterion_id)).size >= 3 },
+  { id: 'all-rounder', icon: '🧭', name: 'All Rounder', desc: 'Made progress in every unit',
+    earned: (cur, s) => cur.units.length > 0 && cur.units.every(u =>
+      cur.tasks.filter(t => t.unit_id === u.id).some(t => taskStatus(t, s) !== 'not_started')) },
+  { id: 'never-give-up', icon: '🔁', name: 'Never Give Up', desc: 'Retried the same quiz 3 or more times',
+    earned: (cur, s) => {
+      const counts = {};
+      for (const a of s.attempts) counts[a.task_id] = (counts[a.task_id] || 0) + 1;
+      return Object.values(counts).some(n => n >= 3);
+    } },
+  { id: 'level-5', icon: '🚀', name: 'Level 5', desc: 'Reached Level 5',
+    earned: (cur, s) => levelFromXP(computeXP(cur, s)).level >= 5 },
+  // The next two check specific task ids from the Canvas-synced curriculum
+  // (js/data/seed-tasks.js) — a future resync that renames/removes A5.3 or
+  // A5.4 will silently stop these badges from earning until updated here.
+  { id: 'game-shipped', icon: '🎮', name: 'Game Shipped', desc: 'Submitted your Major Project build',
+    earned: (cur, s) => s.submissions.some(x => x.task_id === 'A5.3') },
+  { id: 'take-a-bow', icon: '🎬', name: 'Take a Bow', desc: 'Completed your final Presentation',
+    earned: (cur, s) => {
+      const t = cur.tasks.find(x => x.id === 'A5.4');
+      return !!t && taskStatus(t, s) === 'marked';
+    } },
+  // Time-of-day badges read created_at in the browser's local timezone.
+  { id: 'early-bird', icon: '🌅', name: 'Early Bird', desc: 'Submitted work or sat a quiz before 8am',
+    earned: (cur, s) => [...s.submissions, ...s.attempts].some(x => new Date(x.created_at).getHours() < 8) },
+  { id: 'night-owl', icon: '🦉', name: 'Night Owl', desc: 'Submitted work or sat a quiz after 9pm',
+    earned: (cur, s) => [...s.submissions, ...s.attempts].some(x => new Date(x.created_at).getHours() >= 21) },
 ];
 
 export function computeBadges(cur, state) {
