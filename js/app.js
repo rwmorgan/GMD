@@ -56,6 +56,7 @@ function navHTML() {
           <li><a href="resources/adobe.html">🅰 Adobe Suite</a></li>
           <li><a href="resources/microsoft.html">🟦 Microsoft Office</a></li>
           <li><a href="resources/research.html">📚 Research &amp; References</a></li>
+          <li><a href="resources/glossary.html">📖 Glossary</a></li>
         </ul>
       </li>
       <li><a href="gallery.html">Gallery</a></li>
@@ -126,6 +127,7 @@ function footerHTML() {
         <li><a href="resources/unity.html">Unity</a></li>
         <li><a href="resources/gms2.html">GameMaker Studio 2</a></li>
         <li><a href="resources/research.html">Research &amp; Ethics</a></li>
+        <li><a href="resources/glossary.html">Glossary</a></li>
         <li><a href="gallery.html">Student Gallery</a></li>
       </ul>
     </div>
