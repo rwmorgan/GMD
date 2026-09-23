@@ -90,11 +90,11 @@ export function gradeQuiz(questions, answersById, givenMap) {
 function freshState() {
   const data = flattenSeed(seed);
   const users = [
-    { id: 'u-teacher', email: DEMO_ACCOUNTS.teacher.email, password: DEMO_ACCOUNTS.teacher.password, display_name: 'Mr Morgan', role: 'teacher', active: true },
-    { id: 'u-ava', email: DEMO_ACCOUNTS.student.email, password: DEMO_ACCOUNTS.student.password, display_name: 'Ava P.', role: 'student', active: true },
-    { id: 'u-ben', email: 'ben.t@demo.school', password: 'demo1234', display_name: 'Ben T.', role: 'student', active: true },
-    { id: 'u-chloe', email: 'chloe.m@demo.school', password: 'demo1234', display_name: 'Chloe M.', role: 'student', active: true },
-    { id: 'u-dev', email: 'dev.k@demo.school', password: 'demo1234', display_name: 'Dev K.', role: 'student', active: true },
+    { id: 'u-teacher', email: DEMO_ACCOUNTS.teacher.email, password: DEMO_ACCOUNTS.teacher.password, display_name: 'Mr Morgan', role: 'teacher', active: true, avatar: 'crown' },
+    { id: 'u-ava', email: DEMO_ACCOUNTS.student.email, password: DEMO_ACCOUNTS.student.password, display_name: 'Ava P.', role: 'student', active: true, avatar: 'fox' },
+    { id: 'u-ben', email: 'ben.t@demo.school', password: 'demo1234', display_name: 'Ben T.', role: 'student', active: true, avatar: 'robot' },
+    { id: 'u-chloe', email: 'chloe.m@demo.school', password: 'demo1234', display_name: 'Chloe M.', role: 'student', active: true, avatar: 'unicorn' },
+    { id: 'u-dev', email: 'dev.k@demo.school', password: 'demo1234', display_name: 'Dev K.', role: 'student', active: true, avatar: null },
   ];
 
   const day = 86400000;
@@ -194,11 +194,18 @@ export class DemoAdapter {
   currentUser() {
     const u = this.state.users.find(x => x.id === this.state.sessionUserId);
     if (!u) return null;
-    return { id: u.id, email: u.email, name: u.display_name, role: u.role };
+    return { id: u.id, email: u.email, name: u.display_name, role: u.role, avatar: u.avatar || null };
   }
 
   onAuthChange(cb) { this.listeners.push(cb); }
   emit() { this.listeners.forEach(cb => cb(this.currentUser())); }
+
+  async updateAvatar(avatarId) {
+    const u = this.requireUser();
+    const usr = this.state.users.find(x => x.id === u.id);
+    if (usr) { usr.avatar = avatarId; this.save(); }
+    this.emit();
+  }
 
   async signUp({ email, password, name, joinCode }) {
     if (joinCode.trim().toLowerCase() !== this.state.settings.join_code.trim().toLowerCase()) {
@@ -330,7 +337,7 @@ export class DemoAdapter {
     this.requireTeacher();
     return this.state.users
       .filter(u => u.role === 'student')
-      .map(u => ({ id: u.id, email: u.email, display_name: u.display_name, role: u.role, active: u.active }));
+      .map(u => ({ id: u.id, email: u.email, display_name: u.display_name, role: u.role, active: u.active, avatar: u.avatar || null }));
   }
 
   async getClasses() {

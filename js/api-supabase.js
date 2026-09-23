@@ -41,13 +41,13 @@ export class SupabaseAdapter {
   async loadProfile(session) {
     if (!session?.user) { this.user = null; this.profileMissing = false; return; }
     const { data: profile } = await this.client
-      .from('profiles').select('display_name, role, active').eq('id', session.user.id).maybeSingle();
+      .from('profiles').select('display_name, role, active, avatar').eq('id', session.user.id).maybeSingle();
     if (!profile) {
       // Signed up but never redeemed a join code (or was removed).
       this.user = { id: session.user.id, email: session.user.email, name: session.user.email, role: null };
       this.profileMissing = true;
     } else {
-      this.user = { id: session.user.id, email: session.user.email, name: profile.display_name, role: profile.role };
+      this.user = { id: session.user.id, email: session.user.email, name: profile.display_name, role: profile.role, avatar: profile.avatar };
       this.profileMissing = !profile.active;
     }
   }
@@ -55,6 +55,15 @@ export class SupabaseAdapter {
   currentUser() { return this.user && this.user.role ? this.user : null; }
   onAuthChange(cb) { this.listeners.push(cb); }
   emit() { this.listeners.forEach(cb => cb(this.currentUser())); }
+
+  async updateAvatar(avatarId) {
+    const uid = this.user?.id;
+    if (!uid) throw new Error('Not signed in.');
+    const { error } = await this.client.from('profiles').update({ avatar: avatarId }).eq('id', uid);
+    if (error) fail(error);
+    this.user = { ...this.user, avatar: avatarId };
+    this.emit();
+  }
 
   /* ---------- auth ---------- */
   async signUp({ email, password, name, joinCode }) {
@@ -184,7 +193,7 @@ export class SupabaseAdapter {
   /* ---------- teacher ---------- */
   async listStudents() {
     const { data, error } = await this.client.from('profiles')
-      .select('id, display_name, role, active, created_at').eq('role', 'student').order('display_name');
+      .select('id, display_name, role, active, avatar, created_at').eq('role', 'student').order('display_name');
     if (error) fail(error);
     return data;
   }

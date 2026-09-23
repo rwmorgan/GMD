@@ -31,11 +31,12 @@
 
 /* ---------- nav additions ---------- */
 .nav-auth { display: flex; align-items: center; gap: 0.75rem; }
-.nav-auth .avatar {
+.avatar {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 26px; height: 26px; border-radius: 50%;
-  background: var(--grad-brand); color: #0A0F1E; font-weight: 700; font-size: 0.8rem;
+  width: 26px; height: 26px; border-radius: 50%; flex: none; line-height: 1;
+  background: var(--grad-brand); color: #0A0F1E; font-weight: 700; font-size: 0.85rem;
 }
+.avatar--sm { width: 22px; height: 22px; font-size: 0.72rem; vertical-align: -5px; }
 .user-menu button { display: flex; align-items: center; gap: 0.5rem; }
 .nav-dropdown--right { left: auto; right: 0; }
 .nav-dropdown button {
@@ -80,6 +81,21 @@
   background: none; border: none; color: var(--text-dim); font-size: 1.1rem; cursor: pointer;
 }
 .modal-x:hover { color: var(--red); }
+
+/* ---------- avatar picker ---------- */
+.avatar-picker-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+  gap: 0.6rem; margin-top: 1rem; max-height: 60vh; overflow-y: auto;
+}
+.avatar-pick {
+  width: 56px; height: 56px; border-radius: 14px;
+  background: var(--card); border: 1px solid var(--border);
+  font-size: 1.6rem; cursor: pointer; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.avatar-pick:hover { transform: translateY(-2px) scale(1.05); border-color: rgba(129,140,248,0.5); }
+.avatar-pick--selected { border-color: var(--teal); background: rgba(14,165,233,0.12); box-shadow: var(--glow-teal); }
 
 /* ---------- fx canvas ---------- */
 #fx-canvas { position: fixed; inset: 0; z-index: 4000; pointer-events: none; display: none; }

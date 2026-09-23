@@ -22,8 +22,11 @@ create table if not exists public.profiles (
   display_name text not null,             -- first name + last initial only
   role         text not null default 'student' check (role in ('student','teacher')),
   active       boolean not null default true,
+  avatar       text,                      -- curated icon id from js/avatars.js, or null for initials
   created_at   timestamptz not null default now()
 );
+-- Re-running this file on a database created before the avatar picker existed.
+alter table public.profiles add column if not exists avatar text;
 
 create table if not exists public.courses (
   id     text primary key,                -- 'ICT205114'

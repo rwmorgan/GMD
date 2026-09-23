@@ -3,7 +3,7 @@
 
 import { api } from '../api.js';
 import { IS_DEMO } from '../config.js';
-import { render, esc, spinner, badge, courseBadgeClass, statusChip, toast, openModal, closeModal, fmtDate, downloadCSV, progressBar } from '../ui.js';
+import { render, esc, spinner, badge, courseBadgeClass, statusChip, toast, openModal, closeModal, fmtDate, downloadCSV, progressBar, avatarHTML } from '../ui.js';
 import { getCurriculum, invalidate, taskStatus, criterionLabel, provisionalAward, coverageMatrix, filterCurByProgram } from '../store.js';
 import { getScope, setScope } from '../scope.js';
 import { navigate } from '../router.js';
@@ -92,7 +92,7 @@ export async function teacherHomeView() {
     }).join(' ');
     return `
     <tr class="${p.active === false ? 'row-inactive' : ''}">
-      <td><strong>${esc(p.display_name)}</strong>${p.active === false ? ' <span class="chip chip-idle">inactive</span>' : ''}</td>
+      <td>${avatarHTML(p, 'avatar--sm')} <strong>${esc(p.display_name)}</strong>${p.active === false ? ' <span class="chip chip-idle">inactive</span>' : ''}</td>
       <td>${done} / ${cur.tasks.length} ${progressBar((done / Math.max(1, cur.tasks.length)) * 100, { label: `${p.display_name} progress` })}</td>
       <td>${st.attempts.length}</td>
       <td>${st.submissions.length}</td>
@@ -371,7 +371,7 @@ ${teacherHeader('Students', `${students.length} enrolled. Deactivating blocks si
       <tbody>
         ${students.map(s => `
           <tr class="${s.active === false ? 'row-inactive' : ''}">
-            <td><strong>${esc(s.display_name)}</strong></td>
+            <td>${avatarHTML(s, 'avatar--sm')} <strong>${esc(s.display_name)}</strong></td>
             <td>${esc(s.email || '—')}</td>
             <td>${s.active === false ? '<span class="chip chip-idle">Inactive</span>' : '<span class="chip chip-marked">Active</span>'}</td>
             <td><button class="btn btn-secondary btn-sm" data-toggle="${esc(s.id)}" data-active="${s.active !== false}">

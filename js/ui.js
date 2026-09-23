@@ -1,6 +1,8 @@
 /* Shared UI helpers: escaping, rendering, toasts, modals, confetti,
    scroll reveal, animated counters. */
 
+import { avatarIcon } from './avatars.js';
+
 export function esc(s) {
   return String(s ?? '')
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -154,6 +156,13 @@ export function confetti({ count = 140, duration = 1800 } = {}) {
 }
 
 /* ---------- Small builders ---------- */
+/* Person avatar: chosen icon if set, else initial letter of their name. */
+export function avatarHTML(person, cls = '') {
+  const icon = avatarIcon(person?.avatar);
+  const inner = icon || esc((person?.name || person?.display_name || '?').slice(0, 1).toUpperCase());
+  return `<span class="avatar ${cls}">${inner}</span>`;
+}
+
 export function badge(text, cls = '') {
   return `<span class="badge ${cls}">${esc(text)}</span>`;
 }

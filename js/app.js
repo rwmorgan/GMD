@@ -5,8 +5,9 @@
 import { IS_DEMO } from './config.js';
 import { api } from './api.js';
 import { route, setNotFound, setBeforeEach, setOnError, startRouter, navigate } from './router.js';
-import { render, esc, toast } from './ui.js';
+import { render, esc, toast, avatarHTML, openModal } from './ui.js';
 import { invalidate } from './store.js';
+import { AVATARS } from './avatars.js';
 
 import { homeView } from './views/home.js';
 import { unitsView, unitView } from './views/units.js';
@@ -77,10 +78,11 @@ function navHTML() {
     <div class="nav-auth">
       ${user
         ? `<div class="has-dropdown user-menu">
-             <button aria-haspopup="true" data-dd><span class="avatar">${esc(user.name.slice(0, 1))}</span> ${esc(user.name)} <span class="chevron">▾</span></button>
+             <button aria-haspopup="true" data-dd>${avatarHTML(user)} ${esc(user.name)} <span class="chevron">▾</span></button>
              <ul class="nav-dropdown nav-dropdown--right">
                <li><a href="#/dashboard">📊 My Dashboard</a></li>
                <li><a href="#/progress">🗺️ My Progress</a></li>
+               <li><button data-change-avatar>🎭 Change avatar</button></li>
                <li><button data-signout>↩ Sign out</button></li>
              </ul>
            </div>`
@@ -163,6 +165,10 @@ function mountChrome() {
       navigate('/');
       return;
     }
+    if (e.target.closest('[data-change-avatar]')) {
+      openAvatarPicker();
+      return;
+    }
     if (e.target.closest('a')) {
       nav.querySelectorAll('.has-dropdown').forEach(el => el.classList.remove('open'));
       document.getElementById('nav-links').classList.remove('mobile-open');
@@ -181,6 +187,25 @@ function mountChrome() {
       nav.querySelectorAll('.has-dropdown').forEach(el => el.classList.remove('open'));
     }
   });
+}
+
+/* ---------- avatar picker ---------- */
+function openAvatarPicker() {
+  const user = api.currentUser();
+  const { close, el } = openModal(`
+    <h2>Choose your avatar</h2>
+    <p class="unit-counts">Pick an icon — it shows next to your name around the site.</p>
+    <div class="avatar-picker-grid">
+      ${AVATARS.map(a => `
+        <button type="button" class="avatar-pick ${a.id === user?.avatar ? 'avatar-pick--selected' : ''}" data-avatar="${esc(a.id)}" aria-label="${esc(a.label)}" title="${esc(a.label)}">${a.icon}</button>`).join('')}
+    </div>`);
+  el.querySelectorAll('[data-avatar]').forEach(btn => btn.addEventListener('click', async () => {
+    try {
+      await api.updateAvatar(btn.dataset.avatar);
+      toast('Avatar updated!', 'success');
+      close();
+    } catch (err) { toast(err.message, 'error'); }
+  }));
 }
 
 /* ---------- routes ---------- */
