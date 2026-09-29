@@ -292,7 +292,16 @@ export class SupabaseAdapter {
      save via the normal saveMarks() path, or {ok:false, message}. */
   async aiDraftMark(studentId, taskId) {
     const { data, error } = await this.client.functions.invoke('ai-mark', { body: { studentId, taskId } });
-    if (error) fail(error, 'AI drafting is unavailable right now.');
+    if (error) {
+      // supabase-js's error.message is just a generic "non-2xx status code"
+      // string — the function's own {ok:false, message} JSON body (the
+      // actually useful part) sits on error.context, a raw Response.
+      let detail = null;
+      if (error?.context?.json) {
+        try { detail = (await error.context.json())?.message; } catch { /* body wasn't JSON */ }
+      }
+      throw new Error(detail || error?.message || 'AI drafting is unavailable right now.');
+    }
     return data;
   }
 

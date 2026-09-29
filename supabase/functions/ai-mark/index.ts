@@ -22,8 +22,6 @@
 
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 import Anthropic from "npm:@anthropic-ai/sdk";
-import { zodOutputFormat } from "npm:@anthropic-ai/sdk/helpers/zod";
-import { z } from "npm:zod@3";
 import mammoth from "npm:mammoth@1.8.0";
 import { Buffer } from "node:buffer";
 
@@ -51,6 +49,14 @@ const EXT_IMAGE: Record<string, string> = {
 
 function extOf(name: string | null | undefined) {
   return (name || "").split(".").pop()?.toLowerCase() || "";
+}
+
+function stripHtml(html: string) {
+  return html
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>').replace(/&#39;/g, "'").replace(/&quot;/g, '"')
+    .replace(/\s+/g, ' ').trim();
 }
 
 Deno.serve(async (req) => {
@@ -108,9 +114,29 @@ Deno.serve(async (req) => {
       } else if (ext === "pdf") {
         evidence.push({ type: "document", source: { type: "base64", media_type: "application/pdf", data: b64 } });
       } else if (ext === "docx") {
-        const { value: text } = await mammoth.extractRawText({ buffer: Buffer.from(buf) });
-        if (!text?.trim()) return json({ ok: false, reason: "empty_document", message: "The Word document appears to have no readable text." });
-        evidence.push({ type: "text", text: `Submitted document text:\n\n${text.slice(0, 40000)}` });
+        // extractRawText() would silently drop any pasted screenshot inside
+        // the doc — convertToHtml() with an image handler is the only way
+        // to actually see embedded images, not just the surrounding text.
+        const embeddedImages: { contentType: string; base64: string }[] = [];
+        const { value: html } = await mammoth.convertToHtml(
+          { buffer: Buffer.from(buf) },
+          {
+            convertImage: mammoth.images.imgElement(
+              async (image: { contentType: string; read: (encoding: string) => Promise<string> }) => {
+                embeddedImages.push({ contentType: image.contentType, base64: await image.read("base64") });
+                return {};
+              }
+            ),
+          }
+        );
+        const text = stripHtml(html);
+        if (!text && !embeddedImages.length) return json({ ok: false, reason: "empty_document", message: "The Word document appears to have no readable text or images." });
+        if (text) evidence.push({ type: "text", text: `Submitted document text:\n\n${text.slice(0, 40000)}` });
+        for (const img of embeddedImages.slice(0, 10)) {
+          if (/^image\/(png|jpe?g|gif|webp)$/.test(img.contentType)) {
+            evidence.push({ type: "image", source: { type: "base64", media_type: img.contentType, data: img.base64 } });
+          }
+        }
       } else {
         return json({ ok: false, reason: "unsupported_file_type", message: `AI drafting doesn't support .${ext || "this"} files yet — upload images/PDF/.docx, or mark manually.` });
       }
@@ -133,35 +159,68 @@ Deno.serve(async (req) => {
       );
     }
 
-    const schemaShape: Record<string, z.ZodTypeAny> = {};
-    for (const cid of criteriaIds) schemaShape[cid] = z.enum(allowed[cid] as [string, ...string[]]);
-    const MarkSchema = z.object({
-      ratings: z.object(schemaShape),
-      feedback: z.string().describe("2-4 sentences of specific, encouraging feedback for the student, referencing what they actually did and one concrete way to improve."),
-    });
+    // Plain JSON Schema, passed straight to output_config — deliberately not
+    // using the SDK's zodOutputFormat() helper. That helper converts a Zod
+    // schema via the SDK's OWN internal zod copy, which can be a different
+    // module instance than any zod this function imports itself; the two
+    // copies' schema objects aren't recognized as the same shape, and the
+    // conversion crashes (TypeError: Cannot read properties of undefined
+    // (reading 'def')) with no useful way to force them to match. A raw
+    // JSON Schema object sidesteps that entirely — no zod dependency here.
+    const ratingProps: Record<string, unknown> = {};
+    for (const cid of criteriaIds) ratingProps[cid] = { type: "string", enum: allowed[cid] };
+    const jsonSchema = {
+      type: "object",
+      properties: {
+        ratings: {
+          type: "object",
+          properties: ratingProps,
+          required: criteriaIds,
+          additionalProperties: false,
+        },
+        feedback: {
+          type: "string",
+          description: "2-4 sentences of specific, encouraging feedback for the student, referencing what they actually did and one concrete way to improve.",
+        },
+      },
+      required: ["ratings", "feedback"],
+      additionalProperties: false,
+    };
 
-    const system = `You are assisting a Tasmanian senior secondary (Years 11-12) teacher in drafting a rubric-based mark for a Game Making & Design task. Rating scale: A = high standard (only valid for ICT criteria), C = satisfactory standard, t = below standard, z = no usable evidence. Base every rating strictly on the evidence provided and the C/A descriptors given — do not invent achievements not shown in the evidence. If evidence is thin or ambiguous for a criterion, prefer 't' or 'z' over guessing 'C'/'A'. This is a DRAFT ONLY: the teacher will review and can change anything before it is saved.`;
+    const system = `You are assisting a Tasmanian senior secondary (Years 11-12) teacher in drafting a rubric-based mark for a Game Making & Design task. Rating scale: A = high standard (only valid for ICT criteria), C = satisfactory standard, t = below standard, z = no usable evidence.
 
-    const userText = `Task: ${task.code} ${task.title}\n${task.overview || ""}\n\nMarking guide:\n${rubricLines.join("\n\n")}\n\nEvidence follows.`;
+Read the full task brief below to understand what evidence for each criterion would actually look like in practice (e.g. a screenshot of a folder/file structure is legitimate evidence for storage, naming and backup criteria — it doesn't need to be explained in writing to count). Base every rating on the evidence provided, read in light of that brief and the C/A descriptors.
+
+Credit generously at 'C' when the evidence plausibly satisfies the descriptor, even if minimal, partial, or shown rather than explained — 'C' is the normal, expected outcome for competent work, not a high bar. Use 't' when there is some relevant evidence but it clearly falls short of the descriptor. Use 'z' only when the submission has no evidence at all relevant to that specific criterion. Do not invent achievements the evidence doesn't show, but do not withhold credit for evidence that is simply informal or unexplained.
+
+This is a DRAFT ONLY: the teacher will review and can change anything before it is saved.`;
+
+    const sections: { title?: string; html?: string }[] = task.body?.sections || [];
+    const taskBrief = sections
+      .map((s) => `${s.title || ''}:\n${stripHtml(s.html || '')}`)
+      .join('\n\n');
+
+    const userText = `Task: ${task.code} ${task.title}\n${task.overview || ""}\n\nFull task brief (what the student was actually asked to do):\n${taskBrief || '(no detailed brief recorded for this task)'}\n\nMarking guide (per-criterion standard descriptors):\n${rubricLines.join("\n\n")}\n\nEvidence follows.`;
 
     const client = new Anthropic({ apiKey: ANTHROPIC_API_KEY });
-    const response = await client.messages.parse({
+    const response = await client.messages.create({
       model: "claude-opus-5",
       max_tokens: 8000,
       thinking: { type: "adaptive" },
       system,
       messages: [
-        { role: "user", content: [{ type: "text", text: userText }, ...evidence] as never,
-        },
+        { role: "user", content: [{ type: "text", text: userText }, ...evidence] as never },
       ],
-      output_config: { format: zodOutputFormat(MarkSchema) },
-    });
+      output_config: { format: { type: "json_schema", schema: jsonSchema } },
+    } as never);
 
     if (response.stop_reason === "refusal") {
       return json({ ok: false, reason: "refusal", message: "Claude declined to draft this one — mark it manually." });
     }
-    const parsed = response.parsed_output;
-    if (!parsed) {
+    const textBlock = response.content.find((b: { type: string }) => b.type === "text") as { text?: string } | undefined;
+    let parsed: { ratings?: Record<string, string>; feedback?: string } | null = null;
+    try { parsed = textBlock?.text ? JSON.parse(textBlock.text) : null; } catch { parsed = null; }
+    if (!parsed || typeof parsed.feedback !== "string" || typeof parsed.ratings !== "object") {
       return json({ ok: false, reason: "parse_failed", message: "Could not get a structured draft back — mark manually." });
     }
 
