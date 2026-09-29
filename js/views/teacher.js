@@ -7,6 +7,7 @@ import { render, esc, spinner, badge, courseBadgeClass, statusChip, toast, openM
 import { getCurriculum, invalidate, taskStatus, criterionLabel, provisionalAward, coverageMatrix, filterCurByProgram } from '../store.js';
 import { getScope, setScope } from '../scope.js';
 import { navigate } from '../router.js';
+import { loadSheetJS, detectStudentSheets, guessStudentMapping, runMarkbookSync, downloadWorkbook } from '../markbook-sync.js';
 
 function teacherHeader(title, sub, scopeHtml = '') {
   return `
@@ -624,6 +625,13 @@ ${teacherHeader('Settings & Export', 'CSV exports respect the program/class filt
         <button class="btn btn-secondary" id="csv-quiz">Quiz attempts</button>
       </div>
     </div>
+    <div class="card" style="margin-top:1.5rem;">
+      <h3>📥 Excel markbook sync</h3>
+      <p class="unit-counts">Fills marks and submission dates into your real Excel markbook — only into cells that are currently empty, "x" or "NS". Anything you've already typed in is left alone; if the site and your markbook disagree on a mark, it's reported below, not overwritten. This edits a copy — you choose whether to save it over the original. <strong>The first time you try this, run it against a copy of your file, not the live one</strong>, and check the result opens cleanly before trusting it.</p>
+      <label class="field"><span>Your markbook file (.xlsx)</span><input type="file" id="markbook-file" accept=".xlsx"></label>
+      <button class="btn btn-secondary" id="markbook-analyse" disabled>Analyse file</button>
+      <div id="markbook-result" style="margin-top:1rem;"></div>
+    </div>
   </div>
 </section>`, { title: 'Settings' });
 
@@ -699,6 +707,82 @@ ${teacherHeader('Settings & Export', 'CSV exports respect the program/class filt
     }
     downloadCSV('levelup-quiz-attempts.csv', rows);
   });
+
+  wireMarkbookSync(cur, data);
+}
+
+/* ---------- Excel markbook sync ---------- */
+function wireMarkbookSync(cur, data) {
+  const fileInput = document.getElementById('markbook-file');
+  const analyseBtn = document.getElementById('markbook-analyse');
+  const resultEl = document.getElementById('markbook-result');
+  let workbook = null, XLSXRef = null;
+
+  fileInput.addEventListener('change', () => { analyseBtn.disabled = !fileInput.files.length; resultEl.innerHTML = ''; });
+
+  analyseBtn.addEventListener('click', async () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+    analyseBtn.disabled = true;
+    resultEl.innerHTML = '<p class="unit-counts">Loading…</p>';
+    try {
+      const XLSX = await loadSheetJS();
+      const buf = await file.arrayBuffer();
+      workbook = XLSX.read(buf, { type: 'array', cellDates: true });
+      XLSXRef = XLSX;
+      const sheetNames = detectStudentSheets(workbook);
+      const guess = guessStudentMapping(data.profiles, sheetNames);
+      const unmatched = data.profiles.filter(p => !guess[p.id]).length;
+
+      resultEl.innerHTML = `
+        <p class="unit-counts">Confirm which sheet tab is each student before anything is written${unmatched ? ` — ${unmatched} couldn't be auto-matched, pick them manually` : ' — all auto-matched by name'}.</p>
+        <div class="marking-wrap"><table class="data-table">
+          <thead><tr><th>Site student</th><th>Markbook sheet</th></tr></thead>
+          <tbody>${data.profiles.map(p => `
+            <tr>
+              <td>${esc(p.display_name)}</td>
+              <td><select data-student-map="${esc(p.id)}">
+                <option value="">— none / skip —</option>
+                ${sheetNames.map(s => `<option value="${esc(s)}" ${guess[p.id] === s ? 'selected' : ''}>${esc(s)}</option>`).join('')}
+              </select></td>
+            </tr>`).join('')}</tbody>
+        </table></div>
+        <button class="btn btn-primary" id="markbook-run" style="margin-top:1rem;">Fill in the markbook</button>`;
+
+      document.getElementById('markbook-run').addEventListener('click', () => runSync(file.name));
+    } catch (err) {
+      resultEl.innerHTML = `<p class="form-error">${esc(err.message)}</p>`;
+    } finally {
+      analyseBtn.disabled = false;
+    }
+  });
+
+  function runSync(originalName) {
+    const studentMap = {};
+    resultEl.querySelectorAll('[data-student-map]').forEach(sel => { studentMap[sel.dataset.studentMap] = sel.value || null; });
+
+    const result = runMarkbookSync({ XLSX: XLSXRef, wb: workbook, cur, data, studentMap });
+    const outName = originalName.replace(/\.xlsx$/i, '') + ' - updated.xlsx';
+
+    resultEl.innerHTML = `
+      <div class="info-box info-box--ok">
+        <p>✅ Filled ${result.marksFilled} mark${result.marksFilled === 1 ? '' : 's'}, ${result.datesFilled} submission date${result.datesFilled === 1 ? '' : 's'}, and ${result.quizFilled} quiz score${result.quizFilled === 1 ? '' : 's'} (new "Quizzes" sheet).</p>
+        ${result.skippedStudents.length ? `<p>Skipped (no sheet matched): ${result.skippedStudents.map(esc).join(', ')}</p>` : ''}
+      </div>
+      ${result.disagreements.length ? `
+      <div class="warning-box">
+        <p><strong>⚠ ${result.disagreements.length} disagreement${result.disagreements.length === 1 ? '' : 's'}</strong> — left untouched, review these yourself:</p>
+        <div class="marking-wrap"><table class="data-table">
+          <thead><tr><th>Student</th><th>Task</th><th>Criterion</th><th>Markbook has</th><th>Site has</th></tr></thead>
+          <tbody>${result.disagreements.map(d => `<tr><td>${esc(d.student)}</td><td>${esc(d.task)}</td><td>${esc(d.criterion)}</td><td>${esc(d.markbook)}</td><td>${esc(d.site)}</td></tr>`).join('')}</tbody>
+        </table></div>
+      </div>` : ''}
+      <button class="btn btn-primary" id="markbook-download" style="margin-top:1rem;">⬇ Download "${esc(outName)}"</button>
+      <p class="unit-counts" style="margin-top:0.5rem;">Check it opens cleanly and formulas/formatting look right before saving it over your original.</p>`;
+
+    document.getElementById('markbook-download').addEventListener('click', () => downloadWorkbook(XLSXRef, workbook, outName));
+    toast('Markbook processed.', 'success');
+  }
 }
 
 /* ---------- task & quiz editor ---------- */
