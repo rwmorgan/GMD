@@ -80,6 +80,8 @@ export const MARKBOOK_TASK_MAP = {
 
 const STRUCTURAL_SHEETS = new Set(['⚙ Settings', '📊 Gradebook', '📋 Attendance', 'Quizzes']);
 const NS_R = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+const NS_MAIN = 'http://schemas.openxmlformats.org/spreadsheetml/2006/main';
+const NS_PKG_REL = 'http://schemas.openxmlformats.org/package/2006/relationships';
 
 function normName(s) {
   return String(s || '').trim().replace(/\.+$/, '').toLowerCase();
@@ -218,7 +220,11 @@ function setCellValue(XLSX, doc, sheetEntry, rowIdx, colIdx, kind, value) {
 
   let cellEl = findCellEl(doc, addr);
   if (!cellEl) {
-    cellEl = doc.createElement('c');
+    // createElementNS, not createElement — this document's elements live in
+    // the spreadsheetml namespace, and the plain (non-NS) DOM method creates
+    // elements with NO namespace instead of inheriting it. That mismatch is
+    // exactly what made Excel flag the file as needing repair.
+    cellEl = doc.createElementNS(NS_MAIN, 'c');
     cellEl.setAttribute('r', addr);
     const siblings = [...rowEl.getElementsByTagName('c')];
     const insertBefore = siblings.find((c) => XLSX.utils.decode_cell(c.getAttribute('r')).c > colIdx);
@@ -230,14 +236,14 @@ function setCellValue(XLSX, doc, sheetEntry, rowIdx, colIdx, kind, value) {
 
   if (kind === 'string') {
     cellEl.setAttribute('t', 'inlineStr');
-    const is = doc.createElement('is');
-    const t = doc.createElement('t');
+    const is = doc.createElementNS(NS_MAIN, 'is');
+    const t = doc.createElementNS(NS_MAIN, 't');
     t.textContent = value;
     is.appendChild(t);
     cellEl.appendChild(is);
   } else {
     cellEl.removeAttribute('t');
-    const v = doc.createElement('v');
+    const v = doc.createElementNS(NS_MAIN, 'v');
     v.textContent = String(excelSerialDate(value));
     cellEl.appendChild(v);
   }
@@ -303,7 +309,10 @@ export async function runMarkbookSync({ XLSX, ctx, cur, data, studentMap }) {
   // even re-serialized, so they're guaranteed byte-identical.
   for (const sheetName of ctx.dirtySheets) {
     const entry = ctx.sheetDocCache.get(sheetName);
-    ctx.zip.file(entry.path, ctx.serializer.serializeToString(entry.doc));
+    // XMLSerializer drops the leading <?xml ...?> declaration — put it back
+    // to match every other (untouched) part in the file.
+    const xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' + ctx.serializer.serializeToString(entry.doc);
+    ctx.zip.file(entry.path, xml);
   }
 
   // Quizzes have no home in the existing file — a brand-new sheet, hand-
@@ -365,20 +374,21 @@ function addQuizzesSheet(XLSX, ctx, students, quizzes, data, result) {
   const existingRids = [...ctx.relsDoc.getElementsByTagName('Relationship')].map((el) => parseInt((el.getAttribute('Id') || '').replace('rId', ''), 10) || 0);
   const newRid = 'rId' + (Math.max(0, ...existingRids) + 1);
 
-  const sheetEl = ctx.workbookDoc.createElement('sheet');
+  const sheetEl = ctx.workbookDoc.createElementNS(NS_MAIN, 'sheet');
   sheetEl.setAttribute('name', 'Quizzes');
   sheetEl.setAttribute('sheetId', String(newSheetId));
   sheetEl.setAttributeNS(NS_R, 'r:id', newRid);
   sheetsEl.appendChild(sheetEl);
 
-  const relEl = ctx.relsDoc.createElement('Relationship');
+  const relEl = ctx.relsDoc.createElementNS(NS_PKG_REL, 'Relationship');
   relEl.setAttribute('Id', newRid);
   relEl.setAttribute('Type', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet');
   relEl.setAttribute('Target', `worksheets/sheet${n}.xml`);
   ctx.relsDoc.getElementsByTagName('Relationships')[0].appendChild(relEl);
 
-  ctx.zip.file('xl/workbook.xml', ctx.serializer.serializeToString(ctx.workbookDoc));
-  ctx.zip.file('xl/_rels/workbook.xml.rels', ctx.serializer.serializeToString(ctx.relsDoc));
+  const XML_DECL = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n';
+  ctx.zip.file('xl/workbook.xml', XML_DECL + ctx.serializer.serializeToString(ctx.workbookDoc));
+  ctx.zip.file('xl/_rels/workbook.xml.rels', XML_DECL + ctx.serializer.serializeToString(ctx.relsDoc));
   ctx.zip.file(newPath, worksheetXml);
 
   // Register content type so Excel recognises the new part
