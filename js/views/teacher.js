@@ -7,7 +7,7 @@ import { render, esc, spinner, badge, courseBadgeClass, statusChip, toast, openM
 import { getCurriculum, invalidate, taskStatus, criterionLabel, provisionalAward, coverageMatrix, filterCurByProgram } from '../store.js';
 import { getScope, setScope } from '../scope.js';
 import { navigate } from '../router.js';
-import { loadSheetJS, detectStudentSheets, guessStudentMapping, runMarkbookSync, downloadWorkbook } from '../markbook-sync.js';
+import { loadSheetJS, loadJSZip, loadWorkbookForSync, detectStudentSheets, guessStudentMapping, runMarkbookSync, downloadWorkbook } from '../markbook-sync.js';
 
 function teacherHeader(title, sub, scopeHtml = '') {
   return `
@@ -716,7 +716,7 @@ function wireMarkbookSync(cur, data) {
   const fileInput = document.getElementById('markbook-file');
   const analyseBtn = document.getElementById('markbook-analyse');
   const resultEl = document.getElementById('markbook-result');
-  let workbook = null, XLSXRef = null;
+  let ctxRef = null, XLSXRef = null;
 
   fileInput.addEventListener('change', () => { analyseBtn.disabled = !fileInput.files.length; resultEl.innerHTML = ''; });
 
@@ -726,11 +726,11 @@ function wireMarkbookSync(cur, data) {
     analyseBtn.disabled = true;
     resultEl.innerHTML = '<p class="unit-counts">Loading…</p>';
     try {
-      const XLSX = await loadSheetJS();
+      const [XLSX, JSZip] = await Promise.all([loadSheetJS(), loadJSZip()]);
       const buf = await file.arrayBuffer();
-      workbook = XLSX.read(buf, { type: 'array', cellDates: true });
+      ctxRef = await loadWorkbookForSync(JSZip, buf);
       XLSXRef = XLSX;
-      const sheetNames = detectStudentSheets(workbook);
+      const sheetNames = detectStudentSheets(ctxRef);
       const guess = guessStudentMapping(data.profiles, sheetNames);
       const unmatched = data.profiles.filter(p => !guess[p.id]).length;
 
@@ -757,31 +757,39 @@ function wireMarkbookSync(cur, data) {
     }
   });
 
-  function runSync(originalName) {
+  async function runSync(originalName) {
+    const runBtn = document.getElementById('markbook-run');
+    runBtn.disabled = true;
+    runBtn.textContent = 'Working…';
     const studentMap = {};
     resultEl.querySelectorAll('[data-student-map]').forEach(sel => { studentMap[sel.dataset.studentMap] = sel.value || null; });
 
-    const result = runMarkbookSync({ XLSX: XLSXRef, wb: workbook, cur, data, studentMap });
-    const outName = originalName.replace(/\.xlsx$/i, '') + ' - updated.xlsx';
+    try {
+      const result = await runMarkbookSync({ XLSX: XLSXRef, ctx: ctxRef, cur, data, studentMap });
+      const outName = originalName.replace(/\.xlsx$/i, '') + ' - updated.xlsx';
 
-    resultEl.innerHTML = `
-      <div class="info-box info-box--ok">
-        <p>✅ Filled ${result.marksFilled} mark${result.marksFilled === 1 ? '' : 's'}, ${result.datesFilled} submission date${result.datesFilled === 1 ? '' : 's'}, and ${result.quizFilled} quiz score${result.quizFilled === 1 ? '' : 's'} (new "Quizzes" sheet).</p>
-        ${result.skippedStudents.length ? `<p>Skipped (no sheet matched): ${result.skippedStudents.map(esc).join(', ')}</p>` : ''}
-      </div>
-      ${result.disagreements.length ? `
-      <div class="warning-box">
-        <p><strong>⚠ ${result.disagreements.length} disagreement${result.disagreements.length === 1 ? '' : 's'}</strong> — left untouched, review these yourself:</p>
-        <div class="marking-wrap"><table class="data-table">
-          <thead><tr><th>Student</th><th>Task</th><th>Criterion</th><th>Markbook has</th><th>Site has</th></tr></thead>
-          <tbody>${result.disagreements.map(d => `<tr><td>${esc(d.student)}</td><td>${esc(d.task)}</td><td>${esc(d.criterion)}</td><td>${esc(d.markbook)}</td><td>${esc(d.site)}</td></tr>`).join('')}</tbody>
-        </table></div>
-      </div>` : ''}
-      <button class="btn btn-primary" id="markbook-download" style="margin-top:1rem;">⬇ Download "${esc(outName)}"</button>
-      <p class="unit-counts" style="margin-top:0.5rem;">Check it opens cleanly and formulas/formatting look right before saving it over your original.</p>`;
+      resultEl.innerHTML = `
+        <div class="info-box info-box--ok">
+          <p>✅ Filled ${result.marksFilled} mark${result.marksFilled === 1 ? '' : 's'}, ${result.datesFilled} submission date${result.datesFilled === 1 ? '' : 's'}, and ${result.quizFilled} quiz score${result.quizFilled === 1 ? '' : 's'} (new "Quizzes" sheet). Every other cell, style and formatting rule in the file is untouched.</p>
+          ${result.skippedStudents.length ? `<p>Skipped (no sheet matched): ${result.skippedStudents.map(esc).join(', ')}</p>` : ''}
+        </div>
+        ${result.disagreements.length ? `
+        <div class="warning-box">
+          <p><strong>⚠ ${result.disagreements.length} disagreement${result.disagreements.length === 1 ? '' : 's'}</strong> — left untouched, review these yourself:</p>
+          <div class="marking-wrap"><table class="data-table">
+            <thead><tr><th>Student</th><th>Task</th><th>Criterion</th><th>Markbook has</th><th>Site has</th></tr></thead>
+            <tbody>${result.disagreements.map(d => `<tr><td>${esc(d.student)}</td><td>${esc(d.task)}</td><td>${esc(d.criterion)}</td><td>${esc(d.markbook)}</td><td>${esc(d.site)}</td></tr>`).join('')}</tbody>
+          </table></div>
+        </div>` : ''}
+        <button class="btn btn-primary" id="markbook-download" style="margin-top:1rem;">⬇ Download "${esc(outName)}"</button>
+        <p class="unit-counts" style="margin-top:0.5rem;">Check it opens cleanly before saving it over your original.</p>`;
 
-    document.getElementById('markbook-download').addEventListener('click', () => downloadWorkbook(XLSXRef, workbook, outName));
-    toast('Markbook processed.', 'success');
+      document.getElementById('markbook-download').addEventListener('click', () => downloadWorkbook(ctxRef, outName));
+      toast('Markbook processed.', 'success');
+    } catch (err) {
+      resultEl.innerHTML = `<p class="form-error">${esc(err.message)}</p>`;
+      toast(err.message, 'error');
+    }
   }
 }
 
