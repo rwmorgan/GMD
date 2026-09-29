@@ -25,7 +25,7 @@ export const tasks = [
   // ================= UNIT 1 — Computers & Digital Foundations =================
   {
     id: 'A1.1', unit_id: 'u1', code: '1.1', title: 'Top-Down & Platformer Games + Backup',
-    type: 'submission', sort: 11, est_time: '2–3 lessons', tools: 'Flowlab or Scratch, Word, OneDrive', weeks: 'T1 Weeks 1–2 · due Wed 11 Feb',
+    type: 'submission', sort: 11, est_time: '2–3 lessons', tools: 'Flowlab or Scratch, Word, OneDrive', weeks: 'T1 Weeks 1–2 · due Wed 11 Feb', due_date: '2026-02-11',
     overview: "Start by making something. After building a simple game in Flowlab or Scratch, you'll research the two genres you just touched — top-down and platformer — and write up what defines them. Along the way you'll set up the folder and backup habits you'll rely on all year.",
     criteria: ['ESC-C3', 'ESC-C4', 'ICT-C1', 'ICT-C3'],
     elements: ['ESC-C3-a', 'ESC-C3-b', 'ESC-C4-c', 'ICT-C1-c', 'ICT-C1-d', 'ICT-C3-a', 'ICT-C3-c'],
@@ -61,7 +61,7 @@ export const tasks = [
 
   {
     id: 'A1.2', unit_id: 'u1', code: '1.2', title: 'Parts of a Computer, Computer Types & OS',
-    type: 'submission', sort: 12, est_time: '1–2 lessons', tools: 'Word, YouTube', weeks: 'T1 Week 2 · due Fri 13 Feb',
+    type: 'submission', sort: 12, est_time: '1–2 lessons', tools: 'Word, YouTube', weeks: 'T1 Week 2 · due Fri 13 Feb', due_date: '2026-02-13',
     overview: "What's actually inside the machine you game on? Two short research tasks: name the main parts of a computer, then use the videos to sort out computer types and operating systems. Two documents, clearly named.",
     criteria: ['ESC-C1', 'ESC-C2', 'ESC-C4', 'ICT-C1'],
     elements: ['ESC-C1-a', 'ESC-C1-b', 'ESC-C2-a', 'ESC-C2-b', 'ESC-C4-a', 'ICT-C1-a', 'ICT-C1-b'],
@@ -98,7 +98,7 @@ export const tasks = [
 
   {
     id: 'A1.3', unit_id: 'u1', code: '1.3', title: 'Build a Computer',
-    type: 'submission', sort: 14, est_time: '3–4 lessons', tools: 'PowerPoint, Excel, browser', weeks: 'T1 Weeks 2–3 · due Fri 20 Feb',
+    type: 'submission', sort: 14, est_time: '3–4 lessons', tools: 'PowerPoint, Excel, browser', weeks: 'T1 Weeks 2–3 · due Fri 20 Feb', due_date: '2026-02-20',
     overview: "Time to go shopping (fictitiously). You'll spec complete computer builds for two different budgets, justify every choice, and present the lot as a PowerPoint backed by a costed spreadsheet. One build must be a gaming machine.",
     criteria: ['ESC-C1', 'ESC-C2', 'ESC-C3', 'ICT-C1', 'ICT-C3', 'ICT-C4'],
     elements: ['ESC-C1-a', 'ESC-C1-b', 'ESC-C2-a', 'ESC-C2-b', 'ESC-C3-a', 'ESC-C3-b', 'ICT-C1-a', 'ICT-C1-e', 'ICT-C1-f', 'ICT-C3-a', 'ICT-C3-b', 'ICT-C3-c', 'ICT-C3-d', 'ICT-C4-a', 'ICT-C4-d'],
@@ -152,7 +152,7 @@ export const tasks = [
 
   {
     id: 'A1.4', unit_id: 'u1', code: '1.4', title: 'Safe Gaming Space',
-    type: 'submission', sort: 15, est_time: '2–3 lessons', tools: 'Word (or design software of your choice)', weeks: 'T1 Weeks 3–4 · due Fri 27 Feb',
+    type: 'submission', sort: 15, est_time: '2–3 lessons', tools: 'Word (or design software of your choice)', weeks: 'T1 Weeks 3–4 · due Fri 27 Feb', due_date: '2026-02-27',
     overview: "Design your ideal study/gaming space — one that won't wreck your back, eyes or wallet. Your write-up must show you understand ergonomics, and it doubles as a Word formatting workout.",
     criteria: ['ESC-C1', 'ESC-C2', 'ESC-C3', 'ICT-C3', 'ICT-C4', 'ICT-C5'],
     elements: ['ESC-C1-b', 'ESC-C2-a', 'ESC-C2-b', 'ESC-C3-a', 'ESC-C3-b', 'ICT-C3-b', 'ICT-C3-c', 'ICT-C4-a', 'ICT-C4-b', 'ICT-C5-b', 'ICT-C5-d'],
@@ -200,7 +200,7 @@ export const tasks = [
   // ================= UNIT 2 — Reviewing Games =================
   {
     id: 'A2.1', unit_id: 'u2', code: '2.1', title: 'Web Browser Games — 5 Reviews',
-    type: 'submission', sort: 21, est_time: '2 lessons', tools: 'Browser, Word', weeks: 'T1 Weeks 5–6 · due Fri 13 Mar',
+    type: 'submission', sort: 21, est_time: '2 lessons', tools: 'Browser, Word', weeks: 'T1 Weeks 5–6 · due Fri 13 Mar', due_date: '2026-03-13',
     overview: "Play games, on purpose, for marks. Five browser games, five different genres, and a short written review of each — then crown your favourite and defend the choice.",
     criteria: ['ESC-C1', 'ESC-C2', 'ESC-C3'],
     elements: ['ESC-C1-a', 'ESC-C1-b', 'ESC-C2-a', 'ESC-C2-b', 'ESC-C3-a', 'ESC-C3-b'],
@@ -239,7 +239,7 @@ export const tasks = [
 
   {
     id: 'A2.2', unit_id: 'u2', code: '2.2', title: 'Full Version Game Review — A3 Poster',
-    type: 'submission', sort: 23, est_time: '4–5 lessons', tools: 'Adobe Illustrator or Photoshop (MS Publisher only by exception)', weeks: 'T1 Weeks 6–7 · due Fri 20 Mar',
+    type: 'submission', sort: 23, est_time: '4–5 lessons', tools: 'Adobe Illustrator or Photoshop (MS Publisher only by exception)', weeks: 'T1 Weeks 6–7 · due Fri 20 Mar', due_date: '2026-03-20',
     overview: "Review a full-release game you've actually played — as a designed A3 poster. This assesses your reviewing AND your Adobe skills, so a skills journal of what you learn in the software travels with it.",
     criteria: ['ICT-C4', 'ICT-C5'],
     elements: ['ICT-C4-a', 'ICT-C4-b', 'ICT-C4-c', 'ICT-C4-e', 'ICT-C5-a', 'ICT-C5-b', 'ICT-C5-d'],
@@ -286,7 +286,7 @@ export const tasks = [
 
   {
     id: 'A2.3', unit_id: 'u2', code: '2.3', title: 'Video Game Review — Premiere Pro',
-    type: 'submission', sort: 24, est_time: '4–6 lessons', tools: 'Adobe Premiere Pro, capture hardware/software, YouTube', weeks: 'T1 Weeks 8–10 · due Fri 10 Apr',
+    type: 'submission', sort: 24, est_time: '4–6 lessons', tools: 'Adobe Premiere Pro, capture hardware/software, YouTube', weeks: 'T1 Weeks 8–10 · due Fri 10 Apr', due_date: '2026-04-10',
     overview: "Your third review format: video. Capture footage of a game of your choice, script a voiceover, edit it in Premiere Pro, and publish to YouTube — the way working reviewers actually do it.",
     criteria: ['ESC-C2', 'ESC-C4', 'ICT-C2', 'ICT-C3'],
     elements: ['ESC-C2-a', 'ESC-C2-b', 'ESC-C4-c', 'ESC-C4-d', 'ICT-C2-a', 'ICT-C2-e', 'ICT-C3-c', 'ICT-C3-e'],
@@ -322,7 +322,7 @@ export const tasks = [
   // ================= UNIT 3 — Game Engines =================
   {
     id: 'A3.1', unit_id: 'u3', code: '3.1', title: 'Unreal Skills Journal',
-    type: 'submission', sort: 31, est_time: 'Ongoing through the Unreal weeks', tools: 'Unreal Engine, Word', weeks: 'T2 Weeks 1–5 · due Fri 29 May',
+    type: 'submission', sort: 31, est_time: 'Ongoing through the Unreal weeks', tools: 'Unreal Engine, Word', weeks: 'T2 Weeks 1–5 · due Fri 29 May', due_date: '2026-05-29',
     overview: "The assessment for our Unreal work isn't the game you end up with — it's the skills journal you keep while learning. Think of it as a guide that could teach someone with no experience, and a reference future-you will genuinely use.",
     criteria: ['ICT-C4', 'ICT-C5'],
     elements: ['ICT-C4-b', 'ICT-C4-c', 'ICT-C4-e', 'ICT-C5-a', 'ICT-C5-d', 'ICT-C5-e', 'ICT-C5-h'],
@@ -348,7 +348,7 @@ export const tasks = [
 
   {
     id: 'A3.2', unit_id: 'u3', code: '3.2', title: 'Unity Skills Journal',
-    type: 'submission', sort: 32, est_time: 'Ongoing through the Unity weeks', tools: 'Unity, Word', weeks: 'T2 Weeks 5–7 · due Fri 12 Jun',
+    type: 'submission', sort: 32, est_time: 'Ongoing through the Unity weeks', tools: 'Unity, Word', weeks: 'T2 Weeks 5–7 · due Fri 12 Jun', due_date: '2026-06-12',
     overview: "Same deal as Unreal: the assessment is the journal, not the game. Document Unity as you learn it — tips, tricks and how-tos a beginner could follow.",
     criteria: ['ICT-C4', 'ICT-C5'],
     elements: ['ICT-C4-b', 'ICT-C4-c', 'ICT-C4-e', 'ICT-C5-a', 'ICT-C5-d', 'ICT-C5-e', 'ICT-C5-h'],
@@ -378,7 +378,7 @@ export const tasks = [
 
   {
     id: 'A3.3', unit_id: 'u3', code: '3.3', title: 'Game Skills Journal & Critical Reflection',
-    type: 'submission', sort: 33, est_time: '10–15 min per lesson + 1 final lesson', tools: 'Your engine, Word', weeks: 'T2 Weeks 5–9 · due Fri 10 Jul',
+    type: 'submission', sort: 33, est_time: '10–15 min per lesson + 1 final lesson', tools: 'Your engine, Word', weeks: 'T2 Weeks 5–9 · due Fri 10 Jul', due_date: '2026-07-10',
     overview: "Across these 4–5 weeks of game-building, keep your journal ticking over every lesson — then close it out by turning the critical lens on your own game.",
     criteria: ['ICT-C2', 'ICT-C4', 'ICT-C5'],
     elements: ['ICT-C2-a', 'ICT-C4-b', 'ICT-C4-e', 'ICT-C5-c', 'ICT-C5-g'],
@@ -406,7 +406,7 @@ export const tasks = [
   // ================= UNIT 4 — Design & Digital Citizenship =================
   {
     id: 'A4.1', unit_id: 'u4', code: '4.1', title: 'E-Waste',
-    type: 'submission', sort: 41, est_time: '1–2 lessons', tools: 'Word, YouTube', weeks: 'T2 Week 8 · due Mon 22 Jun',
+    type: 'submission', sort: 41, est_time: '1–2 lessons', tools: 'Word, YouTube', weeks: 'T2 Week 8 · due Mon 22 Jun', due_date: '2026-06-22',
     overview: "Where does our technology go when we're done with it? Watch two documentaries — the e-waste dumps of Agbogbloshie, Ghana, and the engineered safety of Zipline's drone operations — and answer the ethics and OH&S questions they raise.",
     criteria: ['ESC-C2', 'ICT-C2', 'ICT-C3', 'ICT-C4'],
     elements: ['ESC-C2-a', 'ESC-C2-b', 'ICT-C2-a', 'ICT-C2-e', 'ICT-C2-f', 'ICT-C3-a', 'ICT-C3-c', 'ICT-C4-b', 'ICT-C4-d'],
@@ -453,7 +453,7 @@ export const tasks = [
 
   {
     id: 'A4.2', unit_id: 'u4', code: '4.2', title: 'Game Design Brief',
-    type: 'submission', sort: 43, est_time: '2–3 lessons', tools: 'Word', weeks: 'T2 Weeks 9–10 · due Wed 24 Jun',
+    type: 'submission', sort: 43, est_time: '2–3 lessons', tools: 'Word', weeks: 'T2 Weeks 9–10 · due Wed 24 Jun', due_date: '2026-06-24',
     overview: "Before the major project, practise the paperwork: a design brief outlining what sort of game you're going to create. Keep it achievable — following a tutorial with your own adjustments is completely legitimate.",
     criteria: ['ESC-C4', 'ICT-C1', 'ICT-C5'],
     elements: ['ESC-C4-a', 'ICT-C1-b', 'ICT-C1-e', 'ICT-C5-b', 'ICT-C5-f'],
@@ -484,7 +484,7 @@ export const tasks = [
   // ================= UNIT 5 — Major Project (PRJ205118) =================
   {
     id: 'A5.1', unit_id: 'u5', code: '5.1', title: 'Project Brief + Game Design Document',
-    type: 'submission', sort: 51, est_time: '2 weeks', tools: 'Word', weeks: 'T3 Weeks 1–2 · due Fri 31 Jul (BG2B class: Fri 7 Aug)',
+    type: 'submission', sort: 51, est_time: '2 weeks', tools: 'Word', weeks: 'T3 Weeks 1–2 · due Fri 31 Jul (BG2B class: Fri 7 Aug)', due_date: '2026-07-31', // NOTE: BG2B class has a different due date (7 Aug) — this field only holds one date; adjust per-class manually if that distinction matters for late-flagging
     overview: "The major project starts on paper. Two documents: a project brief that pins down what you're making and how you'll manage it, and a game design document that specifies the game itself. There are 12 weeks all up — including planning and presentation — so your scope should reflect about 50 hours of work.",
     criteria: ['PRJ-C2'],
     elements: ['PRJ-C2-a', 'PRJ-C2-b', 'PRJ-C2-d'],
@@ -543,7 +543,7 @@ export const tasks = [
 
   {
     id: 'A5.2', unit_id: 'u5', code: '5.2', title: 'Project Plan + Gantt Chart',
-    type: 'submission', sort: 53, est_time: '1 week', tools: 'Word, Excel (or your choice of planning tool)', weeks: 'T3 Week 3 · due Fri 7 Aug',
+    type: 'submission', sort: 53, est_time: '1 week', tools: 'Word, Excel (or your choice of planning tool)', weeks: 'T3 Week 3 · due Fri 7 Aug', due_date: '2026-08-07',
     overview: "The brief said what; the plan says when. Research project plans, focus hard on timing and scheduling, and build the Gantt chart you'll actually steer the project by — you'll refer back to it every week.",
     criteria: ['PRJ-C1', 'PRJ-C2'],
     elements: ['PRJ-C1-a', 'PRJ-C1-c', 'PRJ-C1-e', 'PRJ-C2-a', 'PRJ-C2-c', 'PRJ-C2-d'],
@@ -586,7 +586,7 @@ export const tasks = [
 
   {
     id: 'A5.3', unit_id: 'u5', code: '5.3', title: 'Major Project — Build, Journal & Write-Up',
-    type: 'submission', sort: 56, est_time: 'Terms 3–4', tools: 'Your engine, Word, OneDrive', weeks: 'T3–T4 · due Fri 30 Oct',
+    type: 'submission', sort: 56, est_time: 'Terms 3–4', tools: 'Your engine, Word, OneDrive', weeks: 'T3–T4 · due Fri 30 Oct', due_date: '2026-10-30',
     overview: "The culmination of months of work — and your journal, project and documentation should reflect this. Three parts: the game itself, the lesson-by-lesson development journal, and a final write-up of what you built and learned.",
     criteria: ['PRJ-C1', 'PRJ-C3', 'PRJ-C4', 'PRJ-C5'],
     elements: ['PRJ-C1-b', 'PRJ-C1-c', 'PRJ-C1-e', 'PRJ-C3-a', 'PRJ-C3-c', 'PRJ-C3-d', 'PRJ-C4-a', 'PRJ-C4-b', 'PRJ-C4-d', 'PRJ-C5-a', 'PRJ-C5-d', 'PRJ-C5-e'],
@@ -634,7 +634,7 @@ export const tasks = [
 
   {
     id: 'A5.4', unit_id: 'u5', code: '5.4', title: 'Presentation',
-    type: 'submission', sort: 59, est_time: '3–6 minutes + prep', tools: 'Your game, the classroom TV', weeks: 'T4 Week 3 · due Fri 30 Oct',
+    type: 'submission', sort: 59, est_time: '3–6 minutes + prep', tools: 'Your game, the classroom TV', weeks: 'T4 Week 3 · due Fri 30 Oct', due_date: '2026-10-30',
     overview: "Present your finished project to the class: what it was, what went wrong, how you fixed it, and whether you hit the goals in your plan — then prove it by playing the game on the TV.",
     criteria: ['PRJ-C3', 'PRJ-C4', 'PRJ-C5'],
     elements: ['PRJ-C3-d', 'PRJ-C3-e', 'PRJ-C4-b', 'PRJ-C4-d', 'PRJ-C5-b', 'PRJ-C5-e'],

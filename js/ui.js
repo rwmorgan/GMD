@@ -205,6 +205,22 @@ export function fmtDate(iso) {
     ' ' + d.toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' });
 }
 
+/* For plain 'YYYY-MM-DD' dates (e.g. task due dates) — parsing these as a
+   timestamp via `new Date(iso)` reads them as UTC midnight, which can roll
+   back a day once converted to a local (e.g. Australian) timezone. Build
+   the Date from local year/month/day instead so it never shifts. */
+export function fmtDateOnly(isoDate) {
+  if (!isoDate) return '—';
+  const [y, m, d] = isoDate.split('-').map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+/* Local (browser-timezone) calendar date, 'YYYY-MM-DD', for comparing a
+   timestamp against a due_date without UTC-vs-local day-boundary drift. */
+export function localDateStr(iso) {
+  return iso ? new Date(iso).toLocaleDateString('en-CA') : null;
+}
+
 /* CSV download helper */
 export function downloadCSV(filename, rows) {
   const escCell = v => {

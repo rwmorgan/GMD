@@ -3,7 +3,7 @@
 
 import { api } from '../api.js';
 import { IS_DEMO } from '../config.js';
-import { render, esc, spinner, badge, courseBadgeClass, statusChip, toast, openModal, closeModal, fmtDate, downloadCSV, progressBar, avatarHTML } from '../ui.js';
+import { render, esc, spinner, badge, courseBadgeClass, statusChip, toast, openModal, closeModal, fmtDate, fmtDateOnly, localDateStr, downloadCSV, progressBar, avatarHTML } from '../ui.js';
 import { getCurriculum, invalidate, taskStatus, criterionLabel, provisionalAward, coverageMatrix, filterCurByProgram } from '../store.js';
 import { getScope, setScope } from '../scope.js';
 import { navigate } from '../router.js';
@@ -18,6 +18,7 @@ function teacherHeader(title, sub, scopeHtml = '') {
     <div class="meta-row teach-nav">
       <a class="btn btn-secondary btn-sm" href="#/teach">🏫 Overview</a>
       <a class="btn btn-secondary btn-sm" href="#/teach/marking">📝 Marking</a>
+      <a class="btn btn-secondary btn-sm" href="#/teach/tasks">📋 Tasks</a>
       <a class="btn btn-secondary btn-sm" href="#/matrix">📊 Matrix</a>
       <a class="btn btn-secondary btn-sm" href="#/teach/analysis">📈 Item analysis</a>
       <a class="btn btn-secondary btn-sm" href="#/teach/editor">🛠 Editor</a>
@@ -205,7 +206,7 @@ ${teacherHeader('Marking Queue', queue.length ? `${queue.length} submission${que
   }));
 }
 
-function openMarkingModal(cur, data, studentId, task) {
+function openMarkingModal(cur, data, studentId, task, onSaved = markingView) {
   const profile = data.profiles.find(p => p.id === studentId);
   const existing = Object.fromEntries(
     data.marks.filter(m => m.student_id === studentId && m.task_id === task.id).map(m => [m.criterion_id, m.rating]));
@@ -299,9 +300,119 @@ function openMarkingModal(cur, data, studentId, task) {
       invalidate({ state: true });
       toast(`Saved marks for ${profile?.display_name}.`, 'success');
       modal.close();
-      markingView();
+      onSaved();
     } catch (err) { toast(err.message, 'error'); }
   });
+}
+
+/* ---------- tasks: per-task submission roster ---------- */
+export async function tasksView() {
+  render(spinner());
+  const scope = getScope();
+  const [curAll, data, classesData] = await Promise.all([
+    getCurriculum(), api.getClassData(scope.classId || null), api.getClasses(),
+  ]);
+  const cur = filterCurByProgram(curAll, scope.programId);
+  const nStudents = data.profiles.length || 1;
+
+  const unitBlocks = cur.units.map(u => {
+    const tasks = cur.tasks.filter(t => t.unit_id === u.id);
+    return `
+    <h3 class="editor-unit-head">Unit ${u.number}: ${esc(u.title)}</h3>
+    <div class="task-rows">
+      ${tasks.map(t => {
+        let submitted = 0, marked = 0;
+        for (const p of data.profiles) {
+          const status = taskStatus(t, studentState(data, p.id));
+          if (status === 'submitted' || status === 'marked') submitted++;
+          if (status === 'marked') marked++;
+        }
+        const overdue = t.due_date && t.due_date < localDateStr(new Date().toISOString()) && marked < nStudents;
+        return `
+        <a class="task-row" href="#/teach/tasks/${encodeURIComponent(t.id)}">
+          <div class="task-row-num">${t.type === 'quiz' ? '⚡' : esc(t.code)}</div>
+          <div class="task-row-main">
+            <h3>${esc(t.title)}</h3>
+            <div class="task-row-badges">${t.criteria.map(c => badge(criterionLabel(cur, c), courseBadgeClass(c))).join(' ')}
+              ${t.due_date ? `<span class="chip ${overdue ? 'chip-submitted' : 'chip-idle'}">Due ${fmtDateOnly(t.due_date)}</span>` : ''}</div>
+          </div>
+          <div class="task-row-side">
+            <span class="chip chip-idle">${submitted}/${data.profiles.length} submitted</span>
+            <span class="chip chip-marked">${marked}/${data.profiles.length} marked</span>
+          </div>
+        </a>`;
+      }).join('')}
+    </div>`;
+  }).join('');
+
+  render(`
+${teacherHeader('Tasks', 'Click any task to see every student\'s submission and mark for it.', scopeBar(classesData))}
+<section class="section section--sm">
+  <div class="container container--wide">
+    ${unitBlocks}
+  </div>
+</section>`, { title: 'Tasks' });
+  wireScopeBar();
+}
+
+export async function taskDetailView({ id }) {
+  render(spinner());
+  const [cur, data] = await Promise.all([getCurriculum(), api.getClassData()]);
+  const task = cur.tasks.find(t => t.id === id);
+  if (!task) { render('<section class="section"><div class="container"><h1>Task not found</h1></div></section>'); return; }
+  const today = localDateStr(new Date().toISOString());
+
+  const rows = data.profiles.map(p => {
+    const st = studentState(data, p.id);
+    const status = taskStatus(task, st);
+    const subs = st.submissions.filter(s => s.task_id === task.id).sort((a, b) => a.created_at.localeCompare(b.created_at));
+    const latestSub = subs[subs.length - 1];
+    const marks = st.marks.filter(m => m.task_id === task.id);
+    const attempts = st.attempts.filter(a => a.task_id === task.id);
+
+    let timing = '—';
+    if (task.due_date) {
+      if (latestSub) {
+        timing = localDateStr(latestSub.created_at) > task.due_date
+          ? `<span class="chip chip-submitted" title="Due ${esc(fmtDateOnly(task.due_date))}">⚠ Late</span>`
+          : `<span class="chip chip-marked">On time</span>`;
+      } else if (task.due_date < today && status !== 'marked') {
+        timing = `<span class="chip chip-submitted">⚠ Overdue</span>`;
+      }
+    }
+
+    const resultCell = task.type === 'quiz'
+      ? (attempts.length
+          ? `${Math.round(Math.max(...attempts.map(a => a.max_score > 0 ? a.score / a.max_score * 100 : 0)))}% (${attempts.length} attempt${attempts.length === 1 ? '' : 's'})`
+          : '—')
+      : (marks.map(m => `<span class="rating-chip rating-${esc(m.rating)}">${esc(criterionLabel(cur, m.criterion_id))}: <b>${esc(m.rating)}</b></span>`).join(' ') || '—');
+
+    return `
+    <tr>
+      <td><a href="#/teach/students/${encodeURIComponent(p.id)}" style="color:inherit;">${avatarHTML(p, 'avatar--sm')} <strong>${esc(p.display_name)}</strong></a></td>
+      <td>${statusChip(status)}</td>
+      <td>${latestSub ? fmtDate(latestSub.created_at) : '—'}</td>
+      <td>${timing}</td>
+      <td>${resultCell}</td>
+      <td>${task.type !== 'quiz' && latestSub ? `<button class="btn btn-primary btn-sm" data-mark="${esc(p.id)}">Mark →</button>` : ''}</td>
+    </tr>`;
+  }).join('');
+
+  render(`
+${teacherHeader(`${task.code} ${task.title}`, `${task.overview || ''}${task.due_date ? ` · Due ${fmtDateOnly(task.due_date)}` : ''}`)}
+<section class="section section--sm">
+  <div class="container container--wide">
+    <div class="meta-row" style="margin-bottom:1rem;"><a class="btn btn-secondary btn-sm" href="#/teach/tasks">← All tasks</a></div>
+    <div class="marking-wrap"><table class="data-table">
+      <thead><tr><th>Student</th><th>Status</th><th>Submitted</th><th>Timing</th><th>${task.type === 'quiz' ? 'Best score' : 'Ratings'}</th><th></th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>
+  </div>
+</section>`, { title: task.code });
+
+  document.querySelectorAll('[data-mark]').forEach(b => b.addEventListener('click', () => {
+    openMarkingModal(cur, data, b.dataset.mark, task, () => taskDetailView({ id }));
+  }));
 }
 
 /* ---------- quiz item analysis ---------- */
@@ -371,7 +482,7 @@ ${teacherHeader('Students', `${students.length} enrolled. Deactivating blocks si
       <tbody>
         ${students.map(s => `
           <tr class="${s.active === false ? 'row-inactive' : ''}">
-            <td>${avatarHTML(s, 'avatar--sm')} <strong>${esc(s.display_name)}</strong></td>
+            <td><a href="#/teach/students/${encodeURIComponent(s.id)}" style="color:inherit; text-decoration:none;">${avatarHTML(s, 'avatar--sm')} <strong>${esc(s.display_name)}</strong></a></td>
             <td>${esc(s.email || '—')}</td>
             <td>${s.active === false ? '<span class="chip chip-idle">Inactive</span>' : '<span class="chip chip-marked">Active</span>'}</td>
             <td><button class="btn btn-secondary btn-sm" data-toggle="${esc(s.id)}" data-active="${s.active !== false}">
@@ -389,6 +500,83 @@ ${teacherHeader('Students', `${students.length} enrolled. Deactivating blocks si
       toast('Updated.', 'success');
       studentsView();
     } catch (err) { toast(err.message, 'error'); }
+  }));
+}
+
+export async function studentDetailView({ id }) {
+  render(spinner());
+  const [cur, data] = await Promise.all([getCurriculum(), api.getClassData()]);
+  const profile = data.profiles.find(p => p.id === id);
+  if (!profile) { render('<section class="section"><div class="container"><h1>Student not found</h1></div></section>'); return; }
+  const st = studentState(data, id);
+  const today = localDateStr(new Date().toISOString());
+
+  const rows = cur.tasks.map(t => {
+    const status = taskStatus(t, st);
+    const subs = st.submissions.filter(s => s.task_id === t.id).sort((a, b) => a.created_at.localeCompare(b.created_at));
+    const latestSub = subs[subs.length - 1];
+    const marks = st.marks.filter(m => m.task_id === t.id);
+    const attempts = st.attempts.filter(a => a.task_id === t.id);
+    const outstanding = status === 'not_started' || status === 'in_progress';
+
+    let timing = '—';
+    if (t.due_date) {
+      if (latestSub) {
+        timing = localDateStr(latestSub.created_at) > t.due_date
+          ? `<span class="chip chip-submitted" title="Due ${esc(fmtDateOnly(t.due_date))}">⚠ Late</span>`
+          : `<span class="chip chip-marked">On time</span>`;
+      } else if (t.due_date < today && status !== 'marked') {
+        timing = `<span class="chip chip-submitted">⚠ Overdue (due ${esc(fmtDateOnly(t.due_date))})</span>`;
+      }
+    }
+
+    const resultCell = t.type === 'quiz'
+      ? (attempts.length
+          ? `${Math.round(Math.max(...attempts.map(a => a.max_score > 0 ? a.score / a.max_score * 100 : 0)))}% (${attempts.length} attempt${attempts.length === 1 ? '' : 's'})`
+          : '—')
+      : (marks.map(m => `<span class="rating-chip rating-${esc(m.rating)}">${esc(criterionLabel(cur, m.criterion_id))}: <b>${esc(m.rating)}</b></span>`).join(' ') || '—');
+
+    return `
+    <tr data-outstanding="${outstanding}">
+      <td><a href="#/teach/tasks/${encodeURIComponent(t.id)}" style="color:inherit;">${t.type === 'quiz' ? '⚡' : esc(t.code)} ${esc(t.title)}</a></td>
+      <td>${statusChip(status)}</td>
+      <td>${latestSub ? fmtDate(latestSub.created_at) : '—'}</td>
+      <td>${timing}</td>
+      <td>${resultCell}</td>
+      <td>${t.type !== 'quiz' && latestSub ? `<button class="btn btn-secondary btn-sm" data-mark="${esc(t.id)}">Mark →</button>` : ''}</td>
+    </tr>`;
+  }).join('');
+
+  const done = cur.tasks.filter(t => ['submitted', 'marked'].includes(taskStatus(t, st))).length;
+
+  render(`
+${teacherHeader(profile.display_name, `${done} / ${cur.tasks.length} tasks &amp; quizzes done${profile.active === false ? ' · <span class="chip chip-idle">Inactive</span>' : ''}`)}
+<section class="section section--sm">
+  <div class="container container--wide">
+    <div class="meta-row" style="margin-bottom:1rem;">
+      <a class="btn btn-secondary btn-sm" href="#/teach/students">← All students</a>
+      <button class="btn btn-secondary btn-sm" id="toggle-outstanding">Show outstanding only</button>
+    </div>
+    <div class="marking-wrap"><table class="data-table" id="student-task-table">
+      <thead><tr><th>Task</th><th>Status</th><th>Submitted</th><th>Timing</th><th>Result</th><th></th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>
+  </div>
+</section>`, { title: profile.display_name });
+
+  let outstandingOnly = false;
+  const toggleBtn = document.getElementById('toggle-outstanding');
+  toggleBtn.addEventListener('click', () => {
+    outstandingOnly = !outstandingOnly;
+    toggleBtn.textContent = outstandingOnly ? 'Show all tasks' : 'Show outstanding only';
+    document.querySelectorAll('#student-task-table tbody tr').forEach(row => {
+      row.hidden = outstandingOnly && row.dataset.outstanding !== 'true';
+    });
+  });
+
+  document.querySelectorAll('[data-mark]').forEach(b => b.addEventListener('click', () => {
+    const task = cur.tasks.find(t => t.id === b.dataset.mark);
+    openMarkingModal(cur, data, id, task, () => studentDetailView({ id }));
   }));
 }
 
@@ -631,7 +819,7 @@ export async function editorView({ id }) {
   const isNew = id === 'new-task' || id === 'new-quiz';
   const type = id === 'new-quiz' ? 'quiz' : id === 'new-task' ? 'submission' : null;
   let task = isNew
-    ? { id: '', unit_id: 'u1', code: '', title: '', type, overview: '', body: { sections: [], checklist: [], marking: [] }, tools: '', est_time: '', weeks: '', published: true, sort: 99, pass_pct: 80, max_attempts: null, criteria: [], elements: [], questions: [] }
+    ? { id: '', unit_id: 'u1', code: '', title: '', type, overview: '', body: { sections: [], checklist: [], marking: [] }, tools: '', est_time: '', weeks: '', due_date: '', published: true, sort: 99, pass_pct: 80, max_attempts: null, criteria: [], elements: [], questions: [] }
     : cur.tasks.find(t => t.id === id);
   if (!task) { render('<section class="section"><div class="container"><h1>Task not found</h1></div></section>'); return; }
   const isQuiz = task.type === 'quiz';
@@ -680,6 +868,7 @@ ${teacherHeader(isNew ? (isQuiz ? 'New Quiz' : 'New Task') : `Edit ${task.code}`
         <label class="field"><span>Estimated time</span><input name="est_time" value="${esc(task.est_time || '')}"></label>
         <label class="field"><span>Tools</span><input name="tools" value="${esc(task.tools || '')}"></label>
         <label class="field"><span>Weeks</span><input name="weeks" value="${esc(task.weeks || '')}"></label>
+        <label class="field"><span>Due date</span><input type="date" name="due_date" value="${esc(task.due_date || '')}"></label>
         <label class="field"><span>Sort order (lower = earlier)</span><input type="number" name="sort" value="${task.sort ?? 99}"></label>
         ${isQuiz ? `
         <label class="field"><span>Pass mark %</span><input type="number" name="pass_pct" min="0" max="100" value="${task.pass_pct ?? 80}"></label>
@@ -781,6 +970,7 @@ ${teacherHeader(isNew ? (isQuiz ? 'New Quiz' : 'New Task') : `Edit ${task.code}`
         tools: form.tools.value.trim(),
         est_time: form.est_time.value.trim(),
         weeks: form.weeks.value.trim(),
+        due_date: form.due_date.value || null,
         sort: parseInt(form.sort.value, 10) || 99,
         published: form.published.checked,
         pass_pct: isQuiz ? (parseInt(form.pass_pct.value, 10) || 80) : 80,

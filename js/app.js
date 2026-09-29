@@ -15,7 +15,7 @@ import { taskView } from './views/task.js';
 import { courseView, matrixView, assessmentView } from './views/courses.js';
 import { loginView, signupView, enrolView } from './views/auth.js';
 import { dashboardView, progressView } from './views/dashboard.js';
-import { teacherHomeView, markingView, analysisView, studentsView, settingsView, editorListView, editorView } from './views/teacher.js';
+import { teacherHomeView, markingView, analysisView, studentsView, studentDetailView, tasksView, taskDetailView, settingsView, editorListView, editorView } from './views/teacher.js';
 
 /* ---------- navigation ---------- */
 function navHTML() {
@@ -67,6 +67,7 @@ function navHTML() {
         <ul class="nav-dropdown">
           <li><a href="#/teach">🏫 Class Overview</a></li>
           <li><a href="#/teach/marking">📝 Marking Queue</a></li>
+          <li><a href="#/teach/tasks">📋 Tasks</a></li>
           <li><a href="#/matrix">📊 Coverage Matrix</a></li>
           <li><a href="#/teach/analysis">📈 Quiz Item Analysis</a></li>
           <li><a href="#/teach/editor">🛠 Task &amp; Quiz Editor</a></li>
@@ -240,8 +241,11 @@ route('/dashboard', requireAuth(dashboardView));
 route('/progress', requireAuth(progressView));
 route('/teach', requireTeacher(teacherHomeView));
 route('/teach/marking', requireTeacher(markingView));
+route('/teach/tasks', requireTeacher(tasksView));
+route('/teach/tasks/:id', requireTeacher(taskDetailView));
 route('/teach/analysis', requireTeacher(analysisView));
 route('/teach/students', requireTeacher(studentsView));
+route('/teach/students/:id', requireTeacher(studentDetailView));
 route('/teach/settings', requireTeacher(settingsView));
 route('/teach/editor', requireTeacher(editorListView));
 route('/teach/editor/:id', requireTeacher(editorView));
