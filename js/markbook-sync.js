@@ -203,6 +203,15 @@ function findRowLabel(XLSX, ctx, doc, label, col = 0, maxRow = 80) {
   return -1;
 }
 
+// Guarantees exactly one leading XML declaration. XMLSerializer's own
+// behaviour here isn't reliably one way or the other — assuming it always
+// drops the declaration and unconditionally prepending one is exactly what
+// produced a duplicate (a hard parse error: a second "<?xml...?>" is only
+// legal as the very first thing in a document, never partway through).
+function withXmlDecl(xmlString) {
+  return xmlString.startsWith('<?xml') ? xmlString : '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' + xmlString;
+}
+
 function excelSerialDate(date) {
   const epoch = Date.UTC(1899, 11, 30);
   return (date.getTime() - epoch) / 86400000;
@@ -309,10 +318,7 @@ export async function runMarkbookSync({ XLSX, ctx, cur, data, studentMap }) {
   // even re-serialized, so they're guaranteed byte-identical.
   for (const sheetName of ctx.dirtySheets) {
     const entry = ctx.sheetDocCache.get(sheetName);
-    // XMLSerializer drops the leading <?xml ...?> declaration — put it back
-    // to match every other (untouched) part in the file.
-    const xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' + ctx.serializer.serializeToString(entry.doc);
-    ctx.zip.file(entry.path, xml);
+    ctx.zip.file(entry.path, withXmlDecl(ctx.serializer.serializeToString(entry.doc)));
   }
 
   // Quizzes have no home in the existing file — a brand-new sheet, hand-
@@ -386,9 +392,8 @@ function addQuizzesSheet(XLSX, ctx, students, quizzes, data, result) {
   relEl.setAttribute('Target', `worksheets/sheet${n}.xml`);
   ctx.relsDoc.getElementsByTagName('Relationships')[0].appendChild(relEl);
 
-  const XML_DECL = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n';
-  ctx.zip.file('xl/workbook.xml', XML_DECL + ctx.serializer.serializeToString(ctx.workbookDoc));
-  ctx.zip.file('xl/_rels/workbook.xml.rels', XML_DECL + ctx.serializer.serializeToString(ctx.relsDoc));
+  ctx.zip.file('xl/workbook.xml', withXmlDecl(ctx.serializer.serializeToString(ctx.workbookDoc)));
+  ctx.zip.file('xl/_rels/workbook.xml.rels', withXmlDecl(ctx.serializer.serializeToString(ctx.relsDoc)));
   ctx.zip.file(newPath, worksheetXml);
 
   // Register content type so Excel recognises the new part
