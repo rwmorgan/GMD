@@ -15,6 +15,7 @@ import { taskView } from './views/task.js';
 import { courseView, matrixView, assessmentView } from './views/courses.js';
 import { loginView, signupView, enrolView } from './views/auth.js';
 import { dashboardView, progressView } from './views/dashboard.js';
+import { markbookView } from './views/markbook.js';
 import { teacherHomeView, markingView, analysisView, studentsView, studentDetailView, tasksView, taskDetailView, settingsView, editorListView, editorView } from './views/teacher.js';
 
 /* ---------- navigation ---------- */
@@ -66,6 +67,7 @@ function navHTML() {
         <button aria-haspopup="true" data-dd class="nav-teach">Teach <span class="chevron">▾</span></button>
         <ul class="nav-dropdown">
           <li><a href="#/teach">🏫 Class Overview</a></li>
+          <li><a href="#/teach/markbook">🗂 Markbook</a></li>
           <li><a href="#/teach/marking">📝 Marking Queue</a></li>
           <li><a href="#/teach/tasks">📋 Tasks</a></li>
           <li><a href="#/matrix">📊 Coverage Matrix</a></li>
@@ -240,6 +242,7 @@ route('/enrol', enrolView);
 route('/dashboard', requireAuth(dashboardView));
 route('/progress', requireAuth(progressView));
 route('/teach', requireTeacher(teacherHomeView));
+route('/teach/markbook', requireTeacher(markbookView));
 route('/teach/marking', requireTeacher(markingView));
 route('/teach/tasks', requireTeacher(tasksView));
 route('/teach/tasks/:id', requireTeacher(taskDetailView));

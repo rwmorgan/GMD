@@ -547,3 +547,69 @@ th.mx-prj { background: rgba(168,85,247,0.06); color: #C084FC; }
   body::before { display: none; }
   .card, .task-row, .q-card { border: 1px solid #ccc; background: #fff; }
 }
+
+/* ---------- teacher markbook (grid + cards) ---------- */
+.chip-overdue { background: rgba(239,68,68,0.18); color: #FCA5A5; }
+.mb-controls { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin-bottom: 1rem; }
+.mb-controls .mb-check { display: inline-flex; gap: 0.35rem; align-items: center; font-size: 0.82rem; color: var(--text-muted); }
+.mb-controls .mb-spacer { flex: 1; }
+.mb-legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; font-size: 0.74rem; color: var(--text-dim); margin: 0.6rem 0 1rem; align-items: center; }
+.mb-legend .mb-key { display: inline-flex; align-items: center; gap: 0.35rem; }
+.mb-legend .mb-swatch { width: 18px; height: 14px; border-radius: 3px; border: 1px solid var(--border); display: inline-block; }
+.mb-chase { margin-bottom: 1rem; }
+.mb-chase ul { list-style: none; padding: 0; margin: 0.5rem 0 0; }
+.mb-chase li { padding: 0.45rem 0; border-top: 1px solid var(--border); font-size: 0.86rem; color: var(--text-muted); }
+.mb-chase li strong { color: var(--text); }
+.mb-wrap { overflow: auto; max-height: 72vh; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); }
+.mb-table { border-collapse: separate; border-spacing: 0; font-size: 0.8rem; width: max-content; min-width: 100%; }
+.mb-table th, .mb-table td { padding: 0.3rem 0.5rem; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); text-align: center; white-space: nowrap; }
+.mb-table thead th { position: sticky; background: var(--navy-800); z-index: 2; height: 30px; box-sizing: border-box; color: var(--text-muted); font-weight: 600; }
+.mb-table thead tr:first-child th { top: 0; }
+.mb-table thead tr:nth-child(2) th { top: 30px; }
+.mb-table thead th small { display: block; font-size: 0.64rem; font-weight: 400; color: var(--text-dim); }
+.mb-table thead th a { color: inherit; }
+.mb-table .mb-name { position: sticky; left: 0; z-index: 1; text-align: left; background: var(--navy-800); min-width: 210px; }
+.mb-table thead .mb-name { z-index: 3; }
+.mb-table .mb-name a { color: var(--text); font-weight: 600; }
+.mb-table .mb-name small { display: block; font-weight: 400; color: var(--text-dim); font-size: 0.7rem; }
+.mb-table .mb-name .mb-od { color: #FCA5A5; }
+.mb-table .mb-unit { color: var(--teal-light); letter-spacing: 0.04em; }
+.mb-table .mb-block-start { border-left: 3px solid var(--purple); }
+.mb-cell { cursor: pointer; min-width: 52px; }
+.mb-cell:hover { outline: 2px solid var(--teal); outline-offset: -2px; }
+.mb-marked { background: rgba(34,197,94,0.16); }
+.mb-submitted { background: rgba(14,165,233,0.22); color: var(--teal-light); font-weight: 700; }
+.mb-overdue { background: rgba(239,68,68,0.22); color: #FCA5A5; font-weight: 700; }
+.mb-progress { background: rgba(245,158,11,0.16); color: #FCD34D; }
+.mb-idle { color: var(--text-dim); }
+.mb-r { font-weight: 700; letter-spacing: 0.04em; }
+.mb-r-A { color: #4ADE80; } .mb-r-C { color: var(--teal-light); } .mb-r-t { color: #FCD34D; } .mb-r-z { color: #FCA5A5; } .mb-r-none { color: var(--text-dim); }
+.mb-late { font-size: 0.62rem; margin-left: 0.15rem; vertical-align: super; }
+.mb-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+.mb-card h3 { font-size: 1rem; margin: 0; }
+.mb-card h3 a { color: var(--text); }
+.mb-card-stats { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.6rem 0; font-size: 0.78rem; color: var(--text-muted); align-items: center; }
+.mb-dots { display: flex; flex-wrap: wrap; gap: 3px; }
+.mb-dot { width: 34px; height: 22px; font-size: 0.6rem; border-radius: 4px; border: 1px solid var(--border); display: inline-flex; align-items: center; justify-content: center; padding: 0; font-family: inherit; color: inherit; }
+.mb-dot.mb-idle { background: transparent; }
+.mb-print-title { display: none; }
+@media print {
+  @page { size: landscape; margin: 10mm; }
+  .mb-controls, .mb-legend-hide, #mb-chase-btn { display: none !important; }
+  .mb-print-title { display: block; font-weight: 700; margin-bottom: 0.4rem; color: #000; }
+  .page-header--teach { padding: 0 !important; }
+  .page-header--teach .lead, .page-header--teach .meta-row { display: none !important; }
+  .mb-wrap { max-height: none !important; overflow: visible !important; border: none; background: #fff; }
+  .mb-table { font-size: 0.66rem; width: 100%; }
+  .mb-table, .mb-table * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .mb-table th, .mb-table td { color: #000 !important; border-color: #999 !important; padding: 0.15rem 0.25rem; }
+  .mb-table thead th, .mb-table .mb-name { position: static !important; background: #f1f5f9 !important; }
+  .mb-marked { background: #dcfce7 !important; } .mb-submitted { background: #e0f2fe !important; }
+  .mb-overdue { background: #fee2e2 !important; color: #b91c1c !important; } .mb-progress { background: #fef3c7 !important; }
+  .mb-r { color: #000 !important; }
+  .mb-table .mb-name a { color: #000 !important; }
+  .mb-cell { outline: none !important; }
+  .stat-grid { display: none !important; }
+  .mb-chase { border: 1px solid #999; background: #fff; color: #000; }
+  .mb-chase li, .mb-chase li strong { color: #000; }
+}

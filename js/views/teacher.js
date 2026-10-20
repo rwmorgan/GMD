@@ -9,7 +9,7 @@ import { getScope, setScope } from '../scope.js';
 import { navigate } from '../router.js';
 import { loadSheetJS, loadJSZip, loadWorkbookForSync, detectStudentSheets, guessStudentMapping, runMarkbookSync, downloadWorkbook } from '../markbook-sync.js';
 
-function teacherHeader(title, sub, scopeHtml = '') {
+export function teacherHeader(title, sub, scopeHtml = '') {
   return `
 <div class="page-header page-header--teach">
   <div class="container container--wide">
@@ -18,6 +18,7 @@ function teacherHeader(title, sub, scopeHtml = '') {
     ${sub ? `<p class="lead">${sub}</p>` : ''}
     <div class="meta-row teach-nav">
       <a class="btn btn-secondary btn-sm" href="#/teach">🏫 Overview</a>
+      <a class="btn btn-secondary btn-sm" href="#/teach/markbook">🗂 Markbook</a>
       <a class="btn btn-secondary btn-sm" href="#/teach/marking">📝 Marking</a>
       <a class="btn btn-secondary btn-sm" href="#/teach/tasks">📋 Tasks</a>
       <a class="btn btn-secondary btn-sm" href="#/matrix">📊 Matrix</a>
@@ -33,7 +34,7 @@ function teacherHeader(title, sub, scopeHtml = '') {
 
 /* Program + class filter shown in the teacher header. Only appears once
    the Gen2 classes/programs exist; degrades to nothing otherwise. */
-function scopeBar(classesData) {
+export function scopeBar(classesData) {
   if (!classesData || !classesData.classes.length) return '';
   const scope = getScope();
   const programs = classesData.programs.length
@@ -54,14 +55,14 @@ function scopeBar(classesData) {
     </div>`;
 }
 
-function wireScopeBar() {
+export function wireScopeBar() {
   const prog = document.getElementById('scope-program');
   const cls = document.getElementById('scope-class');
   if (prog) prog.addEventListener('change', () => { setScope({ programId: prog.value || null, classId: null }); location.reload(); });
   if (cls) cls.addEventListener('change', () => { setScope({ classId: cls.value || null }); location.reload(); });
 }
 
-function studentState(data, studentId) {
+export function studentState(data, studentId) {
   return {
     attempts: data.attempts.filter(a => a.student_id === studentId),
     submissions: data.submissions.filter(s => s.student_id === studentId),
@@ -207,7 +208,7 @@ ${teacherHeader('Marking Queue', queue.length ? `${queue.length} submission${que
   }));
 }
 
-function openMarkingModal(cur, data, studentId, task, onSaved = markingView) {
+export function openMarkingModal(cur, data, studentId, task, onSaved = markingView) {
   const profile = data.profiles.find(p => p.id === studentId);
   const existing = Object.fromEntries(
     data.marks.filter(m => m.student_id === studentId && m.task_id === task.id).map(m => [m.criterion_id, m.rating]));
