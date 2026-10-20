@@ -613,3 +613,10 @@ th.mx-prj { background: rgba(168,85,247,0.06); color: #C084FC; }
   .mb-chase { border: 1px solid #999; background: #fff; color: #000; }
   .mb-chase li, .mb-chase li strong { color: #000; }
 }
+
+/* student page: marks by criterion */
+.crit-table th, .crit-table td { text-align: center; white-space: nowrap; }
+.crit-table th:first-child, .crit-table td:first-child { text-align: left; white-space: normal; min-width: 200px; }
+.crit-table .crit-na { color: var(--text-dim); opacity: 0.4; }
+.crit-table .crit-x { color: var(--text-dim); }
+.crit-table .crit-best { border-left: 2px solid var(--teal); }

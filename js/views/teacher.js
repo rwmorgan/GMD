@@ -4,7 +4,7 @@
 import { api } from '../api.js';
 import { IS_DEMO } from '../config.js';
 import { render, esc, spinner, badge, courseBadgeClass, statusChip, toast, openModal, closeModal, fmtDate, fmtDateOnly, localDateStr, downloadCSV, progressBar, avatarHTML } from '../ui.js';
-import { getCurriculum, invalidate, taskStatus, criterionLabel, provisionalAward, coverageMatrix, filterCurByProgram } from '../store.js';
+import { getCurriculum, invalidate, taskStatus, criterionLabel, provisionalAward, bestRatingsFor, coverageMatrix, filterCurByProgram } from '../store.js';
 import { getScope, setScope } from '../scope.js';
 import { navigate } from '../router.js';
 import { loadSheetJS, loadJSZip, loadWorkbookForSync, detectStudentSheets, guessStudentMapping, runMarkbookSync, downloadWorkbook } from '../markbook-sync.js';
@@ -549,6 +549,39 @@ export async function studentDetailView({ id }) {
     </tr>`;
   }).join('');
 
+  /* By criterion: criteria down the side, the tasks that assess them across
+     (like the per-student sheet in the Excel markbook), plus the best rating so far. */
+  const best = bestRatingsFor(cur, st.marks);
+  const ratingChip = r => `<span class="rating-chip rating-${esc(r)}"><b>${esc(r)}</b></span>`;
+  const critHtml = cur.courses.map(course => {
+    const crits = cur.criteria.filter(c => c.course_id === course.id).sort((a, b) => a.number - b.number);
+    const critIds = crits.map(c => c.id);
+    const tasks = cur.tasks.filter(t => t.type === 'submission' && t.published !== false && t.criteria.some(c => critIds.includes(c)));
+    if (!crits.length || !tasks.length) return '';
+    const pa = provisionalAward(cur, course.id, st.marks);
+    const body = crits.map(c => {
+      const cells = tasks.map(t => {
+        if (!t.criteria.includes(c.id)) return '<td class="crit-na">·</td>';
+        const m = st.marks.find(x => x.task_id === t.id && x.criterion_id === c.id);
+        return m ? `<td title="${esc(t.code + ' ' + t.title)}">${ratingChip(m.rating)}</td>`
+                 : `<td class="crit-x" title="${esc(t.code + ' ' + t.title)} — assessed, not marked yet">x</td>`;
+      }).join('');
+      const nMarks = st.marks.filter(x => x.criterion_id === c.id).length;
+      return `<tr>
+        <td><strong>${esc(criterionLabel(cur, c.id))}</strong><small style="display:block;color:var(--text-dim);">${esc(c.title)}</small></td>
+        ${cells}
+        <td class="crit-best">${best[c.id] ? ratingChip(best[c.id]) : '—'}<small style="display:block;color:var(--text-dim);">${nMarks} mark${nMarks === 1 ? '' : 's'}</small></td>
+      </tr>`;
+    }).join('');
+    return `
+    <h3 style="margin:1.5rem 0 0.5rem;">${esc(course.id)} — ${esc(course.title)}
+      <span class="award-chip award-${esc(pa.award)}" title="Provisional award from best ratings so far">${esc(pa.award)}</span></h3>
+    <div class="marking-wrap"><table class="data-table crit-table">
+      <thead><tr><th>Criterion</th>${tasks.map(t => `<th><a href="#/teach/tasks/${encodeURIComponent(t.id)}" title="${esc(t.title)}" style="color:inherit;">${esc(t.code)}</a></th>`).join('')}<th>Best so far</th></tr></thead>
+      <tbody>${body}</tbody>
+    </table></div>`;
+  }).join('');
+
   const done = cur.tasks.filter(t => ['submitted', 'marked'].includes(taskStatus(t, st))).length;
 
   render(`
@@ -557,14 +590,35 @@ ${teacherHeader(profile.display_name, `${done} / ${cur.tasks.length} tasks &amp;
   <div class="container container--wide">
     <div class="meta-row" style="margin-bottom:1rem;">
       <a class="btn btn-secondary btn-sm" href="#/teach/students">← All students</a>
+      <button class="btn btn-primary btn-sm" id="tab-task">By task</button>
+      <button class="btn btn-secondary btn-sm" id="tab-crit">By criterion</button>
       <button class="btn btn-secondary btn-sm" id="toggle-outstanding">Show outstanding only</button>
     </div>
-    <div class="marking-wrap"><table class="data-table" id="student-task-table">
-      <thead><tr><th>Task</th><th>Status</th><th>Submitted</th><th>Timing</th><th>Result</th><th></th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table></div>
+    <div id="view-task">
+      <div class="marking-wrap"><table class="data-table" id="student-task-table">
+        <thead><tr><th>Task</th><th>Status</th><th>Submitted</th><th>Timing</th><th>Result</th><th></th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table></div>
+    </div>
+    <div id="view-crit" hidden>
+      <p class="unit-counts">Every mark this student has for each criterion, task by task. <strong>x</strong> = the task assesses it but there's no mark yet; <strong>·</strong> = the task doesn't assess it. “Best so far” is the highest rating across tasks — a guide, your overall judgement is still yours.</p>
+      ${critHtml || '<p><em>No criteria data.</em></p>'}
+    </div>
   </div>
 </section>`, { title: profile.display_name });
+
+  const showTab = (which) => {
+    document.getElementById('view-task').hidden = which !== 'task';
+    document.getElementById('view-crit').hidden = which !== 'crit';
+    document.getElementById('toggle-outstanding').hidden = which !== 'task';
+    for (const [id, key] of [['tab-task', 'task'], ['tab-crit', 'crit']]) {
+      const b = document.getElementById(id);
+      b.classList.toggle('btn-primary', which === key);
+      b.classList.toggle('btn-secondary', which !== key);
+    }
+  };
+  document.getElementById('tab-task').addEventListener('click', () => showTab('task'));
+  document.getElementById('tab-crit').addEventListener('click', () => showTab('crit'));
 
   let outstandingOnly = false;
   const toggleBtn = document.getElementById('toggle-outstanding');
