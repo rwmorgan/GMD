@@ -6,6 +6,7 @@ import { api } from '../api.js';
 import { render, esc, spinner, toast, openModal, fmtDate, fmtDateOnly, localDateStr, avatarHTML, progressBar } from '../ui.js';
 import { getCurriculum, taskStatus, criterionLabel, filterCurByProgram } from '../store.js';
 import { getScope } from '../scope.js';
+import { summarise, pctChip } from '../attendance-lib.js';
 import { teacherHeader, scopeBar, wireScopeBar, studentState, openMarkingModal } from './teacher.js';
 
 const UI_KEY = 'levelup-markbook-ui';
@@ -150,7 +151,8 @@ function gridHTML(cur, built) {
   </tr>`;
 
   const body = rows.map(r => {
-    const sub = `${r.done}/${r.total} done${r.overdue ? ` · <span class="mb-od">${r.overdue} overdue</span>` : ''}${r.toMark ? ` · ${r.toMark} to mark` : ''}`;
+    const a = built.attMap?.[r.p.id];
+    const sub = `${r.done}/${r.total} done${r.overdue ? ` · <span class="mb-od">${r.overdue} overdue</span>` : ''}${r.toMark ? ` · ${r.toMark} to mark` : ''}${a && a.pct != null ? ` · Attendance ${pctChip(a.pct)}` : ''}`;
     const tds = [...subTasks, ...quizTasks].map((t, i) => {
       const c = r.cells.get(t.id);
       const blockStart = quizTasks.length && t.id === quizTasks[0].id ? ' mb-block-start' : '';
@@ -177,6 +179,7 @@ function cardsHTML(cur, built) {
         ${r.overdue ? `<span class="chip chip-overdue">${r.overdue} overdue</span>` : ''}
         ${r.toMark ? `<span class="chip chip-submitted">${r.toMark} to mark</span>` : ''}
         ${r.quizAvg != null ? `<span class="chip chip-quiz">Quiz avg ${r.quizAvg}%</span>` : ''}
+        ${built.attMap?.[r.p.id]?.pct != null ? `<span title="Attendance this year">Attendance ${pctChip(built.attMap[r.p.id].pct)}</span>` : ''}
       </div>
       <div class="mb-dots">${subTasks.map(t => {
         const c = r.cells.get(t.id);
@@ -256,9 +259,14 @@ function openDetail(cur, data, sid, taskId, reload, today) {
 export async function markbookView() {
   render(spinner('Loading markbook…'));
   const scope = getScope();
-  const [curAll, data, classesData] = await Promise.all([
+  const [curAll, data, classesData, att] = await Promise.all([
     getCurriculum(), api.getClassData(scope.classId || null), api.getClasses(),
+    api.attGetAll().catch(() => ({ ready: false, records: [] })),
   ]);
+  // This calendar year's attendance per student (matches the Excel sheet's year basis).
+  const year = String(new Date().getFullYear());
+  const attMap = {};
+  if (att.ready) for (const p of data.profiles) attMap[p.id] = summarise(att.records.filter(r => r.student_id === p.id && r.day.startsWith(year)));
   const cur = filterCurByProgram(curAll, scope.programId);
   const ui = loadUi();
   const today = localDateStr(new Date().toISOString());
@@ -316,6 +324,7 @@ ${teacherHeader('Markbook', `${data.profiles.length} students · ${nSub} tasks �
 
   function paint() {
     built = buildRows(cur, data, ui, today);
+    built.attMap = attMap;
     const totals = built.allRows.reduce((a, r) => ({ od: a.od + r.overdue, tm: a.tm + r.toMark, sod: a.sod + (r.overdue ? 1 : 0) }), { od: 0, tm: 0, sod: 0 });
     document.getElementById('mb-stats').innerHTML = `
       <div class="stat-card"><b>${built.allRows.length}</b><span>Students</span></div>

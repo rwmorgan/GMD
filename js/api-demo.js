@@ -9,6 +9,7 @@
 
 import { seed, flattenSeed } from './data/seed.js';
 import { DEMO_ACCOUNTS, DEMO_JOIN_CODE } from './config.js';
+import { DEFAULT_CLASSES, DEFAULT_TERMS } from './data/att-defaults.js';
 
 const LS_KEY = 'levelup-demo-v1';
 
@@ -403,6 +404,90 @@ export class DemoAdapter {
       ok: true, demo: true, ratings,
       feedback: 'Demo mode: this is a placeholder draft (Anthropic isn’t connected here) — solid effort overall, with clear evidence against the rubric. Connect Supabase + deploy the ai-mark function to get real AI-drafted feedback.',
     };
+  }
+
+  /* ---------- attendance (demo: held in localStorage) ---------- */
+  attState() {
+    if (!this.state.att) {
+      const rec = (class_id, student_id, day, slot, status, extra = {}) =>
+        ({ class_id, student_id, day, slot, status, late_min: 0, early_min: 0, called_home: false, note: null, source: 'manual', ...extra });
+      this.state.att = {
+        classes: JSON.parse(JSON.stringify(DEFAULT_CLASSES)),
+        classStudents: [
+          { student_id: 'u-ava', class_id: 'line1' }, { student_id: 'u-ben', class_id: 'line1' },
+          { student_id: 'u-chloe', class_id: 'line2' }, { student_id: 'u-dev', class_id: 'line2' },
+        ],
+        terms: JSON.parse(JSON.stringify(DEFAULT_TERMS)),
+        closures: [],
+        records: [
+          rec('line1', 'u-ava', '2026-10-19', 'L1', 'P'),
+          rec('line1', 'u-ben', '2026-10-19', 'L1', 'A', { called_home: true, note: 'Left a message' }),
+          rec('line2', 'u-chloe', '2026-10-19', 'L1', 'P', { late_min: 10 }),
+          rec('line2', 'u-dev', '2026-10-19', 'L1', 'E'),
+        ],
+      };
+    }
+    return this.state.att;
+  }
+
+  async attGetAll() {
+    this.requireTeacher();
+    const a = this.attState();
+    return JSON.parse(JSON.stringify({ ready: true, ...a }));
+  }
+
+  async attSaveClass(cls) {
+    this.requireTeacher();
+    const a = this.attState();
+    const i = a.classes.findIndex(c => c.id === cls.id);
+    const row = { id: cls.id, name: cls.name, pattern: cls.pattern || [], sort: cls.sort || 0 };
+    if (i >= 0) a.classes[i] = row; else a.classes.push(row);
+    this.save();
+  }
+
+  async attDeleteClass(id) {
+    this.requireTeacher();
+    const a = this.attState();
+    a.classes = a.classes.filter(c => c.id !== id);
+    a.classStudents = a.classStudents.filter(x => x.class_id !== id);
+    a.records = a.records.filter(r => r.class_id !== id);
+    this.save();
+  }
+
+  async attSetClassStudents(classId, studentIds) {
+    this.requireTeacher();
+    const a = this.attState();
+    a.classStudents = a.classStudents.filter(x => x.class_id !== classId && !studentIds.includes(x.student_id));
+    for (const student_id of studentIds) a.classStudents.push({ student_id, class_id: classId });
+    this.save();
+  }
+
+  async attSaveTerms(terms) {
+    this.requireTeacher();
+    this.attState().terms = terms.map(({ id, year, number, name, start_date, end_date }) => ({ id, year, number, name, start_date, end_date }));
+    this.save();
+  }
+
+  async attSaveClosures(closures) {
+    this.requireTeacher();
+    this.attState().closures = closures.map(({ day, label }) => ({ day, label: label || '' }));
+    this.save();
+  }
+
+  async attSaveRoll(classId, day, slot, entries) {
+    this.requireTeacher();
+    const a = this.attState();
+    const ids = new Set(entries.map(e => e.student_id));
+    a.records = a.records.filter(r => !(r.class_id === classId && r.day === day && r.slot === slot && ids.has(r.student_id)));
+    for (const e of entries) {
+      if (!e.status && !e.called_home) continue;
+      a.records.push({
+        class_id: classId, student_id: e.student_id, day, slot, status: e.status || null,
+        late_min: e.status === 'P' ? (e.late_min | 0) : 0, early_min: e.status === 'P' ? (e.early_min | 0) : 0,
+        called_home: !!e.called_home, note: e.note || null, source: 'manual',
+      });
+    }
+    this.save();
   }
 
   async getTaskAnswers(taskId) {

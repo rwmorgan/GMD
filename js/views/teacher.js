@@ -6,6 +6,7 @@ import { IS_DEMO } from '../config.js';
 import { render, esc, spinner, badge, courseBadgeClass, statusChip, toast, openModal, closeModal, fmtDate, fmtDateOnly, localDateStr, downloadCSV, progressBar, avatarHTML } from '../ui.js';
 import { getCurriculum, invalidate, taskStatus, criterionLabel, provisionalAward, bestRatingsFor, coverageMatrix, filterCurByProgram } from '../store.js';
 import { getScope, setScope } from '../scope.js';
+import { summarise as attSummarise, pctChip as attPctChip } from '../attendance-lib.js';
 import { navigate } from '../router.js';
 import { loadSheetJS, loadJSZip, loadWorkbookForSync, detectStudentSheets, guessStudentMapping, runMarkbookSync, downloadWorkbook } from '../markbook-sync.js';
 
@@ -20,6 +21,7 @@ export function teacherHeader(title, sub, scopeHtml = '') {
       <a class="btn btn-secondary btn-sm" href="#/teach">🏫 Overview</a>
       <a class="btn btn-secondary btn-sm" href="#/teach/markbook">🗂 Markbook</a>
       <a class="btn btn-secondary btn-sm" href="#/teach/marking">📝 Marking</a>
+      <a class="btn btn-secondary btn-sm" href="#/teach/attendance">🗓 Attendance</a>
       <a class="btn btn-secondary btn-sm" href="#/teach/tasks">📋 Tasks</a>
       <a class="btn btn-secondary btn-sm" href="#/matrix">📊 Matrix</a>
       <a class="btn btn-secondary btn-sm" href="#/teach/analysis">📈 Item analysis</a>
@@ -507,10 +509,17 @@ ${teacherHeader('Students', `${students.length} enrolled. Deactivating blocks si
 
 export async function studentDetailView({ id }) {
   render(spinner());
-  const [cur, data] = await Promise.all([getCurriculum(), api.getClassData()]);
+  const [cur, data, att] = await Promise.all([
+    getCurriculum(), api.getClassData(), api.attGetAll().catch(() => ({ ready: false, records: [] })),
+  ]);
   const profile = data.profiles.find(p => p.id === id);
   if (!profile) { render('<section class="section"><div class="container"><h1>Student not found</h1></div></section>'); return; }
   const st = studentState(data, id);
+  const attYear = String(new Date().getFullYear());
+  const attSum = att.ready ? attSummarise(att.records.filter(r => r.student_id === id && r.day.startsWith(attYear))) : null;
+  const attLine = attSum && (attSum.P + attSum.A + attSum.E) > 0
+    ? `<span class="unit-counts">Attendance ${attYear}: ${attPctChip(attSum.pct)} · ${attSum.P}P · ${attSum.A}A · ${attSum.E}E${attSum.lateCount ? ` · late ${attSum.lateCount}× (${attSum.lateMin} min)` : ''}${attSum.earlyCount ? ` · left early ${attSum.earlyCount}× (${attSum.earlyMin} min)` : ''}${attSum.calledHome ? ` · called home ${attSum.calledHome}×` : ''}</span>`
+    : '';
   const today = localDateStr(new Date().toISOString());
 
   const rows = cur.tasks.map(t => {
@@ -593,6 +602,7 @@ ${teacherHeader(profile.display_name, `${done} / ${cur.tasks.length} tasks &amp;
       <button class="btn btn-primary btn-sm" id="tab-task">By task</button>
       <button class="btn btn-secondary btn-sm" id="tab-crit">By criterion</button>
       <button class="btn btn-secondary btn-sm" id="toggle-outstanding">Show outstanding only</button>
+      ${attLine}
     </div>
     <div id="view-task">
       <div class="marking-wrap"><table class="data-table" id="student-task-table">

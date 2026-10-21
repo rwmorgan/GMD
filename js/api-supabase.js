@@ -305,6 +305,107 @@ export class SupabaseAdapter {
     return data;
   }
 
+  /* ---------- attendance (teacher-only tables; see supabase/attendance-setup.sql) ---------- */
+  /* Degrades to {ready:false} until the SQL has been run, so pages that
+     show attendance (markbook, student page) keep working without it. */
+  async attGetAll() {
+    const c = this.client;
+    try {
+      const [classes, cs, terms, closures] = await Promise.all([
+        c.from('att_classes').select('*').order('sort').order('name'),
+        c.from('att_class_students').select('*'),
+        c.from('att_terms').select('*').order('start_date'),
+        c.from('att_closures').select('*').order('day'),
+      ]);
+      for (const r of [classes, cs, terms, closures]) if (r.error) throw r.error;
+      const records = [];
+      for (let from = 0; ; from += 1000) {
+        const { data, error } = await c.from('attendance').select('*')
+          .order('day').order('slot').order('student_id').order('class_id')
+          .range(from, from + 999);
+        if (error) throw error;
+        records.push(...data);
+        if (data.length < 1000) break;
+      }
+      return { ready: true, classes: classes.data, classStudents: cs.data, terms: terms.data, closures: closures.data, records };
+    } catch (e) {
+      console.warn('Attendance tables not available yet.', e?.message || e);
+      return { ready: false, classes: [], classStudents: [], terms: [], closures: [], records: [] };
+    }
+  }
+
+  async attSaveClass(cls) {
+    const { error } = await this.client.from('att_classes').upsert(
+      { id: cls.id, name: cls.name, pattern: cls.pattern || [], sort: cls.sort || 0 });
+    if (error) fail(error);
+  }
+
+  async attDeleteClass(id) {
+    const { error } = await this.client.from('att_classes').delete().eq('id', id);
+    if (error) fail(error);
+  }
+
+  /* One class per student: adding a student here removes them from any other class. */
+  async attSetClassStudents(classId, studentIds) {
+    const c = this.client;
+    const del = await c.from('att_class_students').delete().eq('class_id', classId);
+    if (del.error) fail(del.error);
+    if (!studentIds.length) return;
+    const moved = await c.from('att_class_students').delete().in('student_id', studentIds);
+    if (moved.error) fail(moved.error);
+    const ins = await c.from('att_class_students').insert(studentIds.map(student_id => ({ student_id, class_id: classId })));
+    if (ins.error) fail(ins.error);
+  }
+
+  async attSaveTerms(terms) {
+    const c = this.client;
+    const existing = await c.from('att_terms').select('id');
+    if (existing.error) fail(existing.error);
+    const keep = new Set(terms.map(t => t.id));
+    const gone = existing.data.map(r => r.id).filter(id => !keep.has(id));
+    if (gone.length) { const d = await c.from('att_terms').delete().in('id', gone); if (d.error) fail(d.error); }
+    if (terms.length) {
+      const up = await c.from('att_terms').upsert(terms.map(({ id, year, number, name, start_date, end_date }) => ({ id, year, number, name, start_date, end_date })));
+      if (up.error) fail(up.error);
+    }
+  }
+
+  async attSaveClosures(closures) {
+    const c = this.client;
+    const existing = await c.from('att_closures').select('day');
+    if (existing.error) fail(existing.error);
+    const keep = new Set(closures.map(x => x.day));
+    const gone = existing.data.map(r => r.day).filter(d => !keep.has(d));
+    if (gone.length) { const d = await c.from('att_closures').delete().in('day', gone); if (d.error) fail(d.error); }
+    if (closures.length) {
+      const up = await c.from('att_closures').upsert(closures.map(({ day, label }) => ({ day, label: label || '' })));
+      if (up.error) fail(up.error);
+    }
+  }
+
+  /* entries: [{student_id, status:'P'|'A'|'E'|null, late_min, early_min, called_home, note}].
+     A student with no status and no called-home note has their row removed (= not taken). */
+  async attSaveRoll(classId, day, slot, entries) {
+    const c = this.client;
+    const blank = entries.filter(e => !e.status && !e.called_home).map(e => e.student_id);
+    const rows = entries.filter(e => e.status || e.called_home).map(e => ({
+      class_id: classId, student_id: e.student_id, day, slot,
+      status: e.status || null,
+      late_min: e.status === 'P' ? (e.late_min | 0) : 0,
+      early_min: e.status === 'P' ? (e.early_min | 0) : 0,
+      called_home: !!e.called_home, note: e.note || null,
+      source: 'manual', updated_at: new Date().toISOString(),
+    }));
+    if (blank.length) {
+      const d = await c.from('attendance').delete().eq('class_id', classId).eq('day', day).eq('slot', slot).in('student_id', blank);
+      if (d.error) fail(d.error);
+    }
+    if (rows.length) {
+      const u = await c.from('attendance').upsert(rows, { onConflict: 'class_id,student_id,day,slot' });
+      if (u.error) fail(u.error);
+    }
+  }
+
   async getTaskAnswers(taskId) {
     const { data: qs, error: qErr } = await this.client.from('questions').select('id').eq('task_id', taskId);
     if (qErr) fail(qErr);

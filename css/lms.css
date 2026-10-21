@@ -620,3 +620,41 @@ th.mx-prj { background: rgba(168,85,247,0.06); color: #C084FC; }
 .crit-table .crit-na { color: var(--text-dim); opacity: 0.4; }
 .crit-table .crit-x { color: var(--text-dim); }
 .crit-table .crit-best { border-left: 2px solid var(--teal); }
+
+/* ---------- attendance ---------- */
+.att-chip.att-good { background: rgba(34,197,94,0.18); color: #4ADE80; }
+.att-chip.att-concern { background: rgba(245,158,11,0.18); color: #FCD34D; }
+.att-chip.att-low { background: rgba(239,68,68,0.2); color: #FCA5A5; }
+.att-lesson { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between; padding: 0.5rem 0; border-top: 1px solid var(--border); }
+.att-lesson--closed { opacity: 0.8; }
+.att-toolbar { position: sticky; top: 64px; z-index: 5; background: var(--navy-800); padding: 0.6rem 0.75rem; border: 1px solid var(--border); border-radius: var(--radius); }
+.att-list { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; }
+.att-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 0.75rem; padding: 0.6rem 0.9rem; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); }
+.att-who { flex: 1 1 180px; min-width: 160px; }
+.att-btns { display: inline-flex; gap: 0.35rem; }
+.att-btn { width: 44px; height: 38px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-weight: 700; font-family: inherit; cursor: pointer; }
+.att-btn:hover { border-color: var(--teal); }
+.att-btn.att-P.selected { background: rgba(34,197,94,0.3); border-color: #4ADE80; color: #4ADE80; }
+.att-btn.att-A.selected { background: rgba(239,68,68,0.3); border-color: #F87171; color: #FCA5A5; }
+.att-btn.att-E.selected { background: rgba(245,158,11,0.3); border-color: #FBBF24; color: #FCD34D; }
+.att-row .btn.active { border-color: var(--teal); color: var(--teal-light); }
+.att-extra { flex-basis: 100%; font-size: 0.85rem; color: var(--text-muted); display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; padding-left: 0.25rem; }
+.att-extra[hidden] { display: none; }
+.att-extra input[type=number] { width: 70px; }
+.att-cell { min-width: 34px; font-weight: 700; }
+.att-cell[data-s] { cursor: pointer; }
+.att-cell[data-s]:hover { outline: 2px solid var(--teal); outline-offset: -2px; }
+.att-cell sup { font-size: 0.55rem; margin-left: 1px; }
+.att-future { opacity: 0.45; }
+.att-cell.att-P, .mb-swatch.att-P { background: rgba(34,197,94,0.2); color: #4ADE80; }
+.att-cell.att-A, .mb-swatch.att-A { background: rgba(239,68,68,0.25); color: #FCA5A5; }
+.att-cell.att-E, .mb-swatch.att-E { background: rgba(245,158,11,0.22); color: #FCD34D; }
+.att-cell.att-H, .mb-swatch.att-H { background: rgba(148,163,184,0.2); color: var(--text-dim); }
+@media (max-width: 640px) { .att-toolbar { top: 56px; } }
+
+.att-extra input, .att-row input, .data-table input, .att-lesson input, #ce-note, .card input[data-f] {
+  background: rgba(8, 13, 26, 0.7); color: var(--text); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.35rem 0.55rem; font-family: inherit; font-size: 0.85rem;
+}
+.att-extra input:focus, .data-table input:focus, #ce-note:focus, .card input[data-f]:focus { outline: 2px solid var(--teal); outline-offset: 1px; }
+.data-table input[type=date] { color-scheme: dark; }

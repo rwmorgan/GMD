@@ -16,6 +16,7 @@ import { courseView, matrixView, assessmentView } from './views/courses.js';
 import { loginView, signupView, enrolView } from './views/auth.js';
 import { dashboardView, progressView } from './views/dashboard.js';
 import { markbookView } from './views/markbook.js';
+import { attendanceView, attendanceRollView, attendanceGridView, attendanceSetupView } from './views/attendance.js';
 import { teacherHomeView, markingView, analysisView, studentsView, studentDetailView, tasksView, taskDetailView, settingsView, editorListView, editorView } from './views/teacher.js';
 
 /* ---------- navigation ---------- */
@@ -69,6 +70,7 @@ function navHTML() {
           <li><a href="#/teach">🏫 Class Overview</a></li>
           <li><a href="#/teach/markbook">🗂 Markbook</a></li>
           <li><a href="#/teach/marking">📝 Marking Queue</a></li>
+          <li><a href="#/teach/attendance">🗓 Attendance</a></li>
           <li><a href="#/teach/tasks">📋 Tasks</a></li>
           <li><a href="#/matrix">📊 Coverage Matrix</a></li>
           <li><a href="#/teach/analysis">📈 Quiz Item Analysis</a></li>
@@ -243,6 +245,10 @@ route('/dashboard', requireAuth(dashboardView));
 route('/progress', requireAuth(progressView));
 route('/teach', requireTeacher(teacherHomeView));
 route('/teach/markbook', requireTeacher(markbookView));
+route('/teach/attendance', requireTeacher(attendanceView));
+route('/teach/attendance/setup', requireTeacher(attendanceSetupView));
+route('/teach/attendance/grid/:classId', requireTeacher(attendanceGridView));
+route('/teach/attendance/roll/:classId/:day/:slot', requireTeacher(attendanceRollView));
 route('/teach/marking', requireTeacher(markingView));
 route('/teach/tasks', requireTeacher(tasksView));
 route('/teach/tasks/:id', requireTeacher(taskDetailView));
