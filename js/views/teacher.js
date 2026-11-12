@@ -721,6 +721,7 @@ ${teacherHeader('Settings & Export', 'CSV exports respect the program/class filt
     </div>
     <div class="card" style="margin-top:1.5rem;" id="classes-card">
       <h3>🏫 Classes &amp; join codes</h3>
+      ${classesData.ready === false ? `<div class="warning-box"><p><strong>Classes aren't set up in the database yet.</strong> One-off steps in Supabase → SQL Editor: first run <code>supabase/gen2-migration.sql</code>, then <code>supabase/2027-classes-setup.sql</code> (both from the repo), then reload this page.</p></div>` : `
       <p class="unit-counts">One class per teaching line (e.g. Line 1 and Line 3). Give each class its own join code: students who sign up with it are put in that class automatically. Use the "Viewing" filter at the top of any Teach page to see just one class, and the Students page to move someone between classes. Turning a class off stops its code working for new sign-ups; existing students and their work are kept.</p>
       <div class="marking-wrap"><table class="data-table">
         <thead><tr><th>Class name</th><th>Join code</th><th>Students</th><th>Open to sign-ups</th><th></th></tr></thead>
@@ -739,7 +740,7 @@ ${teacherHeader('Settings & Export', 'CSV exports respect the program/class filt
         <label class="field" style="margin:0;"><span>New class name</span><input type="text" name="name" placeholder="e.g. GMD Line 3 2027" required></label>
         <label class="field" style="margin:0;"><span>Join code</span><input type="text" name="join_code" placeholder="e.g. GMD-L3-2027" required autocapitalize="characters"></label>
         <button class="btn btn-primary" type="submit">＋ Add class</button>
-      </form>
+      </form>`}
     </div>
     <div class="card" style="margin-top:1.5rem;">
       <h3>📤 CSV export (for your markbook)</h3>
@@ -787,7 +788,7 @@ ${teacherHeader('Settings & Export', 'CSV exports respect the program/class filt
     } catch (err) { toast(err.message, 'error'); }
   }));
 
-  document.getElementById('add-class-form').addEventListener('submit', async (e) => {
+  document.getElementById('add-class-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const f = e.target;
     const slug = f.name.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'class';

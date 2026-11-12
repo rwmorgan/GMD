@@ -214,6 +214,7 @@ export class SupabaseAdapter {
       const rosters = {};
       for (const e of enrol.data) (rosters[e.class_id] ||= []).push(e.student_id);
       return {
+        ready: true,
         programs: programs.data,
         classes: classes.data.map(cl => ({
           ...cl,
@@ -223,7 +224,7 @@ export class SupabaseAdapter {
       };
     } catch (e) {
       console.warn('getClasses: Gen2 tables not available yet.', e?.message || e);
-      return { programs: [], classes: [] };
+      return { ready: false, programs: [], classes: [] };
     }
   }
 

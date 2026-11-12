@@ -10,8 +10,10 @@
 -- Change the join codes below first if you want different ones
 -- (or change them later in Teach → Settings → Classes & join codes).
 --
--- Touches only the classes table, for the GMD program. Needs the
--- Gen2 migration to have been applied (it already has).
+-- Touches only the classes table, for the GMD program.
+-- REQUIRES supabase/gen2-migration.sql to have been run first (it creates
+-- the classes/enrolments tables). If you get 'relation public.classes
+-- does not exist', run that file first, then this one.
 -- No student data is touched.
 --
 -- ROLLBACK:
