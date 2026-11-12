@@ -209,7 +209,9 @@ export class DemoAdapter {
   }
 
   async signUp({ email, password, name, joinCode }) {
-    if (joinCode.trim().toLowerCase() !== this.state.settings.join_code.trim().toLowerCase()) {
+    const codeOk = joinCode.trim().toLowerCase() === this.state.settings.join_code.trim().toLowerCase()
+      || this.clsState().classes.some(c => c.active !== false && c.join_code.toLowerCase() === joinCode.trim().toLowerCase());
+    if (!codeOk) {
       throw new Error('That join code is not correct. Check with your teacher.');
     }
     if (this.state.users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
@@ -218,6 +220,11 @@ export class DemoAdapter {
     const role = email.toLowerCase() === (this.state.settings.teacher_email || '').toLowerCase() ? 'teacher' : 'student';
     const user = { id: 'u-' + (this.state.nextId++), email, password, display_name: name, role, active: true };
     this.state.users.push(user);
+    if (role === 'student') {
+      const k = this.clsState();
+      const byCode = k.classes.find(c => c.active !== false && c.join_code.toLowerCase() === joinCode.trim().toLowerCase());
+      k.enrolments.push({ student_id: user.id, class_id: (byCode || k.classes[0]).id });
+    }
     this.state.sessionUserId = user.id;
     this.save();
     this.emit();
@@ -341,28 +348,73 @@ export class DemoAdapter {
       .map(u => ({ id: u.id, email: u.email, display_name: u.display_name, role: u.role, active: u.active, avatar: u.avatar || null }));
   }
 
+  /* Demo classes + enrolments (lazily seeded): two GMD lines with their own join codes. */
+  clsState() {
+    if (!this.state.cls) {
+      this.state.cls = {
+        classes: [
+          { id: 'demo-line1', program_id: 'GMD', name: 'GMD Line 1', join_code: 'LINE1-DEMO', active: true },
+          { id: 'demo-line3', program_id: 'GMD', name: 'GMD Line 3', join_code: 'LINE3-DEMO', active: true },
+        ],
+        enrolments: [
+          { student_id: 'u-ava', class_id: 'demo-line1' }, { student_id: 'u-ben', class_id: 'demo-line1' },
+          { student_id: 'u-chloe', class_id: 'demo-line3' }, { student_id: 'u-dev', class_id: 'demo-line3' },
+        ],
+      };
+    }
+    return this.state.cls;
+  }
+
   async getClasses() {
     this.requireTeacher();
-    const roster = (await this.listStudents()).map(p => p.id);
+    const k = this.clsState();
     return {
       programs: [{ id: 'GMD', title: 'Level Up', site_path: 'GMD', sort: 0 }],
-      classes: [{ id: 'demo-class', program_id: 'GMD', name: 'Demo Class', join_code: DEMO_JOIN_CODE, roster, teachers: [] }],
+      classes: k.classes.map(c => ({
+        ...c, teachers: [],
+        roster: k.enrolments.filter(e => e.class_id === c.id).map(e => e.student_id),
+      })),
     };
   }
 
   async getClassData(classId = null) {
     this.requireTeacher();
     const s = this.state;
-    // Demo mode has a single class, so classId is accepted but not filtered.
-    void classId;
-    return {
-      profiles: await this.listStudents(),
-      attempts: [...s.attempts],
-      submissions: [...s.submissions],
-      marks: [...s.marks],
-      feedback: [...s.feedback],
-      progress: [...s.progress],
+    let profiles = await this.listStudents();
+    let data = {
+      attempts: [...s.attempts], submissions: [...s.submissions], marks: [...s.marks],
+      feedback: [...s.feedback], progress: [...s.progress],
     };
+    if (classId) {
+      const ids = new Set(this.clsState().enrolments.filter(e => e.class_id === classId).map(e => e.student_id));
+      profiles = profiles.filter(p => ids.has(p.id));
+      for (const k of Object.keys(data)) data[k] = data[k].filter(x => ids.has(x.student_id));
+    }
+    return { profiles, ...data };
+  }
+
+  async saveClass(cls) {
+    this.requireTeacher();
+    const k = this.clsState();
+    const code = (cls.join_code || '').trim();
+    if (!cls.name?.trim()) throw new Error('Give the class a name.');
+    if (!code) throw new Error('Give the class a join code.');
+    if (k.classes.some(c => c.id !== cls.id && c.join_code.toLowerCase() === code.toLowerCase())) {
+      throw new Error('That join code (or class id) is already used by another class.');
+    }
+    const row = { id: cls.id, program_id: cls.program_id || 'GMD', name: cls.name.trim(), join_code: code, active: cls.active !== false };
+    const i = k.classes.findIndex(c => c.id === cls.id);
+    if (i >= 0) k.classes[i] = { ...k.classes[i], ...row }; else k.classes.push(row);
+    this.save();
+  }
+
+  async moveStudent(studentId, classId, programId = 'GMD') {
+    this.requireTeacher();
+    const k = this.clsState();
+    const sibs = new Set(k.classes.filter(c => c.program_id === programId).map(c => c.id));
+    k.enrolments = k.enrolments.filter(e => !(e.student_id === studentId && sibs.has(e.class_id)));
+    if (classId) k.enrolments.push({ student_id: studentId, class_id: classId });
+    this.save();
   }
 
   async saveMarks(studentId, taskId, ratings, feedbackText) {
@@ -415,15 +467,15 @@ export class DemoAdapter {
         classes: JSON.parse(JSON.stringify(DEFAULT_CLASSES)),
         classStudents: [
           { student_id: 'u-ava', class_id: 'line1' }, { student_id: 'u-ben', class_id: 'line1' },
-          { student_id: 'u-chloe', class_id: 'line2' }, { student_id: 'u-dev', class_id: 'line2' },
+          { student_id: 'u-chloe', class_id: 'line3' }, { student_id: 'u-dev', class_id: 'line3' },
         ],
         terms: JSON.parse(JSON.stringify(DEFAULT_TERMS)),
         closures: [],
         records: [
           rec('line1', 'u-ava', '2026-10-19', 'L1', 'P'),
           rec('line1', 'u-ben', '2026-10-19', 'L1', 'A', { called_home: true, note: 'Left a message' }),
-          rec('line2', 'u-chloe', '2026-10-19', 'L1', 'P', { late_min: 10 }),
-          rec('line2', 'u-dev', '2026-10-19', 'L1', 'E'),
+          rec('line3', 'u-chloe', '2026-10-19', 'L1', 'P', { late_min: 10 }),
+          rec('line3', 'u-dev', '2026-10-19', 'L1', 'E'),
         ],
       };
     }

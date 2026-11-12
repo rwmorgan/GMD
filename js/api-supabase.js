@@ -227,6 +227,48 @@ export class SupabaseAdapter {
     }
   }
 
+  /* Create or update a class. A join code is unique per class; students who
+     sign up with it are enrolled in that class (redeem_class_code, SQL side). */
+  async saveClass(cls) {
+    const c = this.client;
+    const code = (cls.join_code || '').trim();
+    if (!cls.name?.trim()) throw new Error('Give the class a name.');
+    if (!code) throw new Error('Give the class a join code.');
+    let error;
+    if (cls.isNew) {
+      ({ error } = await c.from('classes').insert({
+        id: cls.id, program_id: cls.program_id || 'GMD', name: cls.name.trim(), join_code: code,
+        active: cls.active !== false, primary_teacher_id: this.user?.id || null,
+      }));
+    } else {
+      ({ error } = await c.from('classes').update({
+        name: cls.name.trim(), join_code: code, active: cls.active !== false,
+      }).eq('id', cls.id));
+    }
+    if (error) {
+      if (error.code === '23505') throw new Error('That join code (or class id) is already used by another class.');
+      fail(error);
+    }
+  }
+
+  /* Put a student in exactly one class of that class's program (classId ''
+     = take them out of their class). Their marks and submissions stay with
+     the student, so moving between lines never loses work. */
+  async moveStudent(studentId, classId, programId = 'GMD') {
+    const c = this.client;
+    const sibs = await c.from('classes').select('id').eq('program_id', programId);
+    if (sibs.error) fail(sibs.error);
+    const ids = sibs.data.map(x => x.id);
+    if (ids.length) {
+      const del = await c.from('enrolments').delete().eq('student_id', studentId).in('class_id', ids);
+      if (del.error) fail(del.error);
+    }
+    if (classId) {
+      const ins = await c.from('enrolments').insert({ student_id: studentId, class_id: classId });
+      if (ins.error) fail(ins.error);
+    }
+  }
+
   async getClassData(classId = null) {
     const c = this.client;
     const [profiles, attempts, submissions, marks, feedback, progress] = await Promise.all([

@@ -462,7 +462,7 @@ ${head}
       <h2>Classes</h2>
       ${classBlocks}
       <div class="meta-row"><button class="btn btn-secondary btn-sm" id="add-class">＋ Add class</button>
-        <button class="btn btn-secondary btn-sm" id="fill-classes">Fill Line 1 / Line 2 timetable</button></div>
+        <button class="btn btn-secondary btn-sm" id="fill-classes">Fill Line 1 / Line 3 timetable</button></div>
 
       <h2 style="margin-top:2rem;">Terms</h2>
       <p class="unit-counts">Use your college's dates. A term that starts mid-week (e.g. Thu 28 Jan) simply has fewer lessons in week 1.</p>

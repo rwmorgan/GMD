@@ -9,8 +9,8 @@
 export const DEFAULT_CLASSES = [
   { id: 'line1', name: 'Line 1', sort: 1,
     pattern: [{ dow: 1, period: 'P1', slot: 'L1' }, { dow: 3, period: 'P3', slot: 'L2' }, { dow: 5, period: 'P2', slot: 'L3' }] },
-  { id: 'line2', name: 'Line 2', sort: 2,
-    pattern: [{ dow: 1, period: 'P2', slot: 'L1' }, { dow: 3, period: 'P1', slot: 'L2' }, { dow: 5, period: 'P3', slot: 'L3' }] },
+  { id: 'line3', name: 'Line 3', sort: 3,
+    pattern: [{ dow: 1, period: 'P3', slot: 'L1' }, { dow: 3, period: 'P2', slot: 'L2' }, { dow: 5, period: 'P1', slot: 'L3' }] },
 ];
 
 export const DEFAULT_TERMS = [

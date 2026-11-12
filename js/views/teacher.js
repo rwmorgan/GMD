@@ -34,6 +34,13 @@ export function teacherHeader(title, sub, scopeHtml = '') {
 </div>`;
 }
 
+/* The class picked in the "Viewing:" filter, or null for all. A stale id
+   (class since removed) is ignored rather than showing an empty page. */
+export function scopedClassId(classesData) {
+  const id = getScope().classId;
+  return id && classesData?.classes?.some(c => c.id === id) ? id : null;
+}
+
 /* Program + class filter shown in the teacher header. Only appears once
    the Gen2 classes/programs exist; degrades to nothing otherwise. */
 export function scopeBar(classesData) {
@@ -152,7 +159,8 @@ function unmarkedQueue(cur, data) {
 
 export async function markingView() {
   render(spinner('Loading marking queue…'));
-  const [cur, data] = await Promise.all([getCurriculum(), api.getClassData()]);
+  const classesData = await api.getClasses();
+  const [cur, data] = await Promise.all([getCurriculum(), api.getClassData(scopedClassId(classesData))]);
   const queue = unmarkedQueue(cur, data);
 
   const markedList = data.feedback
@@ -169,7 +177,7 @@ export async function markingView() {
     }).join('');
 
   render(`
-${teacherHeader('Marking Queue', queue.length ? `${queue.length} submission${queue.length === 1 ? '' : 's'} waiting for rubric marks.` : 'Queue is clear. 🎉')}
+${teacherHeader('Marking Queue', queue.length ? `${queue.length} submission${queue.length === 1 ? '' : 's'} waiting for rubric marks.` : 'Queue is clear. 🎉', scopeBar(classesData))}
 <section class="section section--sm">
   <div class="container container--wide">
     ${queue.length ? `<div class="queue-list">
@@ -193,6 +201,7 @@ ${teacherHeader('Marking Queue', queue.length ? `${queue.length} submission${que
   </div>
 </section>`, { title: 'Marking Queue' });
 
+  wireScopeBar();
   document.querySelectorAll('[data-file]').forEach(b => b.addEventListener('click', async () => {
     try {
       const url = await api.getFileUrl(b.dataset.file);
@@ -362,7 +371,8 @@ ${teacherHeader('Tasks', 'Click any task to see every student\'s submission and 
 
 export async function taskDetailView({ id }) {
   render(spinner());
-  const [cur, data] = await Promise.all([getCurriculum(), api.getClassData()]);
+  const classesData = await api.getClasses();
+  const [cur, data] = await Promise.all([getCurriculum(), api.getClassData(scopedClassId(classesData))]);
   const task = cur.tasks.find(t => t.id === id);
   if (!task) { render('<section class="section"><div class="container"><h1>Task not found</h1></div></section>'); return; }
   const today = localDateStr(new Date().toISOString());
@@ -404,7 +414,7 @@ export async function taskDetailView({ id }) {
   }).join('');
 
   render(`
-${teacherHeader(`${task.code} ${task.title}`, `${task.overview || ''}${task.due_date ? ` · Due ${fmtDateOnly(task.due_date)}` : ''}`)}
+${teacherHeader(`${task.code} ${task.title}`, `${task.overview || ''}${task.due_date ? ` · Due ${fmtDateOnly(task.due_date)}` : ''}`, scopeBar(classesData))}
 <section class="section section--sm">
   <div class="container container--wide">
     <div class="meta-row" style="margin-bottom:1rem;"><a class="btn btn-secondary btn-sm" href="#/teach/tasks">← All tasks</a></div>
@@ -415,6 +425,7 @@ ${teacherHeader(`${task.code} ${task.title}`, `${task.overview || ''}${task.due_
   </div>
 </section>`, { title: task.code });
 
+  wireScopeBar();
   document.querySelectorAll('[data-mark]').forEach(b => b.addEventListener('click', () => {
     openMarkingModal(cur, data, b.dataset.mark, task, () => taskDetailView({ id }));
   }));
@@ -423,7 +434,8 @@ ${teacherHeader(`${task.code} ${task.title}`, `${task.overview || ''}${task.due_
 /* ---------- quiz item analysis ---------- */
 export async function analysisView() {
   render(spinner('Crunching quiz data…'));
-  const [cur, data] = await Promise.all([getCurriculum(), api.getClassData()]);
+  const classesData = await api.getClasses();
+  const [cur, data] = await Promise.all([getCurriculum(), api.getClassData(scopedClassId(classesData))]);
   const quizzes = cur.tasks.filter(t => t.type === 'quiz');
 
   const blocks = quizzes.map(quiz => {
@@ -466,39 +478,58 @@ export async function analysisView() {
   }).join('');
 
   render(`
-${teacherHeader('Quiz Item Analysis', 'Which questions the class gets wrong — your reteaching radar.')}
+${teacherHeader('Quiz Item Analysis', 'Which questions the class gets wrong — your reteaching radar.', scopeBar(classesData))}
 <section class="section section--sm">
   <div class="container container--wide">
     ${blocks || '<p>No quizzes defined.</p>'}
   </div>
 </section>`, { title: 'Item Analysis' });
+
+  wireScopeBar();
 }
 
 /* ---------- students ---------- */
 export async function studentsView() {
   render(spinner());
-  const students = await api.listStudents();
+  const [allStudents, classesData] = await Promise.all([api.listStudents(), api.getClasses()]);
+  const classId = scopedClassId(classesData);
+  const classes = classesData.classes;
+  const classOf = id => classes.find(c => c.roster.includes(id));
+  const students = classId ? allStudents.filter(s => classes.find(c => c.id === classId).roster.includes(s.id)) : allStudents;
+  const unassigned = classes.length ? allStudents.filter(s => !classOf(s.id)).length : 0;
   render(`
-${teacherHeader('Students', `${students.length} enrolled. Deactivating blocks sign-in and hides the student from the class overview.`)}
+${teacherHeader('Students', `${students.length} shown${classId ? '' : ' (all classes)'}. Deactivating blocks sign-in and hides the student from the class overview.${unassigned ? ` <strong>${unassigned} student${unassigned === 1 ? ' isn\'t' : 's aren\'t'} in a class yet</strong> — pick one below.` : ''}`, scopeBar(classesData))}
 <section class="section section--sm">
   <div class="container">
     <div class="marking-wrap"><table class="data-table">
-      <thead><tr><th>Name</th><th>Email</th><th>Status</th><th></th></tr></thead>
+      <thead><tr><th>Name</th><th>Email</th>${classes.length ? '<th>Class</th>' : ''}<th>Status</th><th></th></tr></thead>
       <tbody>
         ${students.map(s => `
           <tr class="${s.active === false ? 'row-inactive' : ''}">
             <td><a href="#/teach/students/${encodeURIComponent(s.id)}" style="color:inherit; text-decoration:none;">${avatarHTML(s, 'avatar--sm')} <strong>${esc(s.display_name)}</strong></a></td>
             <td>${esc(s.email || '—')}</td>
+            ${classes.length ? `<td><select class="scope-select" data-move="${esc(s.id)}" aria-label="Class for ${esc(s.display_name)}">
+              <option value="">— none —</option>
+              ${classes.map(c => `<option value="${esc(c.id)}" ${classOf(s.id)?.id === c.id ? 'selected' : ''}>${esc(c.name)}</option>`).join('')}
+            </select></td>` : ''}
             <td>${s.active === false ? '<span class="chip chip-idle">Inactive</span>' : '<span class="chip chip-marked">Active</span>'}</td>
             <td><button class="btn btn-secondary btn-sm" data-toggle="${esc(s.id)}" data-active="${s.active !== false}">
               ${s.active === false ? 'Reactivate' : 'Deactivate'}</button></td>
-          </tr>`).join('') || '<tr><td colspan="4"><em>No students yet — share the join code from Settings.</em></td></tr>'}
+          </tr>`).join('') || `<tr><td colspan="5"><em>No students here yet — share a class join code (Settings → Classes).</em></td></tr>`}
       </tbody>
     </table></div>
-    <p class="unit-counts" style="margin-top:0.75rem;">Password resets: in live mode use Supabase Dashboard → Authentication → Users → “Send password recovery”. Student emails are only visible to you.</p>
+    <p class="unit-counts" style="margin-top:0.75rem;">Moving a student to another class keeps all their marks and submissions. Password resets: in live mode use Supabase Dashboard → Authentication → Users → “Send password recovery”. Student emails are only visible to you.</p>
   </div>
 </section>`, { title: 'Students' });
 
+  wireScopeBar();
+  document.querySelectorAll('[data-move]').forEach(sel => sel.addEventListener('change', async () => {
+    try {
+      await api.moveStudent(sel.dataset.move, sel.value);
+      toast('Class updated.', 'success');
+      studentsView();
+    } catch (err) { toast(err.message, 'error'); }
+  }));
   document.querySelectorAll('[data-toggle]').forEach(b => b.addEventListener('click', async () => {
     try {
       await api.setStudentActive(b.dataset.toggle, b.dataset.active !== 'true');
@@ -659,6 +690,7 @@ export async function settingsView() {
     getCurriculum(), api.getClassData(scope.classId || null), api.getSettings(), api.getClasses(),
   ]);
   const cur = filterCurByProgram(curAll, scope.programId);
+  const hasClasses = classesData.classes.length > 0;
 
   render(`
 ${teacherHeader('Settings & Export', 'CSV exports respect the program/class filter below.', scopeBar(classesData))}
@@ -666,11 +698,11 @@ ${teacherHeader('Settings & Export', 'CSV exports respect the program/class filt
   <div class="container">
     <div class="grid grid-2" style="align-items:start;">
       <div class="card">
-        <h3>🎟 Class enrolment</h3>
+        <h3>🎟 ${hasClasses ? 'Teacher account' : 'Class enrolment'}</h3>
         <form id="settings-form">
-          <label class="field"><span>Join code (students need this to sign up)</span>
+          ${hasClasses ? '<p class="unit-counts">Student join codes now belong to each class — see <strong>Classes &amp; join codes</strong> below.</p>' : `<label class="field"><span>Join code (students need this to sign up)</span>
             <input type="text" name="join_code" value="${esc(settings.join_code || '')}" required>
-          </label>
+          </label>`}
           <label class="field"><span>Teacher email (auto-promoted to teacher at signup)</span>
             <input type="email" name="teacher_email" value="${esc(settings.teacher_email || '')}">
           </label>
@@ -686,6 +718,28 @@ ${teacherHeader('Settings & Export', 'CSV exports respect the program/class filt
         <p>Demo data got messy? Reset everything back to the sample state.</p>
         <button class="btn btn-secondary" id="reset-demo">↻ Reset demo data</button>` : ''}
       </div>
+    </div>
+    <div class="card" style="margin-top:1.5rem;" id="classes-card">
+      <h3>🏫 Classes &amp; join codes</h3>
+      <p class="unit-counts">One class per teaching line (e.g. Line 1 and Line 3). Give each class its own join code: students who sign up with it are put in that class automatically. Use the "Viewing" filter at the top of any Teach page to see just one class, and the Students page to move someone between classes. Turning a class off stops its code working for new sign-ups; existing students and their work are kept.</p>
+      <div class="marking-wrap"><table class="data-table">
+        <thead><tr><th>Class name</th><th>Join code</th><th>Students</th><th>Open to sign-ups</th><th></th></tr></thead>
+        <tbody>
+          ${classesData.classes.map(c => `
+            <tr data-class="${esc(c.id)}">
+              <td><input type="text" data-f="name" value="${esc(c.name)}" aria-label="Class name"></td>
+              <td><input type="text" data-f="join_code" value="${esc(c.join_code)}" aria-label="Join code" autocapitalize="characters"></td>
+              <td>${c.roster.length}</td>
+              <td><input type="checkbox" data-f="active" ${c.active !== false ? 'checked' : ''} aria-label="Open to sign-ups"></td>
+              <td><button class="btn btn-secondary btn-sm" data-save-class="${esc(c.id)}">Save</button></td>
+            </tr>`).join('') || '<tr><td colspan="5"><em>No classes yet — add one below.</em></td></tr>'}
+        </tbody>
+      </table></div>
+      <form id="add-class-form" class="meta-row" style="margin-top:1rem; align-items:flex-end;">
+        <label class="field" style="margin:0;"><span>New class name</span><input type="text" name="name" placeholder="e.g. GMD Line 3 2027" required></label>
+        <label class="field" style="margin:0;"><span>Join code</span><input type="text" name="join_code" placeholder="e.g. GMD-L3-2027" required autocapitalize="characters"></label>
+        <button class="btn btn-primary" type="submit">＋ Add class</button>
+      </form>
     </div>
     <div class="card" style="margin-top:1.5rem;">
       <h3>📤 CSV export (for your markbook)</h3>
@@ -711,8 +765,38 @@ ${teacherHeader('Settings & Export', 'CSV exports respect the program/class filt
     e.preventDefault();
     const f = e.target;
     try {
-      await api.saveSettings({ join_code: f.join_code.value.trim(), teacher_email: f.teacher_email.value.trim() || null });
+      const patch = { teacher_email: f.teacher_email.value.trim() || null };
+      if (f.join_code) patch.join_code = f.join_code.value.trim();
+      await api.saveSettings(patch);
       toast('Settings saved.', 'success');
+    } catch (err) { toast(err.message, 'error'); }
+  });
+
+  document.querySelectorAll('[data-save-class]').forEach(b => b.addEventListener('click', async () => {
+    const tr = b.closest('tr');
+    const old = classesData.classes.find(c => c.id === b.dataset.saveClass);
+    try {
+      await api.saveClass({
+        id: old.id, program_id: old.program_id,
+        name: tr.querySelector('[data-f=name]').value,
+        join_code: tr.querySelector('[data-f=join_code]').value,
+        active: tr.querySelector('[data-f=active]').checked,
+      });
+      toast('Class saved.', 'success');
+      settingsView();
+    } catch (err) { toast(err.message, 'error'); }
+  }));
+
+  document.getElementById('add-class-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const f = e.target;
+    const slug = f.name.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'class';
+    let id = `gmd-${slug}`, n = 2;
+    while (classesData.classes.some(c => c.id === id)) id = `gmd-${slug}-${n++}`;
+    try {
+      await api.saveClass({ id, isNew: true, program_id: 'GMD', name: f.name.value, join_code: f.join_code.value, active: true });
+      toast('Class added.', 'success');
+      settingsView();
     } catch (err) { toast(err.message, 'error'); }
   });
 
