@@ -1,7 +1,10 @@
 /* ============================================================
-   Task seed: the 16 published assessment tasks from the real
-   Canvas course (blueprint 94239 "Blue Print Game Making and
-   Design"), synced 2026-07-05 and rewritten for clarity.
+   Task seed: the 16 assessment tasks from the real Canvas course
+   (blueprint 94239 "Blue Print Game Making and Design"), synced
+   2026-07-05 and rewritten for clarity. 2027 changes: A1.2 merged
+   into A1.3 and retired (published:false), so 15 are live; A1.4,
+   A2.3 and A3.3 gained criteria/elements. Canvas has NOT been
+   updated to match yet.
    Facts (deliverables, budgets, counts, criteria) are preserved
    from Canvas exactly; only the wording/structure is improved.
 
@@ -59,8 +62,11 @@ export const tasks = [
     },
   },
 
+  // RETIRED for 2027: merged into A1.3 (Part A). Kept, hidden (published:false), so
+  // existing submissions, marks and feedback attached to it are never lost.
   {
     id: 'A1.2', unit_id: 'u1', code: '1.2', title: 'Parts of a Computer, Computer Types & OS',
+    published: false,
     type: 'submission', sort: 12, est_time: '1–2 lessons', tools: 'Word, YouTube', weeks: 'T1 Week 2 · due Fri 13 Feb', due_date: '2026-02-13',
     overview: "What's actually inside the machine you game on? Two short research tasks: name the main parts of a computer, then use the videos to sort out computer types and operating systems. Two documents, clearly named.",
     criteria: ['ESC-C1', 'ESC-C2', 'ESC-C4', 'ICT-C1'],
@@ -98,19 +104,31 @@ export const tasks = [
 
   {
     id: 'A1.3', unit_id: 'u1', code: '1.3', title: 'Build a Computer',
-    type: 'submission', sort: 14, est_time: '3–4 lessons', tools: 'PowerPoint, Excel, browser', weeks: 'T1 Weeks 2–3 · due Fri 20 Feb', due_date: '2026-02-20',
-    overview: "Time to go shopping (fictitiously). You'll spec complete computer builds for two different budgets, justify every choice, and present the lot as a PowerPoint backed by a costed spreadsheet. One build must be a gaming machine.",
-    criteria: ['ESC-C1', 'ESC-C2', 'ESC-C3', 'ICT-C1', 'ICT-C3', 'ICT-C4'],
-    elements: ['ESC-C1-a', 'ESC-C1-b', 'ESC-C2-a', 'ESC-C2-b', 'ESC-C3-a', 'ESC-C3-b', 'ICT-C1-a', 'ICT-C1-e', 'ICT-C1-f', 'ICT-C3-a', 'ICT-C3-b', 'ICT-C3-c', 'ICT-C3-d', 'ICT-C4-a', 'ICT-C4-d'],
+    type: 'submission', sort: 14, est_time: '5–6 lessons', tools: 'Word, YouTube, PowerPoint, Excel, browser', weeks: 'T1 Weeks 2–3 · due Fri 20 Feb', due_date: '2026-02-20',
+    overview: "What's actually inside the machine you game on — and what would you buy? Part A is two short research tasks: name the main parts of a computer, then sort out computer types and operating systems. Part B is the shopping trip (fictitiously): you'll spec complete computer builds for two different budgets, justify every choice, and present the lot as a PowerPoint backed by a costed spreadsheet and a log of the searches you used. One build must be a gaming machine.",
+    criteria: ['ESC-C1', 'ESC-C2', 'ESC-C3', 'ESC-C4', 'ICT-C1', 'ICT-C3', 'ICT-C4'],
+    elements: ['ESC-C1-a', 'ESC-C1-b', 'ESC-C2-a', 'ESC-C2-b', 'ESC-C3-a', 'ESC-C3-b', 'ESC-C4-a', 'ICT-C1-a', 'ICT-C1-b', 'ICT-C1-e', 'ICT-C1-f', 'ICT-C3-a', 'ICT-C3-b', 'ICT-C3-c', 'ICT-C3-d', 'ICT-C4-a', 'ICT-C4-d', 'ICT-C4-f'],
     body: {
       sections: [
-        { title: 'The Brief', html: `
+        { title: 'Part A — Parts of a Computer', html: `
+<p>What are the <strong>5 main parts of a computer</strong> (excluding the case they fit into)? List your answers in a Word document. This video will help:</p>
+<p><a href="https://www.youtube.com/watch?v=HB4I2CgkcCo" target="_blank" rel="noopener">▶ Video: the parts of a computer</a></p>` },
+        { title: 'Part A — Computer Types & Operating Systems', html: `
+<p>Watch the video, then answer the following in a second Word document:</p>
+<p><a href="https://www.youtube.com/watch?v=Cu3R5it4cQs" target="_blank" rel="noopener">▶ Video: computer types and operating systems</a></p>
+<ol>
+  <li>Computers use a combination of __________ and _________</li>
+  <li>What are the two main types of personal computers?</li>
+  <li>What are the 3 main types of operating systems on PCs?</li>
+</ol>
+<p>Part A is <strong>TWO separate Word documents</strong>: one called <em>Parts</em>, and one called <em>Computers and OS</em>. Both must also be saved in your <strong>Game Making and Design</strong> folder on OneDrive.</p>` },
+        { title: 'Part B — The Brief', html: `
 <p>Computers are built from components working together for a purpose. Your job: <strong>fictitiously build a computer out of parts for two (2) of the following budgets — $1,500, $2,500, and unlimited.</strong> At the end of each build, explain your choices and the purpose of the computer. <strong>One build must be for gaming.</strong></p>
 <p>The main components to cover:</p>
 <ul>
   <li>CPU/Processor</li><li>Motherboard</li><li>Hard drive</li><li>Memory/RAM</li><li>Graphics card/GPU</li><li>Case</li><li>Power supply</li><li>Optical drive</li><li>Screen/Monitor</li><li>Keyboard</li><li>Mouse</li>
 </ul>` },
-        { title: 'Rules', html: `
+        { title: 'Part B — Rules', html: `
 <ul>
   <li>Websites must be <strong>Australian</strong> and prices in <strong>Australian dollars</strong>.</li>
   <li>You do <strong>not</strong> need to factor in freight costs.</li>
@@ -124,28 +142,34 @@ export const tasks = [
 <a href="https://www.eyo.com.au/" target="_blank" rel="noopener">EYO</a> ·
 <a href="https://www.computeralliance.com.au/systems" target="_blank" rel="noopener">Computer Alliance</a> ·
 <a href="https://www.whatpsu.com/" target="_blank" rel="noopener">WhatPSU</a> (power supply calculator)</p>` },
-        { title: 'Deliverables', html: `
+        { title: 'Part B — Deliverables', html: `
 <ol>
   <li><strong>PowerPoint</strong> — for every part: the part name, a picture, the price, and the site you would buy it from. Finish each build with your explanation of the choices and the computer's purpose.</li>
   <li><strong>Spreadsheet</strong> — duplicate the part names and prices into Excel, using <strong>formulas</strong> to calculate the total for each budget.</li>
+  <li><strong>Search log</strong> — a short log (a table in Word is fine) of the searches you used to find your parts. Show what you typed, where you typed it, and what it found. <strong>Include at least two Boolean searches</strong> — for example using AND, OR, NOT or quotation marks to narrow the results.</li>
 </ol>
 <p>Worth thinking about as you build: <em>what parts make a good gaming computer, and why?</em></p>` },
       ],
       checklist: [
+        'Part A: “Parts” document lists the 5 main parts of a computer',
+        'Part A: “Computers and OS” document answers all 3 questions',
+        'Part A: both documents named exactly as specified and saved in your Game Making and Design OneDrive folder',
         'Two complete builds, each within its chosen budget ($1,500 / $2,500 / unlimited)',
         'One of the builds is a gaming computer',
         'Every component: name, picture, price and source site in the PowerPoint',
         'Explanation of choices and purpose at the end of each build',
         'At least 3 different Australian retailer sites used, prices in AUD',
         'Excel sheet totals each budget using formulas',
+        'Search log shows the searches used to find parts, including at least two Boolean searches',
       ],
       marking: [
-        { criterion: 'ESC-C1', c: 'Identifies appropriate components and retail tools for the task.', a: null },
-        { criterion: 'ESC-C2', c: 'Interprets product specifications and pricing information correctly.', a: null },
-        { criterion: 'ESC-C3', c: 'Follows the brief: two builds, budget rules, Australian sites, both deliverables.', a: null },
-        { criterion: 'ICT-C1', c: 'Correctly identifies hardware components and describes their usage.', a: 'Justifies component choices for a specific purpose (e.g. gaming) and applies hardware knowledge to the real-world problem of building to a budget.' },
+        { criterion: 'ESC-C1', c: 'Identifies the parts and types of computers used for everyday tasks, and appropriate components and retail tools for the build.', a: null },
+        { criterion: 'ESC-C2', c: 'Interprets the Part A videos and the product specifications and pricing information correctly.', a: null },
+        { criterion: 'ESC-C3', c: 'Follows the brief: both Part A documents, two builds, budget rules, Australian sites, all deliverables.', a: null },
+        { criterion: 'ESC-C4', c: 'Works safely and productively with the videos, documents and retail sites; files named and stored correctly in OneDrive.', a: null },
+        { criterion: 'ICT-C1', c: 'Correctly identifies hardware components and operating system types using accurate terminology, and describes the usage of the components chosen.', a: 'Goes beyond naming — explains what each part and OS does and how they differ — and justifies component choices for a specific purpose (e.g. gaming), applying hardware knowledge to the real-world problem of building to a budget.' },
         { criterion: 'ICT-C3', c: 'Collects parts and pricing information from multiple sites and presents it logically in PowerPoint.', a: 'Compares across retailers and assesses the relevance/accuracy of the information collected.' },
-        { criterion: 'ICT-C4', c: 'Uses PowerPoint, Excel (with formulas) and web research effectively to complete the task.', a: 'Uses advanced features (e.g. spreadsheet formulas beyond a simple sum, PSU calculators) to strengthen the build.' },
+        { criterion: 'ICT-C4', c: 'Uses PowerPoint, Excel (with formulas) and web research effectively to complete the task, and records the searches used to find parts in a search log.', a: 'Uses advanced features (e.g. spreadsheet formulas beyond a simple sum, PSU calculators) and advanced search strategies, including at least two effective Boolean searches in the log.' },
       ],
     },
   },
@@ -154,8 +178,8 @@ export const tasks = [
     id: 'A1.4', unit_id: 'u1', code: '1.4', title: 'Safe Gaming Space',
     type: 'submission', sort: 15, est_time: '2–3 lessons', tools: 'Word (or design software of your choice)', weeks: 'T1 Weeks 3–4 · due Fri 27 Feb', due_date: '2026-02-27',
     overview: "Design your ideal study/gaming space — one that won't wreck your back, eyes or wallet. Your write-up must show you understand ergonomics, and it doubles as a Word formatting workout.",
-    criteria: ['ESC-C1', 'ESC-C2', 'ESC-C3', 'ICT-C3', 'ICT-C4', 'ICT-C5'],
-    elements: ['ESC-C1-b', 'ESC-C2-a', 'ESC-C2-b', 'ESC-C3-a', 'ESC-C3-b', 'ICT-C3-b', 'ICT-C3-c', 'ICT-C4-a', 'ICT-C4-b', 'ICT-C5-b', 'ICT-C5-d'],
+    criteria: ['ESC-C1', 'ESC-C2', 'ESC-C3', 'ESC-C4', 'ICT-C2', 'ICT-C3', 'ICT-C4', 'ICT-C5'],
+    elements: ['ESC-C1-b', 'ESC-C2-a', 'ESC-C2-b', 'ESC-C3-a', 'ESC-C3-b', 'ESC-C4-b', 'ICT-C2-d', 'ICT-C3-b', 'ICT-C3-c', 'ICT-C4-a', 'ICT-C4-b', 'ICT-C5-b', 'ICT-C5-d'],
     body: {
       sections: [
         { title: 'The Design', html: `
@@ -178,10 +202,18 @@ export const tasks = [
   <li>Some words <strong>bold</strong>, some <em>italic</em> and some <u>underlined</u> (the same words may be all 3)</li>
   <li>Mostly black text, but include at least one other colour somewhere in the document</li>
 </ul>` },
+        { title: 'Spot the Hazards', html: `
+<p>Every gaming or study setup has hazards — even a well-designed one. Add a section to your write-up that:</p>
+<ul>
+  <li><strong>Identifies the hazards</strong> in a gaming/study setup — your own design or a typical one (think cables, power boards, posture, screen glare, long sessions without breaks)</li>
+  <li>Describes the <strong>OH&amp;S procedures</strong> that address each hazard — what you would do, and how it reduces the risk to your health and safety</li>
+</ul>
+<p>A table (hazard → procedure) works well, and it counts towards your formatting too.</p>` },
       ],
       checklist: [
         'Space design covers desk, chair, lighting, wall colour and decoration',
         'Write-up explains the ergonomics behind your choices',
+        'Hazards in the setup identified, each with the OH&S procedure that addresses it',
         'Budget/expenses list included',
         'Images, 2 font types, bold + italic + underline, and a second colour all present',
         'Submitted as a Word document',
@@ -190,6 +222,8 @@ export const tasks = [
         { criterion: 'ESC-C1', c: 'Identifies appropriate tools and furniture for a safe study/gaming setup.', a: null },
         { criterion: 'ESC-C2', c: 'Interprets ergonomic information and applies it to the design.', a: null },
         { criterion: 'ESC-C3', c: 'Follows all design and formatting requirements as specified.', a: null },
+        { criterion: 'ESC-C4', c: 'Identifies and describes everyday hazards in a gaming/study setup.', a: null },
+        { criterion: 'ICT-C2', c: 'Correctly describes the OH&S procedures that address each hazard identified.', a: null },
         { criterion: 'ICT-C3', c: 'Presents the design and research clearly, combining text and images.', a: 'Presentation choices (layout, images, emphasis) deliberately serve the reader.' },
         { criterion: 'ICT-C4', c: 'Uses Word (or chosen design software) features to produce the required formatting.', a: 'Uses advanced features of the chosen software to strengthen the design.' },
         { criterion: 'ICT-C5', c: 'Plans the space to a budget and completes the task within the set timeframe.', a: 'Budget is realistic, itemised and clearly connected to the design decisions.' },
@@ -289,7 +323,7 @@ export const tasks = [
     type: 'submission', sort: 24, est_time: '4–6 lessons', tools: 'Adobe Premiere Pro, capture hardware/software, YouTube', weeks: 'T1 Weeks 8–10 · due Fri 10 Apr', due_date: '2026-04-10',
     overview: "Your third review format: video. Capture footage of a game of your choice, script a voiceover, edit it in Premiere Pro, and publish to YouTube — the way working reviewers actually do it.",
     criteria: ['ESC-C2', 'ESC-C4', 'ICT-C2', 'ICT-C3'],
-    elements: ['ESC-C2-a', 'ESC-C2-b', 'ESC-C4-c', 'ESC-C4-d', 'ICT-C2-a', 'ICT-C2-e', 'ICT-C3-c', 'ICT-C3-e'],
+    elements: ['ESC-C2-a', 'ESC-C2-b', 'ESC-C4-c', 'ESC-C4-d', 'ESC-C4-e', 'ICT-C2-a', 'ICT-C2-b', 'ICT-C2-c', 'ICT-C2-e', 'ICT-C3-c', 'ICT-C3-e'],
     body: {
       sections: [
         { title: 'Instructions', html: `
@@ -299,8 +333,14 @@ export const tasks = [
   <li>Edit the review in <strong>Adobe Premiere Pro</strong>.</li>
   <li><strong>Export using the settings from the video tutorial provided in class</strong>, and upload to YouTube.</li>
 </ol>` },
+        { title: 'Credits & Copyright', html: `
+<p>Your review uses other people's work, so credit it. Add a <strong>credits and copyright statement</strong> to your script document that:</p>
+<ul>
+  <li><strong>Lists the game footage, music and images</strong> used in your review, and who owns or created each</li>
+  <li>Explains <strong>why that use is allowed on YouTube</strong> — for example the publisher's content policy, a licence (such as Creative Commons or royalty-free music), or fair dealing for criticism and review</li>
+</ul>` },
         { title: 'Submit', html: `
-<p>Submit a <strong>Word document of your script</strong> plus a <strong>link to the review on YouTube</strong>.</p>
+<p>Submit a <strong>Word document of your script</strong> (with your credits and copyright statement) plus a <strong>link to the review on YouTube</strong>.</p>
 <p>Privacy tip from the task: unless you're sure you want the video available for all the world to see, keep it <strong>unlisted</strong> — visible only to those who have the link (i.e. Rob).</p>` },
       ],
       checklist: [
@@ -308,12 +348,13 @@ export const tasks = [
         'Script written before the voiceover was recorded',
         'Edited in Premiere Pro and exported with the tutorial settings',
         'Uploaded to YouTube (unlisted recommended)',
+        'Credits and copyright statement covers the footage, music and images used and why that use is allowed on YouTube',
         'Script document + YouTube link submitted',
       ],
       marking: [
         { criterion: 'ESC-C2', c: 'Interprets the export/upload instructions correctly and applies them.', a: null },
-        { criterion: 'ESC-C4', c: 'Publishes safely — appropriate visibility settings and no personal information exposed.', a: null },
-        { criterion: 'ICT-C2', c: 'Handles the social/ethical side of publishing: captured content, privacy and audience.', a: 'Identifies the ethical issues in their specific situation (footage rights, privacy choices) and justifies the decisions made.' },
+        { criterion: 'ESC-C4', c: 'Publishes safely — appropriate visibility settings and no personal information exposed — and describes and complies with the rules for using other people\'s footage, music and images.', a: null },
+        { criterion: 'ICT-C2', c: 'Handles the social/ethical side of publishing: captured content, privacy and audience. Correctly describes intellectual property and copyright, and credits the footage, music and images used with a reason their use is allowed on YouTube.', a: 'Identifies the ethical issues in their specific situation (footage rights, privacy choices) and justifies the decisions made.' },
         { criterion: 'ICT-C3', c: 'Communicates the review clearly through scripted voiceover and edited video.', a: 'Script and edit are shaped for the target audience — pacing, tone and structure all serve the viewer.' },
       ],
     },
@@ -380,22 +421,24 @@ export const tasks = [
     id: 'A3.3', unit_id: 'u3', code: '3.3', title: 'Game Skills Journal & Critical Reflection',
     type: 'submission', sort: 33, est_time: '10–15 min per lesson + 1 final lesson', tools: 'Your engine, Word', weeks: 'T2 Weeks 5–9 · due Fri 10 Jul', due_date: '2026-07-10',
     overview: "Across these 4–5 weeks of game-building, keep your journal ticking over every lesson — then close it out by turning the critical lens on your own game.",
-    criteria: ['ICT-C2', 'ICT-C4', 'ICT-C5'],
-    elements: ['ICT-C2-a', 'ICT-C4-b', 'ICT-C4-e', 'ICT-C5-c', 'ICT-C5-g'],
+    criteria: ['ESC-C3', 'ICT-C2', 'ICT-C4', 'ICT-C5'],
+    elements: ['ESC-C3-c', 'ICT-C2-a', 'ICT-C4-b', 'ICT-C4-e', 'ICT-C5-c', 'ICT-C5-g'],
     body: {
       sections: [
         { title: 'Instructions', html: `
 <p>You are to keep a <strong>Skills Journal throughout these 4–5 weeks</strong>, updating it <strong>each lesson</strong> (10–15 minutes per lesson as a guide). Take screenshots to aid your explanation of each tool/feature you cover.</p>` },
         { title: 'Final Lesson — Critical Reflection', html: `
-<p>In the last lesson, <strong>critically review your own game</strong>, including multiple screenshots of your environment and any programming/blueprinting you have done. Be honest: what works, what doesn't, and what you'd change.</p>` },
+<p>In the last lesson, <strong>critically review your own game</strong>, including multiple screenshots of your environment and any programming/blueprinting you have done. Be honest: what works, what doesn't, and what you'd change. This is also your review of <strong>your own performance</strong> — how well you worked through the weeks and how you could do better next time.</p>` },
       ],
       checklist: [
         'Journal updated every lesson across the 4–5 weeks',
         'Screenshots support each tool/feature explanation',
         'Final critical review of your own game completed',
         'Review includes multiple screenshots of your environment and programming/blueprints',
+        'Review includes a look at your own performance across the weeks',
       ],
       marking: [
+        { criterion: 'ESC-C3', c: 'Reviews their own performance on the task in the critical reflection.', a: null },
         { criterion: 'ICT-C2', c: 'Reflection considers the game\'s audience and content responsibly.', a: 'Identifies social/ethical considerations specific to their own game and justifies design responses.' },
         { criterion: 'ICT-C4', c: 'Journal + reflection evidence sustained tool use and problem-solving in the engine.', a: 'Evidence of advanced engine features in the build.' },
         { criterion: 'ICT-C5', c: 'Regular lesson-by-lesson entries; reflection reviews progress against what was planned.', a: 'Reflection evaluates progress and sets out concrete future improvements.' },

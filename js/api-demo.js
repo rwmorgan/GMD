@@ -120,7 +120,7 @@ function freshState() {
   const submissions = [
     { id: 1, task_id: 'A1.1', student_id: 'u-ava', url: null, file_path: null, file_name: 'Task1.1_Ava_P.docx', comment: 'Finished Part B conclusion in class today.', created_at: at(18) },
     { id: 2, task_id: 'A1.1', student_id: 'u-ben', url: null, file_path: null, file_name: 'Task1.1_Ben_T.docx', comment: '', created_at: at(17) },
-    { id: 3, task_id: 'A1.2', student_id: 'u-ava', url: null, file_path: null, file_name: 'Task1.2_Ava_P.docx', comment: '', created_at: at(12) },
+    { id: 3, task_id: 'A1.3', student_id: 'u-ava', url: null, file_path: null, file_name: 'Task1.3_Ava_P.docx', comment: '', created_at: at(12) },
     { id: 4, task_id: 'A1.1', student_id: 'u-chloe', url: 'https://onedrive.live.com/example-chloe-t11', file_path: null, file_name: null, comment: 'Shared via OneDrive link.', created_at: at(16) },
     { id: 5, task_id: 'A1.3', student_id: 'u-chloe', url: null, file_path: null, file_name: 'Task1.3_Chloe_M.pdf', comment: '', created_at: at(8) },
   ];
@@ -143,7 +143,7 @@ function freshState() {
 
   const progress = [
     { student_id: 'u-ava', task_id: 'A1.3', started_at: at(9) },
-    { student_id: 'u-ben', task_id: 'A1.2', started_at: at(11) },
+    { student_id: 'u-ben', task_id: 'A1.3', started_at: at(11) },
     { student_id: 'u-dev', task_id: 'A1.1', started_at: at(15) },
   ];
 

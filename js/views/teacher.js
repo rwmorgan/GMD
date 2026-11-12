@@ -83,12 +83,13 @@ export async function teacherHomeView() {
   ]);
   const cur = filterCurByProgram(curAll, scope.programId);
   const { gaps } = coverageMatrix(cur);
+  const liveTasks = cur.tasks.filter(t => t.published !== false); // hidden/retired tasks don't count
 
   const queue = unmarkedQueue(cur, data);
 
   const rows = data.profiles.map(p => {
     const st = studentState(data, p.id);
-    const done = cur.tasks.filter(t => ['submitted', 'marked'].includes(taskStatus(t, st))).length;
+    const done = liveTasks.filter(t => ['submitted', 'marked'].includes(taskStatus(t, st))).length;
     const lastActivity = [...st.attempts.map(a => a.created_at), ...st.submissions.map(s => s.created_at)]
       .sort().pop();
     const awards = cur.courses.map(c => {
@@ -98,7 +99,7 @@ export async function teacherHomeView() {
     return `
     <tr class="${p.active === false ? 'row-inactive' : ''}">
       <td>${avatarHTML(p, 'avatar--sm')} <strong>${esc(p.display_name)}</strong>${p.active === false ? ' <span class="chip chip-idle">inactive</span>' : ''}</td>
-      <td>${done} / ${cur.tasks.length} ${progressBar((done / Math.max(1, cur.tasks.length)) * 100, { label: `${p.display_name} progress` })}</td>
+      <td>${done} / ${liveTasks.length} ${progressBar((done / Math.max(1, liveTasks.length)) * 100, { label: `${p.display_name} progress` })}</td>
       <td>${st.attempts.length}</td>
       <td>${st.submissions.length}</td>
       <td>${awards}</td>
@@ -107,7 +108,7 @@ export async function teacherHomeView() {
   }).join('');
 
   render(`
-${teacherHeader('Class Overview', `${data.profiles.length} students · ${cur.tasks.length} published tasks &amp; quizzes`, scopeBar(classesData))}
+${teacherHeader('Class Overview', `${data.profiles.length} students · ${liveTasks.length} published tasks &amp; quizzes`, scopeBar(classesData))}
 <section class="section section--sm">
   <div class="container container--wide">
     <div class="grid grid-4 stat-grid">
@@ -522,7 +523,10 @@ export async function studentDetailView({ id }) {
     : '';
   const today = localDateStr(new Date().toISOString());
 
-  const rows = cur.tasks.map(t => {
+  // Retired (hidden) tasks only appear if this student has work or marks on them.
+  const shownTasks = cur.tasks.filter(t => t.published !== false
+    || st.submissions.some(s => s.task_id === t.id) || st.marks.some(m => m.task_id === t.id));
+  const rows = shownTasks.map(t => {
     const status = taskStatus(t, st);
     const subs = st.submissions.filter(s => s.task_id === t.id).sort((a, b) => a.created_at.localeCompare(b.created_at));
     const latestSub = subs[subs.length - 1];
@@ -591,10 +595,11 @@ export async function studentDetailView({ id }) {
     </table></div>`;
   }).join('');
 
-  const done = cur.tasks.filter(t => ['submitted', 'marked'].includes(taskStatus(t, st))).length;
+  const liveTasks = cur.tasks.filter(t => t.published !== false);
+  const done = liveTasks.filter(t => ['submitted', 'marked'].includes(taskStatus(t, st))).length;
 
   render(`
-${teacherHeader(profile.display_name, `${done} / ${cur.tasks.length} tasks &amp; quizzes done${profile.active === false ? ' · <span class="chip chip-idle">Inactive</span>' : ''}`)}
+${teacherHeader(profile.display_name, `${done} / ${liveTasks.length} tasks &amp; quizzes done${profile.active === false ? ' · <span class="chip chip-idle">Inactive</span>' : ''}`)}
 <section class="section section--sm">
   <div class="container container--wide">
     <div class="meta-row" style="margin-bottom:1rem;">

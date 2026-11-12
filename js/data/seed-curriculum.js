@@ -137,7 +137,7 @@ export const elements = [
 /* Units mirror the real Canvas course (blueprint 94239), synced 2026-07-05. */
 export const units = [
   { id: 'u1', number: 1, title: 'Computers & Digital Foundations', subtitle: 'Know your machine, work safely', weeks: 'Term 1 · Weeks 1–4', phase: 1, sort: 1,
-    description: 'Game developers need to know the hardware they build on. This unit starts with simple browser game-making, then digs into what a computer actually is — its parts, types and operating systems — before you spec and cost a build of your own and design a safe, ergonomic space to game and study in.' },
+    description: 'Game developers need to know the hardware they build on. This unit starts with simple browser game-making, then digs into what a computer actually is — its parts, types and operating systems — as you spec and cost a build of your own, before you design a safe, ergonomic space to game and study in.' },
   { id: 'u2', number: 2, title: 'Reviewing Games', subtitle: 'Play, analyse, publish your verdict', weeks: 'Term 1 · Weeks 5–10', phase: 1, sort: 2,
     description: "Before you make games, learn to read them. You'll review browser games in writing, review a full-release game as a designed A3 poster in Adobe Illustrator or Photoshop, and finish with a video review edited in Premiere Pro and published to YouTube — three reviews, three different ways of communicating to an audience." },
   { id: 'u3', number: 3, title: 'Game Engines', subtitle: 'Unreal & Unity skills journals', weeks: 'Term 2 · Weeks 1–9', phase: 1, sort: 3,
