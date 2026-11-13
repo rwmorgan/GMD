@@ -508,10 +508,19 @@ export class SupabaseAdapter {
   }
 
   /* Push the bundled seed curriculum into the database.
-     Teacher-only (RLS enforces it). Upserts, so re-running is safe. */
+     Teacher-only (RLS enforces it). Upserts, so re-running is safe.
+
+     GMD rows and General Maths (Gen2) rows are sent in SEPARATE batches per
+     table: a bulk upsert fills any column missing from a row with NULL, so a
+     mixed batch would blank Gen2-only columns such as units.program_id on the
+     GMD units (and due_date on the Gen2 tasks). Each batch is also
+     de-duplicated by primary key — Postgres rejects a batch that touches the
+     same row twice ("ON CONFLICT DO UPDATE command cannot affect row a second
+     time"). */
   async importCurriculum(onProgress = () => {}) {
     const c = this.client;
     const data = flattenSeed(seed);
+    let gen2 = null;
 
     // Merge any authored Gen2 (General Maths) content — but only if this
     // database has actually had supabase/gen2-migration.sql applied. Without
@@ -522,33 +531,31 @@ export class SupabaseAdapter {
       const probe = await c.from('programs').select('id').limit(1);
       if (probe.error) throw probe.error;
       const { loadGen2Banks, flattenGen2 } = await import('./data/gen2/index.js');
-      const g = flattenGen2(await loadGen2Banks());
-      data.units.push(...g.units);
-      data.tasks.push(...g.tasks);
-      data.task_criteria.push(...g.task_criteria);
-      data.task_elements.push(...g.task_elements);
-      data.questions.push(...g.questions);
-      data.answers.push(...g.answers);
+      gen2 = flattenGen2(await loadGen2Banks());
     } catch (e) {
       console.warn('Gen2 content not merged (migration not applied on this database yet):', e?.message || e);
     }
 
-    const steps = [
-      ['courses', data.courses],
-      ['criteria', data.criteria],
-      ['elements', data.elements],
-      ['units', data.units],
-      ['tasks', data.tasks],
-      ['task_criteria', data.task_criteria],
-      ['task_elements', data.task_elements],
-      ['questions', data.questions],
-      ['answers', data.answers],
-    ];
+    const keyOf = {
+      courses: r => r.id, criteria: r => r.id, elements: r => r.id, units: r => r.id, tasks: r => r.id,
+      task_criteria: r => `${r.task_id}|${r.criterion_id}`, task_elements: r => `${r.task_id}|${r.element_id}`,
+      questions: r => r.id, answers: r => r.question_id,
+    };
+    const dedupe = (table, rows) => [...new Map(rows.map(r => [keyOf[table](r), r])).values()];
+
+    const tables = ['courses', 'criteria', 'elements', 'units', 'tasks', 'task_criteria', 'task_elements', 'questions', 'answers'];
     let done = 0;
-    for (const [table, rows] of steps) {
-      onProgress(`Importing ${table} (${rows.length} rows)…`, done / steps.length);
-      const { error } = await c.from(table).upsert(rows);
-      if (error) fail(error, `Import failed at ${table}: ${error.message}`);
+    for (const table of tables) {
+      const batches = [
+        ['GMD', data[table] || []],
+        ['General Maths', gen2?.[table] || []],
+      ].filter(([, rows]) => rows.length);
+      for (const [label, raw] of batches) {
+        const rows = dedupe(table, raw);
+        onProgress(`Importing ${table} — ${label} (${rows.length} rows)…`, done / tables.length);
+        const { error } = await c.from(table).upsert(rows);
+        if (error) throw new Error(`Import failed at ${table} (${label} batch, ${rows.length} rows): ${error.message}`);
+      }
       done++;
     }
     onProgress('Import complete.', 1);
