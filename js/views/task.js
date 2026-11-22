@@ -271,7 +271,7 @@ export async function taskView({ id }) {
           <div id="quiz-result" hidden></div>` : ''}
       </div>`;
   } else if (def) {
-    actionArea = formAreaHTML(task, fc, user, unmarked, status);
+    actionArea = feedbackHTML(cur, state, task) + formAreaHTML(task, fc, user, unmarked, status);
   } else {
     const mySubs = state ? state.submissions.filter(s => s.task_id === task.id).sort((a, b) => b.created_at.localeCompare(a.created_at)) : [];
     const myMarks = state ? state.marks.filter(m => m.task_id === task.id) : [];
@@ -362,6 +362,21 @@ export async function taskView({ id }) {
   if (isQuiz) wireQuiz(task);
   else if (def) wireForm(task, fc, user);
   else wireSubmit(task);
+}
+
+/* The teacher's ratings + feedback for this student, if the task has been marked. */
+function feedbackHTML(cur, state, task) {
+  const myMarks = state ? state.marks.filter(m => m.task_id === task.id) : [];
+  const myFb = state ? state.feedback.find(f => f.task_id === task.id) : null;
+  if (!myMarks.length && !myFb) return '';
+  return `
+  <div class="feedback-panel">
+    <h3>📋 Marked — teacher feedback</h3>
+    ${myMarks.length ? `<div class="rating-chips">${myMarks.map(m =>
+      `<span class="rating-chip rating-${esc(m.rating)}">${esc(criterionLabel(cur, m.criterion_id))}: <b>${esc(m.rating)}</b></span>`).join('')}</div>` : ''}
+    ${myFb?.feedback ? `<blockquote class="feedback-quote">${esc(myFb.feedback)}</blockquote>` : ''}
+    ${myFb ? `<p class="feedback-date">Marked ${fmtDate(myFb.marked_at)}</p>` : ''}
+  </div>`;
 }
 
 /* ---------- structured forms ---------- */

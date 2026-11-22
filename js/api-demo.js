@@ -434,10 +434,12 @@ export class DemoAdapter {
   async getFormEntries(taskId, ownerId) {
     const u = this.requireUser();
     const f = this.formState();
-    const ok = ownerId === u.id || u.role === 'teacher'
-      || f.testers.some(t => t.developer_id === ownerId && t.tester_id === u.id);
-    if (!ok) return [];
-    return f.entries.filter(e => e.task_id === taskId && e.student_id === ownerId).sort((a, b) => a.entry_no - b.entry_no);
+    const mine = ownerId === u.id || u.role === 'teacher';
+    const partner = f.testers.some(t => t.developer_id === ownerId && t.tester_id === u.id);
+    if (!mine && !partner) return [];
+    // a tester partner only ever sees SHARED rows (the check-in log), like the database policy
+    return f.entries.filter(e => e.task_id === taskId && e.student_id === ownerId && (mine || e.shared))
+      .sort((a, b) => a.entry_no - b.entry_no);
   }
 
   async getMyPartners() {
