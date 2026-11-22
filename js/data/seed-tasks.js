@@ -68,7 +68,7 @@ export const tasks = [
   {
     id: 'A1.2', unit_id: 'u1', code: '1.2', title: 'Parts of a Computer, Computer Types & OS',
     published: false,
-    type: 'submission', sort: 12, est_time: '1–2 lessons', tools: 'Word, YouTube', weeks: 'T1 Week 2 · due Fri 13 Feb', due_date: '2026-02-13',
+    type: 'submission', sort: 12, est_time: '1–2 lessons', tools: 'Word, YouTube', weeks: 'Retired for 2027 — merged into 1.3 Build a Computer', due_date: null,
     overview: "What's actually inside the machine you game on? Two short research tasks: name the main parts of a computer, then use the videos to sort out computer types and operating systems. Two documents, clearly named.",
     criteria: ['ESC-C1', 'ESC-C2', 'ESC-C4', 'ICT-C1'],
     elements: ['ESC-C1-a', 'ESC-C1-b', 'ESC-C2-a', 'ESC-C2-b', 'ESC-C4-a', 'ICT-C1-a', 'ICT-C1-b'],
