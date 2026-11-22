@@ -418,6 +418,7 @@ ${teacherHeader(`${task.code} ${task.title}`, `${task.overview || ''}${task.due_
 <section class="section section--sm">
   <div class="container container--wide">
     <div class="meta-row" style="margin-bottom:1rem;"><a class="btn btn-secondary btn-sm" href="#/teach/tasks">← All tasks</a></div>
+    ${task.published === false ? '<div class="warning-box" style="margin-bottom:1rem;"><p><strong>Hidden from students.</strong> This task is retired or unpublished, so students cannot see or open it. Any existing submissions and marks are kept.</p></div>' : ''}
     <div class="marking-wrap"><table class="data-table">
       <thead><tr><th>Student</th><th>Status</th><th>Submitted</th><th>Timing</th><th>${task.type === 'quiz' ? 'Best score' : 'Ratings'}</th><th></th></tr></thead>
       <tbody>${rows}</tbody>
