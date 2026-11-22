@@ -234,41 +234,50 @@ export const tasks = [
 
   // ================= UNIT 2 — Reviewing Games =================
   {
-    id: 'A2.1', unit_id: 'u2', code: '2.1', title: 'Web Browser Games — 5 Reviews',
-    type: 'submission', sort: 21, est_time: '2 lessons', tools: 'Browser, Word', weeks: 'T1 Weeks 5–6 · due Fri 5 Mar', due_date: '2027-03-05',
-    overview: "Play games, on purpose, for marks. Five browser games, five different genres, and a short written review of each — then crown your favourite and defend the choice.",
-    criteria: ['ESC-C1', 'ESC-C2', 'ESC-C3'],
-    elements: ['ESC-C1-a', 'ESC-C1-b', 'ESC-C2-a', 'ESC-C2-b', 'ESC-C3-a', 'ESC-C3-b'],
+    id: 'A2.1', unit_id: 'u2', code: '2.1', title: 'Steal Like a Designer',
+    type: 'submission', submit_kinds: ['form'], sort: 21, est_time: '2 lessons', tools: 'Browser, this site', weeks: 'T1 Weeks 5–6 · due Fri 5 Mar', due_date: '2027-03-05',
+    overview: "Play games on purpose — and steal like a designer. For each of five browser games you'll find one mechanic worth stealing and say how you'd use it in a game of your own. Keep your list handy: you'll come back to it when you write your Game Design Brief (4.2). This activity isn't marked — it's complete when all five entries are filled in.",
+    criteria: [],
+    elements: [],
     body: {
       sections: [
         { title: 'Instructions', html: `
 <p>Play <strong>5 different web browser games</strong> for 10–20 minutes each. All games should be of <strong>different genres</strong>.</p>
-<p>After each game, write a brief review (about 2–3 paragraphs) including, as a minimum:</p>
+<p>After each game, fill in one entry below. For every game you'll record:</p>
 <ul>
-  <li>Name</li>
-  <li>Target audience</li>
-  <li>Graphics</li>
-  <li>Audio (sound effects and music)</li>
-  <li>General thoughts</li>
-  <li>Rating out of 10</li>
+  <li>The <strong>game's name and a link</strong> to it</li>
+  <li>Its <strong>genre</strong></li>
+  <li>Your <strong>rating out of 5</strong></li>
+  <li><strong>One mechanic worth stealing</strong> — and which category it belongs to: movement, combat, progression, reward, UI/feedback, level design or other</li>
+  <li><strong>One sentence</strong> on how you would use that mechanic in your own game</li>
 </ul>` },
-        { title: 'The Verdict', html: `
-<p>When your 5 reviews are done, write a couple of paragraphs on <strong>which game was your favourite and why</strong>, comparing it to the others.</p>
-<p>Include <strong>screenshots and images</strong>, plus a <strong>link to each game</strong>.</p>
-<p>You have <strong>2 lessons</strong> for this task. Submit your reviews when complete.</p>` },
+        { title: 'Why “steal”?', html: `
+<p>Every game designer borrows. A good mechanic is a tested idea, and the skill is knowing <em>why</em> it works and how to adapt it so it fits your game. Be specific: “the double-jump” is better than “the controls”, and “a satisfying sound when you collect a coin” is better than “the audio”.</p>
+<p>You have <strong>2 lessons</strong> for this task. It is <strong>not marked</strong>: it is complete when all five entries are filled in, and your teacher can see your progress as you go.</p>` },
       ],
       checklist: [
         '5 games played, each from a different genre, 10–20 minutes each',
-        'Each review covers name, target audience, graphics, audio, general thoughts, and /10 rating',
-        'Favourite-game comparison written (a couple of paragraphs)',
-        'Screenshots/images included and every game linked',
-        'Completed within 2 lessons and submitted',
+        'Every entry has the game name, a link, the genre and a rating out of 5',
+        'Every entry names one mechanic worth stealing and its category',
+        'Every entry says in one sentence how you would use it in your own game',
       ],
-      marking: [
-        { criterion: 'ESC-C1', c: 'Selects appropriate browser games across five distinct genres.', a: null },
-        { criterion: 'ESC-C2', c: 'Interprets each game (audience, genre conventions) and uses correct terminology in the reviews.', a: null },
-        { criterion: 'ESC-C3', c: 'Follows the review structure for all 5 games and completes the comparison within the timeframe.', a: null },
-      ],
+      marking: [],
+      form: {
+        entries: 5,
+        entryLabel: 'Game',
+        fields: [
+          { id: 'name', label: 'Game name', short: 'Game', type: 'text', required: true },
+          { id: 'link', label: 'Link to the game', type: 'url', required: true, placeholder: 'https://' },
+          { id: 'genre', label: 'Genre', type: 'text', required: true },
+          { id: 'rating', label: 'Your rating', type: 'rating', min: 1, max: 5, lowLabel: 'not for me', highLabel: 'loved it', required: true },
+          { id: 'category', label: 'Category of the mechanic', short: 'Category', type: 'select', required: true,
+            options: ['Movement', 'Combat', 'Progression', 'Reward', 'UI / feedback', 'Level design', 'Other'] },
+          { id: 'mechanic', label: 'One mechanic worth stealing', short: 'Mechanic', type: 'textarea', required: true, rows: 3,
+            help: 'What is it, and why does it work?' },
+          { id: 'use', label: 'How would you use it in your own game?', short: 'How I would use it', type: 'textarea', required: true, rows: 2,
+            help: 'One sentence.' },
+        ],
+      },
     },
   },
 
@@ -511,15 +520,24 @@ export const tasks = [
 </ul>
 <p>(Both open in Canvas — sign in first.)</p>
 <p><strong>Be realistic</strong> about what you can achieve — you'll probably need to spend some time working through one or more tutorials. For this task it is completely reasonable that your game follows a tutorial for the most part, with small adjustments to make it your own.</p>` },
+        { title: 'Borrowed Mechanics (required section)', html: `
+<p>Add a section to your brief called <strong>“Borrowed mechanics”</strong>. Look at the list you made in <a href="#/task/A2.1">2.1 Steal Like a Designer</a> (it's shown above) and pick <strong>at least 2 mechanics</strong>. For each one, explain:</p>
+<ul>
+  <li>Which game it came from, and what the mechanic is</li>
+  <li><strong>How you will adapt it</strong> so it fits your game — what you'll keep, and what you'll change</li>
+</ul>` },
       ],
+      showEntriesFrom: 'A2.1',
+      showFields: ['name', 'category', 'mechanic', 'use'],
       checklist: [
         'Every heading of the design brief template completed',
+        '“Borrowed mechanics” section: at least 2 mechanics from your 2.1 list, each with how you adapt it',
         'Scope is realistic for the time available (tutorial-based is fine)',
         'Engine/software choice named and suited to the game described',
       ],
       marking: [
         { criterion: 'ESC-C4', c: 'Works productively with the template and produces a usable brief.', a: null },
-        { criterion: 'ICT-C1', c: 'Uses correct software/engine terminology throughout the brief.', a: 'Justifies the choice of engine and tools for this specific game.' },
+        { criterion: 'ICT-C1', c: 'Uses correct software/engine terminology throughout the brief, and names at least 2 borrowed mechanics from their 2.1 list.', a: 'Justifies the choice of engine and tools for this specific game, and explains how each borrowed mechanic is adapted to fit it.' },
         { criterion: 'ICT-C5', c: 'Brief sets achievable, realistic goals for the build ahead.', a: 'Goals are specific and measurable, with a plausible plan to reach them.' },
       ],
     },

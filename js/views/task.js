@@ -233,7 +233,7 @@ export async function taskView({ id }) {
       ${ents.length ? `<ol class="borrowed-list">${ents.map(e => `<li>${ids.map(id => {
         const f = sdef?.fields.find(x => x.id === id);
         const v = e.data?.[id];
-        return v ? `<span><b>${esc(f?.label || id)}:</b> ${esc(String(v))}</span>` : '';
+        return v ? `<span><b>${esc(f?.short || f?.label || id)}:</b> ${esc(String(v))}</span>` : '';
       }).join(' ')}</li>`).join('')}</ol>`
         : `<p class="unit-counts">You haven't filled in ${esc(srcTask.code)} yet. <a href="#/task/${encodeURIComponent(srcTask.id)}">Open ${esc(srcTask.code)} →</a></p>`}
     </div>`;
