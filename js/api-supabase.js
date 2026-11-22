@@ -150,9 +150,12 @@ export class SupabaseAdapter {
       c.from('task_progress').select('*').eq('student_id', uid),
     ]);
     for (const r of [attempts, submissions, marks, feedback, progress]) if (r.error) fail(r.error);
+    // Form answers (supabase/2027-task-restructure.sql). Degrades to none until that SQL has been run.
+    const ent = await c.from('form_entries').select('*').eq('student_id', uid);
     return {
       attempts: attempts.data, submissions: submissions.data,
       marks: marks.data, feedback: feedback.data, progress: progress.data,
+      entries: ent.error ? [] : ent.data,
     };
   }
 
@@ -270,6 +273,60 @@ export class SupabaseAdapter {
     }
   }
 
+  /* ---------- structured forms + developer–tester partners ----------
+     Tables from supabase/2027-task-restructure.sql. Every read degrades to
+     "nothing" until that SQL has been run, so the rest of the site is unaffected. */
+  async saveFormEntry({ task_id, student_id, entry_no, data, shared = false }) {
+    const row = {
+      task_id, student_id: student_id || this.user?.id, entry_no, data, shared: !!shared,
+      updated_by: this.user?.id, updated_at: new Date().toISOString(),
+    };
+    const { error } = await this.client.from('form_entries').upsert(row, { onConflict: 'task_id,student_id,entry_no' });
+    if (error) fail(error, 'Could not save your answers.');
+  }
+
+  async deleteFormEntry(taskId, studentId, entryNo) {
+    const { error } = await this.client.from('form_entries').delete()
+      .eq('task_id', taskId).eq('student_id', studentId).eq('entry_no', entryNo);
+    if (error) fail(error);
+  }
+
+  /* Rows owned by `ownerId` for a task (a partner's shared log, via RLS). */
+  async getFormEntries(taskId, ownerId) {
+    const { data, error } = await this.client.from('form_entries').select('*')
+      .eq('task_id', taskId).eq('student_id', ownerId).order('entry_no');
+    return error ? [] : data;
+  }
+
+  /* {myTester: {tester_name,...}|null, testing: {developer_name,...}|null} */
+  async getMyPartners() {
+    const uid = this.user?.id;
+    const { data, error } = await this.client.rpc('my_test_partners');
+    if (error || !data) return { myTester: null, testing: null };
+    return {
+      myTester: data.find(r => r.developer_id === uid) || null,
+      testing: data.find(r => r.tester_id === uid) || null,
+    };
+  }
+
+  async getTesterAssignments(classId) {
+    const { data, error } = await this.client.from('tester_assignments').select('*').eq('class_id', classId);
+    return error ? null : data;   // null = SQL not run yet
+  }
+
+  /* Replace the class's pairs. rows: [{developer_id, tester_id}] */
+  async saveTesterAssignments(classId, rows) {
+    const c = this.client;
+    const del = await c.from('tester_assignments').delete().eq('class_id', classId);
+    if (del.error) fail(del.error);
+    if (!rows.length) return;
+    const ins = await c.from('tester_assignments').insert(rows.map(r => ({ class_id: classId, developer_id: r.developer_id, tester_id: r.tester_id })));
+    if (ins.error) {
+      if (ins.error.code === '23505') throw new Error('Two students were given the same tester — each student can test only one game.');
+      fail(ins.error);
+    }
+  }
+
   async getClassData(classId = null) {
     const c = this.client;
     const [profiles, attempts, submissions, marks, feedback, progress] = await Promise.all([
@@ -281,10 +338,12 @@ export class SupabaseAdapter {
       c.from('task_progress').select('*'),
     ]);
     for (const r of [attempts, submissions, marks, feedback, progress]) if (r.error) fail(r.error);
+    const ent = await c.from('form_entries').select('*');
     let data = {
       profiles,
       attempts: attempts.data, submissions: submissions.data,
       marks: marks.data, feedback: feedback.data, progress: progress.data,
+      entries: ent.error ? [] : ent.data,
     };
     if (classId) {
       const enrol = await c.from('enrolments').select('student_id').eq('class_id', classId);
@@ -297,6 +356,7 @@ export class SupabaseAdapter {
         marks: data.marks.filter(m => ids.has(m.student_id)),
         feedback: data.feedback.filter(f => ids.has(f.student_id)),
         progress: data.progress.filter(p => ids.has(p.student_id)),
+        entries: data.entries.filter(e => ids.has(e.student_id)),
       };
     }
     return data;

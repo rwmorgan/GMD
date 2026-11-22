@@ -4,7 +4,8 @@
 
 import { api } from '../api.js';
 import { render, esc, spinner, statusChip, badge, courseBadgeClass, toast, confetti, fmtDate } from '../ui.js';
-import { getCurriculum, getMyState, invalidate, taskStatus, criterionLabel, bestAttempt } from '../store.js';
+import { getCurriculum, getMyState, invalidate, taskStatus, criterionLabel, bestAttempt, isUnmarkedTask } from '../store.js';
+import { formDef, formProgress, formMax, formPanelHTML, blankCardHTML, collectCard, cardIsBlank } from '../forms.js';
 import { navigate } from '../router.js';
 
 function shuffled(indexes) {
@@ -178,6 +179,18 @@ export async function taskView({ id }) {
   const isQuiz = task.type === 'quiz';
   const isLesson = task.type === 'lesson';
 
+  /* Structured-form tasks (js/forms.js): load this student's answers + partners. */
+  const def = formDef(task);
+  const unmarked = isUnmarkedTask(task);
+  let fc = null;
+  if (def && isStudent) {
+    const partners = (def.needsPartner || def.shared) ? await api.getMyPartners().catch(() => ({})) : {};
+    const myEntries = (state?.entries || []).filter(e => e.task_id === task.id);
+    const sharedEntries = def.shared && partners.testing
+      ? await api.getFormEntries(task.id, partners.testing.developer_id).catch(() => []) : [];
+    fc = { def, partners, myEntries, sharedEntries, me: user.name || user.display_name || 'you' };
+  }
+
   if (isStudent && status === 'not_started' && !isLesson) {
     api.startTask(task.id).then(() => invalidate({ state: true })).catch(() => {});
   }
@@ -205,6 +218,26 @@ export async function taskView({ id }) {
         </tbody>
       </table></div>
     </div>` : '';
+
+  /* Show this student's saved answers from another form task (e.g. 4.2 shows the 2.1 mechanics). */
+  let borrowedBlock = '';
+  const srcTask = task.body?.showEntriesFrom && cur.tasks.find(t => t.id === task.body.showEntriesFrom);
+  if (srcTask && isStudent) {
+    const ids = task.body.showFields || [];
+    const sdef = formDef(srcTask);
+    const ents = (state?.entries || []).filter(e => e.task_id === srcTask.id).sort((a, b) => a.entry_no - b.entry_no)
+      .filter(e => ids.some(id => (e.data?.[id] ?? '') !== ''));
+    borrowedBlock = `
+    <div class="task-section">
+      <h4>Your saved list from ${esc(srcTask.code)} — ${esc(srcTask.title)}</h4>
+      ${ents.length ? `<ol class="borrowed-list">${ents.map(e => `<li>${ids.map(id => {
+        const f = sdef?.fields.find(x => x.id === id);
+        const v = e.data?.[id];
+        return v ? `<span><b>${esc(f?.short || f?.label || id)}:</b> ${esc(String(v))}</span>` : '';
+      }).join(' ')}</li>`).join('')}</ol>`
+        : `<p class="unit-counts">You haven't filled in ${esc(srcTask.code)} yet. <a href="#/task/${encodeURIComponent(srcTask.id)}">Open ${esc(srcTask.code)} →</a></p>`}
+    </div>`;
+  }
 
   /* --- interactive area --- */
   let actionArea = '';
@@ -237,6 +270,8 @@ export async function taskView({ id }) {
           </form>
           <div id="quiz-result" hidden></div>` : ''}
       </div>`;
+  } else if (def) {
+    actionArea = feedbackHTML(cur, state, task) + formAreaHTML(task, fc, user, unmarked, status);
   } else {
     const mySubs = state ? state.submissions.filter(s => s.task_id === task.id).sort((a, b) => b.created_at.localeCompare(a.created_at)) : [];
     const myMarks = state ? state.marks.filter(m => m.task_id === task.id) : [];
@@ -298,8 +333,10 @@ export async function taskView({ id }) {
   <div class="container">
     <div class="breadcrumb"><a href="#/">Home</a> › <a href="#/units">Units</a> › <a href="#/units/${unit?.number}">Unit ${unit?.number}</a> › ${esc(task.code)}</div>
     <div class="meta-row">
-      ${isQuiz ? '<span class="chip chip-quiz">⚡ Auto-marked quiz</span>' : '<span class="chip chip-idle">📤 Submission task</span>'}
-      ${status ? statusChip(status) : ''}
+      ${isQuiz ? '<span class="chip chip-quiz">⚡ Auto-marked quiz</span>'
+        : def ? `<span class="chip chip-idle">${unmarked ? '📝 Activity — not marked' : '📋 Online form'}</span>`
+        : '<span class="chip chip-idle">📤 Submission task</span>'}
+      ${status ? statusChip(status, { unmarked }) : ''}
       <span class="unit-weeks">⏱ ${esc(task.est_time || '')} · 🛠 ${esc(task.tools || '')} · 📅 ${esc(task.weeks || '')}</span>
     </div>
     <h1 style="margin-top:0.75rem;">${esc(task.code)} — ${esc(task.title)}</h1>
@@ -310,6 +347,7 @@ export async function taskView({ id }) {
   <div class="container">
     ${task.overview ? `<div class="task-section"><h4>Overview</h4><p>${esc(task.overview)}</p></div>` : ''}
     ${sections}
+    ${borrowedBlock}
     ${checklist}
     ${marking}
     ${actionArea}
@@ -322,7 +360,122 @@ export async function taskView({ id }) {
 
   wireChecklist(task.id);
   if (isQuiz) wireQuiz(task);
+  else if (def) wireForm(task, fc, user);
   else wireSubmit(task);
+}
+
+/* The teacher's ratings + feedback for this student, if the task has been marked. */
+function feedbackHTML(cur, state, task) {
+  const myMarks = state ? state.marks.filter(m => m.task_id === task.id) : [];
+  const myFb = state ? state.feedback.find(f => f.task_id === task.id) : null;
+  if (!myMarks.length && !myFb) return '';
+  return `
+  <div class="feedback-panel">
+    <h3>📋 Marked — teacher feedback</h3>
+    ${myMarks.length ? `<div class="rating-chips">${myMarks.map(m =>
+      `<span class="rating-chip rating-${esc(m.rating)}">${esc(criterionLabel(cur, m.criterion_id))}: <b>${esc(m.rating)}</b></span>`).join('')}</div>` : ''}
+    ${myFb?.feedback ? `<blockquote class="feedback-quote">${esc(myFb.feedback)}</blockquote>` : ''}
+    ${myFb ? `<p class="feedback-date">Marked ${fmtDate(myFb.marked_at)}</p>` : ''}
+  </div>`;
+}
+
+/* ---------- structured forms ---------- */
+function formAreaHTML(task, fc, user, unmarked, status) {
+  const def = formDef(task);
+  if (!user) return `<div class="submit-panel"><h3>📝 Fill this in</h3><div class="info-box"><p><a href="#/login">Sign in</a> to fill in this task.</p></div></div>`;
+  if (!fc) {
+    // a teacher looking at the student's page
+    return `<div class="submit-panel"><h3>📝 Online form</h3><div class="info-box"><p>Students fill this task in on this page. See their answers under <strong>Teach → Tasks</strong>${unmarked ? '' : ' and in the marking queue'}.</p></div></div>`;
+  }
+  const ctx = { partners: fc.partners, me: fc.me };
+  if ((def.needsPartner || def.shared) && !fc.partners.myTester && !fc.partners.testing) {
+    return `<div class="submit-panel"><h3>📝 Not ready yet</h3>
+      <div class="info-box"><p>Your teacher hasn't set up your developer–tester partner yet. Once they have, this form will open here.</p></div></div>`;
+  }
+  const { done, need, complete } = formProgress(def, fc.myEntries);
+  const ownTitle = def.shared
+    ? `Check-in log for your game${fc.partners.myTester ? ` — your tester is ${fc.partners.myTester.tester_name}` : ''}`
+    : '';
+  const own = formPanelHTML(def, { key: 'own', owner: user.id, title: ownTitle, entries: fc.myEntries, ctx });
+  const theirs = def.shared && fc.partners.testing
+    ? formPanelHTML(def, { key: 'partner', owner: fc.partners.testing.developer_id,
+        title: `Check-in log for ${fc.partners.testing.developer_name}'s game — you are the tester`, entries: fc.sharedEntries, ctx })
+    : '';
+  return `
+  <div class="submit-panel" id="form-area" data-task="${esc(task.id)}">
+    <h3>📝 ${unmarked ? 'Fill this in' : 'Your answers'}</h3>
+    ${complete
+      ? `<div class="info-box info-box--ok"><p>✅ <strong>Complete.</strong> ${unmarked ? 'Nothing more to do — this activity is not marked.' : 'Your teacher can see it now and will mark it. You can still improve your answers.'}</p></div>`
+      : `<p class="unit-counts">Progress: ${done} of ${need} complete. Save as you go — your answers are kept.</p>`}
+    ${own}
+    ${theirs}
+  </div>`;
+}
+
+function wireForm(task, fc, user) {
+  const area = document.getElementById('form-area');
+  if (!area || !fc) return;
+  const def = fc.def;
+  const ctx = { partners: fc.partners, me: fc.me };
+
+  area.addEventListener('click', async (e) => {
+    const panel = e.target.closest('.form-panel');
+    if (!panel) return;
+    const owner = panel.dataset.owner, key = panel.dataset.key;
+
+    if (e.target.closest('[data-add]')) {
+      const cards = [...panel.querySelectorAll('.form-card')];
+      const next = Math.max(0, ...cards.map(c => Number(c.dataset.entry))) + 1;
+      if (cards.length >= formMax(def)) { toast(`That's the maximum number of entries.`, 'info'); return; }
+      panel.querySelector('.form-cards').insertAdjacentHTML('beforeend', blankCardHTML(def, key, ctx, next));
+      return;
+    }
+
+    const rm = e.target.closest('[data-remove]');
+    if (rm) {
+      if (!confirm('Delete this entry? This cannot be undone.')) return;
+      try {
+        await api.deleteFormEntry(task.id, owner, Number(rm.dataset.remove));
+        invalidate({ state: true });
+        taskView({ id: task.id });
+      } catch (err) { toast(err.message, 'error'); }
+      return;
+    }
+
+    if (e.target.closest('[data-save]')) {
+      const btn = e.target.closest('[data-save]');
+      btn.disabled = true; btn.textContent = 'Saving…';
+      try {
+        const existing = new Set(
+          (key === 'own' ? fc.myEntries : fc.sharedEntries).map(x => x.entry_no));
+        for (const card of panel.querySelectorAll('.form-card')) {
+          const n = Number(card.dataset.entry);
+          const data = collectCard(card, def);
+          if (cardIsBlank(data) && !existing.has(n)) continue;
+          if (def.needsPartner) {
+            data._names = { developer: fc.me, tester: fc.partners.myTester?.tester_name || null, testing: fc.partners.testing?.developer_name || null };
+          }
+          await api.saveFormEntry({ task_id: task.id, student_id: owner, entry_no: n, data, shared: !!def.shared });
+        }
+        invalidate({ state: true });
+        const st = await getMyState(true);
+        const mine = (st.entries || []).filter(x => x.task_id === task.id);
+        const alreadySubmitted = st.submissions.some(x => x.task_id === task.id);
+        if (formProgress(def, mine).complete && !alreadySubmitted) {
+          await api.submitWork(task.id, { comment: 'Form completed' });
+          invalidate({ state: true });
+          toast(isUnmarkedTask(task) ? 'Complete! Nice work. 🎉' : 'Complete — your teacher can see it now. 📬', 'success');
+          confetti({ count: 60, duration: 1200 });
+        } else {
+          toast('Saved.', 'success');
+        }
+        taskView({ id: task.id });
+      } catch (err) {
+        toast(err.message, 'error');
+        btn.disabled = false; btn.textContent = '💾 Save';
+      }
+    }
+  });
 }
 
 /* Checklist ticks persist locally per user+task (study aid only). */

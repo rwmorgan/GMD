@@ -68,7 +68,7 @@ export const tasks = [
   {
     id: 'A1.2', unit_id: 'u1', code: '1.2', title: 'Parts of a Computer, Computer Types & OS',
     published: false,
-    type: 'submission', sort: 12, est_time: '1–2 lessons', tools: 'Word, YouTube', weeks: 'T1 Week 2 · due Fri 13 Feb', due_date: '2026-02-13',
+    type: 'submission', sort: 12, est_time: '1–2 lessons', tools: 'Word, YouTube', weeks: 'Retired for 2027 — merged into 1.3 Build a Computer', due_date: null,
     overview: "What's actually inside the machine you game on? Two short research tasks: name the main parts of a computer, then use the videos to sort out computer types and operating systems. Two documents, clearly named.",
     criteria: ['ESC-C1', 'ESC-C2', 'ESC-C4', 'ICT-C1'],
     elements: ['ESC-C1-a', 'ESC-C1-b', 'ESC-C2-a', 'ESC-C2-b', 'ESC-C4-a', 'ICT-C1-a', 'ICT-C1-b'],
@@ -234,41 +234,50 @@ export const tasks = [
 
   // ================= UNIT 2 — Reviewing Games =================
   {
-    id: 'A2.1', unit_id: 'u2', code: '2.1', title: 'Web Browser Games — 5 Reviews',
-    type: 'submission', sort: 21, est_time: '2 lessons', tools: 'Browser, Word', weeks: 'T1 Weeks 5–6 · due Fri 5 Mar', due_date: '2027-03-05',
-    overview: "Play games, on purpose, for marks. Five browser games, five different genres, and a short written review of each — then crown your favourite and defend the choice.",
-    criteria: ['ESC-C1', 'ESC-C2', 'ESC-C3'],
-    elements: ['ESC-C1-a', 'ESC-C1-b', 'ESC-C2-a', 'ESC-C2-b', 'ESC-C3-a', 'ESC-C3-b'],
+    id: 'A2.1', unit_id: 'u2', code: '2.1', title: 'Steal Like a Designer',
+    type: 'submission', submit_kinds: ['form'], sort: 21, est_time: '2 lessons', tools: 'Browser, this site', weeks: 'T1 Weeks 5–6 · due Fri 5 Mar', due_date: '2027-03-05',
+    overview: "Play games on purpose — and steal like a designer. For each of five browser games you'll find one mechanic worth stealing and say how you'd use it in a game of your own. Keep your list handy: you'll come back to it when you write your Game Design Brief (4.2). This activity isn't marked — it's complete when all five entries are filled in.",
+    criteria: [],
+    elements: [],
     body: {
       sections: [
         { title: 'Instructions', html: `
 <p>Play <strong>5 different web browser games</strong> for 10–20 minutes each. All games should be of <strong>different genres</strong>.</p>
-<p>After each game, write a brief review (about 2–3 paragraphs) including, as a minimum:</p>
+<p>After each game, fill in one entry below. For every game you'll record:</p>
 <ul>
-  <li>Name</li>
-  <li>Target audience</li>
-  <li>Graphics</li>
-  <li>Audio (sound effects and music)</li>
-  <li>General thoughts</li>
-  <li>Rating out of 10</li>
+  <li>The <strong>game's name and a link</strong> to it</li>
+  <li>Its <strong>genre</strong></li>
+  <li>Your <strong>rating out of 5</strong></li>
+  <li><strong>One mechanic worth stealing</strong> — and which category it belongs to: movement, combat, progression, reward, UI/feedback, level design or other</li>
+  <li><strong>One sentence</strong> on how you would use that mechanic in your own game</li>
 </ul>` },
-        { title: 'The Verdict', html: `
-<p>When your 5 reviews are done, write a couple of paragraphs on <strong>which game was your favourite and why</strong>, comparing it to the others.</p>
-<p>Include <strong>screenshots and images</strong>, plus a <strong>link to each game</strong>.</p>
-<p>You have <strong>2 lessons</strong> for this task. Submit your reviews when complete.</p>` },
+        { title: 'Why “steal”?', html: `
+<p>Every game designer borrows. A good mechanic is a tested idea, and the skill is knowing <em>why</em> it works and how to adapt it so it fits your game. Be specific: “the double-jump” is better than “the controls”, and “a satisfying sound when you collect a coin” is better than “the audio”.</p>
+<p>You have <strong>2 lessons</strong> for this task. It is <strong>not marked</strong>: it is complete when all five entries are filled in, and your teacher can see your progress as you go.</p>` },
       ],
       checklist: [
         '5 games played, each from a different genre, 10–20 minutes each',
-        'Each review covers name, target audience, graphics, audio, general thoughts, and /10 rating',
-        'Favourite-game comparison written (a couple of paragraphs)',
-        'Screenshots/images included and every game linked',
-        'Completed within 2 lessons and submitted',
+        'Every entry has the game name, a link, the genre and a rating out of 5',
+        'Every entry names one mechanic worth stealing and its category',
+        'Every entry says in one sentence how you would use it in your own game',
       ],
-      marking: [
-        { criterion: 'ESC-C1', c: 'Selects appropriate browser games across five distinct genres.', a: null },
-        { criterion: 'ESC-C2', c: 'Interprets each game (audience, genre conventions) and uses correct terminology in the reviews.', a: null },
-        { criterion: 'ESC-C3', c: 'Follows the review structure for all 5 games and completes the comparison within the timeframe.', a: null },
-      ],
+      marking: [],
+      form: {
+        entries: 5,
+        entryLabel: 'Game',
+        fields: [
+          { id: 'name', label: 'Game name', short: 'Game', type: 'text', required: true },
+          { id: 'link', label: 'Link to the game', type: 'url', required: true, placeholder: 'https://' },
+          { id: 'genre', label: 'Genre', type: 'text', required: true },
+          { id: 'rating', label: 'Your rating', type: 'rating', min: 1, max: 5, lowLabel: 'not for me', highLabel: 'loved it', required: true },
+          { id: 'category', label: 'Category of the mechanic', short: 'Category', type: 'select', required: true,
+            options: ['Movement', 'Combat', 'Progression', 'Reward', 'UI / feedback', 'Level design', 'Other'] },
+          { id: 'mechanic', label: 'One mechanic worth stealing', short: 'Mechanic', type: 'textarea', required: true, rows: 3,
+            help: 'What is it, and why does it work?' },
+          { id: 'use', label: 'How would you use it in your own game?', short: 'How I would use it', type: 'textarea', required: true, rows: 2,
+            help: 'One sentence.' },
+        ],
+      },
     },
   },
 
@@ -363,34 +372,50 @@ export const tasks = [
 
   // ================= UNIT 3 — Game Engines =================
   {
-    id: 'A3.1', unit_id: 'u3', code: '3.1', title: 'Unreal Skills Journal',
-    type: 'submission', sort: 31, est_time: 'Ongoing through the Unreal weeks', tools: 'Unreal Engine, Word', weeks: 'T2 Weeks 1–5 · due Fri 28 May', due_date: '2027-05-28',
-    overview: "The assessment for our Unreal work isn't the game you end up with — it's the skills journal you keep while learning. Think of it as a guide that could teach someone with no experience, and a reference future-you will genuinely use.",
-    criteria: ['ICT-C4', 'ICT-C5'],
-    elements: ['ICT-C4-b', 'ICT-C4-c', 'ICT-C4-e', 'ICT-C5-a', 'ICT-C5-d', 'ICT-C5-e', 'ICT-C5-h'],
+    id: 'A3.1', unit_id: 'u3', code: '3.1', title: 'Engine Skills Journal (Unreal + Unity)',
+    type: 'submission', sort: 31, est_time: 'Ongoing through the Unreal and Unity weeks', tools: 'Unreal Engine, Unity, Word', weeks: 'T2 Weeks 1–7 · due Wed 9 Jun', due_date: '2027-06-09',
+    overview: "The assessment for our engine work isn't the games you end up with — it's the skills journal you keep while learning. One journal, two engines: an Unreal section, a Unity section, and a closing “Which engine and why?” where you justify the engine you'd choose for your own project. Think of it as a guide that could teach someone with no experience, and a reference future-you will genuinely use.",
+    criteria: ['ESC-C1', 'ICT-C1', 'ICT-C4', 'ICT-C5'],
+    elements: ['ESC-C1-b', 'ICT-C1-e', 'ICT-C4-b', 'ICT-C4-c', 'ICT-C4-e', 'ICT-C5-a', 'ICT-C5-d', 'ICT-C5-e', 'ICT-C5-h'],
     body: {
       sections: [
         { title: 'Instructions', html: `
-<p>Keep a skills journal in <strong>Word</strong> as you work through Unreal Engine. It should include <strong>tips, tricks and general software usage</strong> — written as a guide showing someone with no experience how to use different aspects of the software.</p>
+<p>Keep <strong>one skills journal in Word</strong> as you work through <strong>Unreal Engine and then Unity</strong>. It should include <strong>tips, tricks and general software usage</strong> — written as a guide showing someone with no experience how to use different aspects of each engine.</p>
 <p>It will also become genuinely useful: when you come back later and can't remember how to do something, your journal is where you'll look.</p>
-<p><a href="https://canvas.education.tas.gov.au/courses/94239/files/6208635" target="_blank" rel="noopener">Skills Journal Template.docx</a> (opens in Canvas — sign in first)</p>` },
+<p>Templates and examples (open in Canvas — sign in first):</p>
+<ul>
+  <li><a href="https://canvas.education.tas.gov.au/courses/94239/files/6208635" target="_blank" rel="noopener">Skills Journal Template.docx</a></li>
+  <li><a href="https://canvas.education.tas.gov.au/courses/94239/files/6289651" target="_blank" rel="noopener">Template with an Unreal example</a></li>
+</ul>` },
+        { title: 'Part 1 — Unreal section', html: `
+<p>Update this section as you learn Unreal (Term 2, Weeks 1–5): the features you used, how you used them, tutorials and help you consulted, and problems you fixed. Add screenshots to support every explanation.</p>` },
+        { title: 'Part 2 — Unity section', html: `
+<p>The same again for Unity (Term 2, Weeks 5–7): features, how-tos, tutorials and fixes, with screenshots. A beginner should be able to follow each feature you document.</p>` },
+        { title: 'Part 3 — Which engine and why?', html: `
+<p>To finish, write a short justification (about half a page) of <strong>which engine you would choose for your own project</strong> — Unreal, Unity, or another engine you've used — and why. Use what you learned in your two sections: what your project needs, what each engine does well, how comfortable you are with it, and the help and tutorials available. Be specific: name the features or experiences that decided it.</p>` },
       ],
       checklist: [
-        'Journal kept in Word, updated as you learn (not written in one sitting at the end)',
-        'Covers tips, tricks and general Unreal usage',
+        'One journal kept in Word, updated as you learn (not written in one sitting at the end)',
+        'Unreal section: tips, tricks and general usage, with screenshots',
+        'Unity section: tips, tricks and general usage, with screenshots',
         'Clear enough to teach a beginner each feature you document',
-        'Screenshots support the explanations',
+        '“Which engine and why?” names the engine you would choose for your project and gives specific reasons',
       ],
       marking: [
-        { criterion: 'ICT-C4', c: 'Documents real problem-solving in Unreal — features used, help/tutorials consulted, issues fixed.', a: 'Journal evidences advanced engine features, not just the basics.' },
-        { criterion: 'ICT-C5', c: 'Journal maintained consistently across the Unreal weeks within the timeline.', a: 'Entries show planned, strategic skill-building rather than random exploration.' },
+        { criterion: 'ESC-C1', c: 'Identifies the engine (digital technology tool) that suits the tasks their own project involves.', a: null },
+        { criterion: 'ICT-C1', c: 'Uses correct engine and software terminology throughout both journal sections and the justification.', a: 'Identifies the engine best suited to their project and justifies the choice with specific reasons (project needs, strengths of each engine, their own skills).' },
+        { criterion: 'ICT-C4', c: 'Documents real problem-solving in both Unreal and Unity — features used, help/tutorials consulted, issues fixed.', a: 'Journal evidences advanced engine features in both engines, not just the basics.' },
+        { criterion: 'ICT-C5', c: 'Journal maintained consistently across the Unreal and Unity weeks within the timeline.', a: 'Entries show planned, strategic skill-building across both engines rather than random exploration.' },
       ],
     },
   },
 
+  // RETIRED for 2027: merged into A3.1 (Engine Skills Journal). Kept, hidden (published:false),
+  // so existing submissions and marks are never lost.
   {
     id: 'A3.2', unit_id: 'u3', code: '3.2', title: 'Unity Skills Journal',
-    type: 'submission', sort: 32, est_time: 'Ongoing through the Unity weeks', tools: 'Unity, Word', weeks: 'T2 Weeks 5–7 · due Wed 9 Jun', due_date: '2027-06-09',
+    published: false,
+    type: 'submission', sort: 32, est_time: 'Ongoing through the Unity weeks', tools: 'Unity, Word', weeks: 'Retired for 2027 — merged into 3.1 Engine Skills Journal', due_date: null,
     overview: "Same deal as Unreal: the assessment is the journal, not the game. Document Unity as you learn it — tips, tricks and how-tos a beginner could follow.",
     criteria: ['ICT-C4', 'ICT-C5'],
     elements: ['ICT-C4-b', 'ICT-C4-c', 'ICT-C4-e', 'ICT-C5-a', 'ICT-C5-d', 'ICT-C5-e', 'ICT-C5-h'],
@@ -511,15 +536,24 @@ export const tasks = [
 </ul>
 <p>(Both open in Canvas — sign in first.)</p>
 <p><strong>Be realistic</strong> about what you can achieve — you'll probably need to spend some time working through one or more tutorials. For this task it is completely reasonable that your game follows a tutorial for the most part, with small adjustments to make it your own.</p>` },
+        { title: 'Borrowed Mechanics (required section)', html: `
+<p>Add a section to your brief called <strong>“Borrowed mechanics”</strong>. Look at the list you made in <a href="#/task/A2.1">2.1 Steal Like a Designer</a> (it's shown above) and pick <strong>at least 2 mechanics</strong>. For each one, explain:</p>
+<ul>
+  <li>Which game it came from, and what the mechanic is</li>
+  <li><strong>How you will adapt it</strong> so it fits your game — what you'll keep, and what you'll change</li>
+</ul>` },
       ],
+      showEntriesFrom: 'A2.1',
+      showFields: ['name', 'category', 'mechanic', 'use'],
       checklist: [
         'Every heading of the design brief template completed',
+        '“Borrowed mechanics” section: at least 2 mechanics from your 2.1 list, each with how you adapt it',
         'Scope is realistic for the time available (tutorial-based is fine)',
         'Engine/software choice named and suited to the game described',
       ],
       marking: [
         { criterion: 'ESC-C4', c: 'Works productively with the template and produces a usable brief.', a: null },
-        { criterion: 'ICT-C1', c: 'Uses correct software/engine terminology throughout the brief.', a: 'Justifies the choice of engine and tools for this specific game.' },
+        { criterion: 'ICT-C1', c: 'Uses correct software/engine terminology throughout the brief, and names at least 2 borrowed mechanics from their 2.1 list.', a: 'Justifies the choice of engine and tools for this specific game, and explains how each borrowed mechanic is adapted to fit it.' },
         { criterion: 'ICT-C5', c: 'Brief sets achievable, realistic goals for the build ahead.', a: 'Goals are specific and measurable, with a plausible plan to reach them.' },
       ],
     },
@@ -555,8 +589,8 @@ export const tasks = [
   <li><a href="https://canvas.education.tas.gov.au/courses/94239/files/8111431" target="_blank" rel="noopener">Project Brief template</a> (Canvas — will need modification to suit your project)</li>
 </ul>
 <p>Or use this simple structure:</p>
-<p><strong>Title of Game · Genre · Target Audience · Platform · Game Summary (elevator pitch) · Unique Selling Points · Key Features · Goals for the Project · Tools &amp; Software to be Used · Team Members and Roles (if applicable)</strong></p>
-<p><em>Example (condensed): <strong>Pixel Runner</strong> — Platformer/Endless Runner · Teens 13–18 · PC (Windows), web-based · "A fast-paced 2D platformer racing through glitchy cyber-worlds, avoiding traps and collecting data fragments to repair a broken world." USPs: glitch art style, dynamic speed, custom level editor. Goals: playable demo with 3 levels; learn physics and animation in Unity. Tools: Unity, Photoshop, Audacity. Solo project.</em></p>` },
+<p><strong>Title of Game · Genre · Target Audience · Platform · Game Summary (elevator pitch) · Unique Selling Points · Key Features · Goals for the Project · Tools &amp; Software to be Used · Developer and Tester Roles (you as developer of your own game, and your tester partner)</strong></p>
+<p><em>Example (condensed): <strong>Pixel Runner</strong> — Platformer/Endless Runner · Teens 13–18 · PC (Windows), web-based · "A fast-paced 2D platformer racing through glitchy cyber-worlds, avoiding traps and collecting data fragments to repair a broken world." USPs: glitch art style, dynamic speed, custom level editor. Goals: playable demo with 3 levels; learn physics and animation in Unity. Tools: Unity, Photoshop, Audacity. Developer: Sam (builds Pixel Runner). Tester: Alex (tests it at each check-in).</em></p>` },
         { title: 'Deliverable 2 — Game Design Document', html: `
 <p>For the GDD you may use the template from earlier in Term 2 — <a href="https://canvas.education.tas.gov.au/courses/94239/files/4963036" target="_blank" rel="noopener">template</a> / <a href="https://canvas.education.tas.gov.au/courses/94239/files/4963037" target="_blank" rel="noopener">example</a> (Canvas) — or structure it with these sections:</p>
 <ol>
@@ -643,6 +677,7 @@ export const tasks = [
   <li>Is the plan still to schedule?</li>
   <li>Are there any changes required to the plan?</li>
   <li>What will be worked on next time?</li>
+  <li>What did your <strong>tester</strong> find or suggest (see your <a href="#/task/A5.6">check-in log</a>), and what did you do about it?</li>
 </ul>
 <p><a href="https://canvas.education.tas.gov.au/courses/94239/files/8188722" target="_blank" rel="noopener">Journal template</a> (opens in Canvas — sign in first)</p>` },
         { title: 'The Write-Up', html: `
@@ -651,6 +686,7 @@ export const tasks = [
   <li>a review of what your project was</li>
   <li>what you achieved</li>
   <li>what learning took place</li>
+  <li>how your tester's feedback shaped your game</li>
 </ul>
 <p>This is <em>not</em> a journal-style document — it's a number of pages detailing the points above, with images and screenshots. As a guide, <strong>1½ pages minimum</strong>, roughly half images and half text.</p>` },
         { title: 'Term 4 Weeks 1–2 Overview', html: `
@@ -663,8 +699,8 @@ export const tasks = [
       ],
       checklist: [
         'Game finished to (at least) the MVP defined in your brief',
-        'Journal has a dated entry for every lesson covering all 4 questions',
-        'Write-up: review, achievements and learning across 1½+ pages, half images / half text',
+        'Journal has a dated entry for every lesson covering all 5 questions (including your tester\'s feedback)',
+        'Write-up: review, achievements, learning and tester feedback across 1½+ pages, half images / half text',
         'Journal + write-up + game access (e.g. OneDrive link) all submitted',
       ],
       marking: [
@@ -708,6 +744,146 @@ export const tasks = [
         { criterion: 'PRJ-C4', c: 'Clearly explains the problems encountered and the strategies used to solve them.', a: null },
         { criterion: 'PRJ-C5', c: 'Honestly reflects on objectives met (or not) and what would be done differently.', a: null },
       ],
+    },
+  },
+
+  {
+    id: 'A5.5', unit_id: 'u5', code: '5.5', title: 'Developer–Tester Agreement',
+    type: 'submission', submit_kinds: ['form'], sort: 52, est_time: '1 lesson', tools: 'This site', weeks: 'T3 Weeks 1–2 · due Fri 30 Jul', due_date: '2027-07-30',
+    overview: "You build your own game — and you test a partner's. Before you start, agree how you'll work together: who does what, how often you'll check in, how feedback is given, how decisions are made and what happens if you disagree. Your teacher sets the pairs; your partner's name shows up in the form.",
+    criteria: ['PRJ-C1', 'PRJ-C3'],
+    elements: ['PRJ-C1-d', 'PRJ-C3-a', 'PRJ-C3-b', 'PRJ-C3-e'],
+    body: {
+      sections: [
+        { title: 'How the partnership works', html: `
+<p>Everyone in the class is the <strong>developer of their own game</strong> and the <strong>tester of a partner's game</strong>. As a developer you build, and respond to what your tester finds. As a tester you play your partner's latest build, give clear and respectful feedback, and help them keep to their plan.</p>
+<p>Talk it through with your partner first, then fill in the form. It is your own record of the agreement — it's marked on <strong>how well you've described the roles and the ways you'll work together</strong>, not on how long it is.</p>` },
+      ],
+      checklist: [
+        'Spoke with my partner before filling in the form',
+        'My role as developer and my role as tester are both described',
+        'Check-in times, how feedback is given, how decisions are made and how we handle disagreements are filled in',
+        'Lab and equipment safety acknowledgement ticked',
+      ],
+      marking: [
+        { criterion: 'PRJ-C1', c: 'Acknowledges and agrees to follow the established safety procedures for equipment and facilities, as directed.', a: null },
+        { criterion: 'PRJ-C3', c: 'Correctly identifies their own and their partner\'s roles and responsibilities, and sets out respectful ways to give feedback, make decisions and settle disagreements.', a: null },
+      ],
+      form: {
+        entries: 1,
+        needsPartner: true,
+        entryLabel: 'Agreement',
+        fields: [
+          { id: 'partners', type: 'partner' },
+          { id: 'h1', type: 'heading', label: 'Roles and responsibilities' },
+          { id: 'dev_role', label: 'My role and responsibilities as the DEVELOPER of my own game', type: 'textarea', required: true, rows: 4 },
+          { id: 'tester_role', label: 'My role and responsibilities as the TESTER of my partner\'s game', type: 'textarea', required: true, rows: 4 },
+          { id: 'h2', type: 'heading', label: 'Working together' },
+          { id: 'checkin', label: 'How often will we check in, and when?', type: 'textarea', required: true, rows: 2 },
+          { id: 'feedback', label: 'How will feedback be given?', type: 'textarea', required: true, rows: 3,
+            help: 'For example: in person, written in the check-in log, how soon after testing.' },
+          { id: 'decisions', label: 'How will we make decisions, for example about changing the plan?', type: 'textarea', required: true, rows: 3 },
+          { id: 'disagreements', label: 'How will we handle disagreements?', type: 'textarea', required: true, rows: 3 },
+          { id: 'h3', type: 'heading', label: 'Lab and equipment safety' },
+          { id: 'safety_info', type: 'info', html: 'Follow your teacher\'s lab and equipment rules. Set up your workspace so you sit comfortably (desk, chair, screen height) and take regular breaks. Keep bags, cables and drinks clear of computers and walkways. Report faulty equipment or hazards straight away, and look after shared equipment.' },
+          { id: 'safety_ack', label: 'I understand the lab and equipment safety expectations above and agree to follow them.', type: 'checkbox', required: true },
+        ],
+      },
+    },
+  },
+
+  {
+    id: 'A5.6', unit_id: 'u5', code: '5.6', title: 'Check-in Log',
+    type: 'submission', submit_kinds: ['form'], sort: 55, est_time: 'Ongoing — at least 3 check-ins', tools: 'This site', weeks: 'T3–T4 · due Fri 22 Oct', due_date: '2027-10-22',
+    overview: "Regular check-ins keep a project on track. Each time your tester plays your latest build, log what happened: what they found, what you changed (or why you didn't), where the schedule is up to and what comes next. The log is shared with your partner, and you need at least three check-ins across Terms 3 and 4 — more is better.",
+    criteria: ['PRJ-C1', 'PRJ-C2', 'PRJ-C3', 'PRJ-C4'],
+    elements: ['PRJ-C1-b', 'PRJ-C2-e', 'PRJ-C3-d', 'PRJ-C4-c'],
+    body: {
+      sections: [
+        { title: 'How the log works', html: `
+<p>A check-in is a short meeting with your tester. They play the current build of <strong>your</strong> game, and you play theirs. Afterwards, add an entry to the log for your game with:</p>
+<ul>
+  <li>the <strong>date</strong> and the <strong>build or version</strong> that was tested</li>
+  <li>what the tester found or suggested</li>
+  <li>what you changed — or <strong>why you decided not to</strong></li>
+  <li>a <strong>schedule or milestone update</strong>: are you on track against your project plan?</li>
+  <li>your <strong>next tasks</strong></li>
+</ul>
+<p>Both you and your tester can add and edit entries for your game. Below it you'll also see the log for the game <em>you</em> test, where you add your own feedback.</p>` },
+      ],
+      checklist: [
+        'At least 3 check-in entries across Terms 3 and 4, each with every field filled in',
+        'Each entry records what the tester found and what I changed (or why not)',
+        'Schedule/milestone updates match my project plan',
+        'I added my feedback to my partner\'s log at each check-in',
+      ],
+      marking: [
+        { criterion: 'PRJ-C1', c: 'Negotiates adaptations to the plan with their tester when feedback or conditions change, and records them.', a: null },
+        { criterion: 'PRJ-C2', c: 'Incorporates and documents the tester\'s feedback and input in the log.', a: null },
+        { criterion: 'PRJ-C3', c: 'Documents consultation with their tester across at least three check-ins.', a: null },
+        { criterion: 'PRJ-C4', c: 'Identifies and poses questions and next tasks that help produce the project\'s outcomes.', a: null },
+      ],
+      form: {
+        min: 3, max: 15,
+        shared: true,
+        needsPartner: true,
+        entryLabel: 'Check-in',
+        fields: [
+          { id: 'date', label: 'Date of check-in', type: 'date', required: true },
+          { id: 'build', label: 'Build or version tested', type: 'text', required: true, placeholder: 'e.g. v0.3 — level 1 playable' },
+          { id: 'tester_feedback', label: 'What the tester found or suggested', type: 'textarea', required: true, rows: 3 },
+          { id: 'dev_changes', label: 'What the developer changed — or why not', type: 'textarea', required: true, rows: 3 },
+          { id: 'schedule', label: 'Schedule / milestone update', type: 'textarea', required: true, rows: 2,
+            help: 'On track? What has moved, and why?' },
+          { id: 'next_tasks', label: 'Next tasks', type: 'textarea', required: true, rows: 2 },
+        ],
+      },
+    },
+  },
+
+  {
+    id: 'A5.7', unit_id: 'u5', code: '5.7', title: 'Peer & Self Evaluation',
+    type: 'submission', submit_kinds: ['form'], sort: 60, est_time: '1 lesson', tools: 'This site', weeks: 'T4 Week 3 · due Fri 29 Oct', due_date: '2027-10-29',
+    overview: "At the end of the project, step back. Rate your own work as a developer, rate your partner's work as your tester, and think about the risks, costs and effort of the whole project. Only your teacher sees this — your partner won't.",
+    criteria: ['PRJ-C5'],
+    elements: ['PRJ-C5-c', 'PRJ-C5-e'],
+    body: {
+      sections: [
+        { title: 'Before you start', html: `
+<p>Be honest and specific. Rate each statement from <strong>1 (not yet) to 5 (excellent)</strong>, then back your ratings up in the comments. <strong>Only your teacher can see this evaluation.</strong></p>` },
+      ],
+      checklist: [
+        'All ratings given for myself as a developer and for my partner as a tester',
+        'Comments explain the ratings with specific examples',
+        'Risks, costs and effort reflection completed',
+      ],
+      marking: [
+        { criterion: 'PRJ-C5', c: 'Assesses the benefits of the project by identifying risks, costs and effort involved, and reflects on progress towards their goals and what they would do differently.', a: null },
+      ],
+      form: {
+        entries: 1,
+        needsPartner: true,
+        entryLabel: 'Evaluation',
+        fields: [
+          { id: 'partners', type: 'partner' },
+          { id: 'h1', type: 'heading', label: 'Me as a developer', help: '1 = not yet, 5 = excellent' },
+          { id: 'self_goals', label: 'I met the goals in my project plan', type: 'rating', min: 1, max: 5, required: true },
+          { id: 'self_time', label: 'I managed my time and kept to my schedule', type: 'rating', min: 1, max: 5, required: true },
+          { id: 'self_feedback', label: 'I used my tester\'s feedback to improve my game', type: 'rating', min: 1, max: 5, required: true },
+          { id: 'self_records', label: 'I kept my journal and check-in log up to date', type: 'rating', min: 1, max: 5, required: true },
+          { id: 'self_comment', label: 'What went well, and what would you do differently?', type: 'textarea', required: true, rows: 4 },
+          { id: 'h2', type: 'heading', label: 'My partner as a tester', help: '1 = not yet, 5 = excellent' },
+          { id: 'test_clear', label: 'Gave clear, useful feedback', type: 'rating', min: 1, max: 5, required: true },
+          { id: 'test_reliable', label: 'Tested my game when we agreed to, and thoroughly', type: 'rating', min: 1, max: 5, required: true },
+          { id: 'test_respect', label: 'Communicated respectfully', type: 'rating', min: 1, max: 5, required: true },
+          { id: 'test_agreement', label: 'Followed our agreement', type: 'rating', min: 1, max: 5, required: true },
+          { id: 'test_comment', label: 'One strength of your partner\'s testing, and one suggestion', type: 'textarea', required: true, rows: 3 },
+          { id: 'h3', type: 'heading', label: 'Risks, costs and effort' },
+          { id: 'risks', label: 'What were the biggest risks to your project, and how did you deal with them?', type: 'textarea', required: true, rows: 3 },
+          { id: 'costs', label: 'What did the project cost you in time and effort, compared with your plan?', type: 'textarea', required: true, rows: 3 },
+          { id: 'benefit', label: 'Was it worth it? What did you gain from building and testing in a partnership?', type: 'textarea', required: true, rows: 3 },
+        ],
+      },
     },
   },
 ];

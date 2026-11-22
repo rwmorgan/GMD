@@ -55,7 +55,11 @@ export function loadSheetJS() {
   return sheetjsPromise;
 }
 
-/* Site task id -> exact markbook task name (Settings/student sheet row 4).
+/* 2027 NOTE: A1.2 and A3.2 are retired (merged into A1.3 and A3.1), A2.1 is an
+   unmarked activity, and A5.5–A5.7 are new. Add the 2027 markbook's column names
+   here once that file exists — a task with no entry is simply skipped by the sync.
+
+   Site task id -> exact markbook task name (Settings/student sheet row 4).
    Confirmed 1:1 against the real 2026 V4 markbook. "OH&S Issues for
    Professional Gamers" has no site task and is intentionally absent —
    it stays a manual-only column forever. */

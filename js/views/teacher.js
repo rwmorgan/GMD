@@ -4,7 +4,8 @@
 import { api } from '../api.js';
 import { IS_DEMO } from '../config.js';
 import { render, esc, spinner, badge, courseBadgeClass, statusChip, toast, openModal, closeModal, fmtDate, fmtDateOnly, localDateStr, downloadCSV, progressBar, avatarHTML } from '../ui.js';
-import { getCurriculum, invalidate, taskStatus, criterionLabel, provisionalAward, bestRatingsFor, coverageMatrix, filterCurByProgram } from '../store.js';
+import { getCurriculum, invalidate, taskStatus, criterionLabel, provisionalAward, bestRatingsFor, coverageMatrix, filterCurByProgram, isUnmarkedTask } from '../store.js';
+import { formDef, entriesReadOnlyHTML } from '../forms.js';
 import { getScope, setScope } from '../scope.js';
 import { summarise as attSummarise, pctChip as attPctChip } from '../attendance-lib.js';
 import { navigate } from '../router.js';
@@ -148,6 +149,7 @@ function unmarkedQueue(cur, data) {
     const task = cur.tasks.find(t => t.id === s.task_id);
     const profile = data.profiles.find(p => p.id === s.student_id);
     if (!task || !profile) continue;
+    if (isUnmarkedTask(task)) continue;   // formative task: complete on submit, nothing to mark
     const marked = data.feedback.some(f => f.student_id === s.student_id && f.task_id === s.task_id) ||
       data.marks.some(m => m.student_id === s.student_id && m.task_id === s.task_id);
     // Only queue the latest submission per (student, task)
@@ -220,6 +222,17 @@ ${teacherHeader('Marking Queue', queue.length ? `${queue.length} submission${que
   }));
 }
 
+/* A student's saved answers for a form task, read-only. */
+export function openAnswersModal(cur, data, studentId, task) {
+  const profile = data.profiles.find(p => p.id === studentId);
+  const def = formDef(task);
+  const entries = (data.entries || []).filter(e => e.student_id === studentId && e.task_id === task.id);
+  openModal(`
+    <h2>${esc(profile?.display_name || '?')} — ${esc(task.code)} ${esc(task.title)}</h2>
+    ${def ? entriesReadOnlyHTML(def, entries) : '<p><em>This task has no online form.</em></p>'}
+    <div class="quiz-actions"><button class="btn btn-ghost" data-close="1">Close</button></div>`);
+}
+
 export function openMarkingModal(cur, data, studentId, task, onSaved = markingView) {
   const profile = data.profiles.find(p => p.id === studentId);
   const existing = Object.fromEntries(
@@ -251,6 +264,8 @@ export function openMarkingModal(cur, data, studentId, task, onSaved = markingVi
   const modal = openModal(`
     <h2>Mark: ${esc(profile?.display_name || '?')} — ${esc(task.code)}</h2>
     <p class="unit-counts">${esc(task.title)} · Ratings: A = high standard (ICT only), C = satisfactory, t = below standard, z = no evidence.</p>
+    ${formDef(task) ? `<details class="form-answers" open><summary><strong>${esc(profile?.display_name || 'Student')}'s answers</strong></summary>
+      ${entriesReadOnlyHTML(formDef(task), (data.entries || []).filter(e => e.student_id === studentId && e.task_id === task.id))}</details>` : ''}
     ${canAiDraft ? `<div class="quiz-actions" style="margin-bottom:1rem;">
       <button type="button" class="btn btn-secondary btn-sm" id="ai-draft-btn">✨ AI Draft</button>
       <span class="unit-counts">Drafts ratings + feedback from the submitted file — always review before saving.</span>
@@ -405,11 +420,12 @@ export async function taskDetailView({ id }) {
     return `
     <tr>
       <td><a href="#/teach/students/${encodeURIComponent(p.id)}" style="color:inherit;">${avatarHTML(p, 'avatar--sm')} <strong>${esc(p.display_name)}</strong></a></td>
-      <td>${statusChip(status)}</td>
+      <td>${statusChip(status, { unmarked: isUnmarkedTask(task) })}</td>
       <td>${latestSub ? fmtDate(latestSub.created_at) : '—'}</td>
       <td>${timing}</td>
       <td>${resultCell}</td>
-      <td>${task.type !== 'quiz' && latestSub ? `<button class="btn btn-primary btn-sm" data-mark="${esc(p.id)}">Mark →</button>` : ''}</td>
+      <td>${task.type !== 'quiz' && latestSub && !isUnmarkedTask(task) ? `<button class="btn btn-primary btn-sm" data-mark="${esc(p.id)}">Mark →</button>` : ''}
+        ${formDef(task) ? `<button class="btn btn-secondary btn-sm" data-answers="${esc(p.id)}">Answers</button>` : ''}</td>
     </tr>`;
   }).join('');
 
@@ -418,6 +434,7 @@ ${teacherHeader(`${task.code} ${task.title}`, `${task.overview || ''}${task.due_
 <section class="section section--sm">
   <div class="container container--wide">
     <div class="meta-row" style="margin-bottom:1rem;"><a class="btn btn-secondary btn-sm" href="#/teach/tasks">← All tasks</a></div>
+    ${task.published === false ? '<div class="warning-box" style="margin-bottom:1rem;"><p><strong>Hidden from students.</strong> This task is retired or unpublished, so students cannot see or open it. Any existing submissions and marks are kept.</p></div>' : ''}
     <div class="marking-wrap"><table class="data-table">
       <thead><tr><th>Student</th><th>Status</th><th>Submitted</th><th>Timing</th><th>${task.type === 'quiz' ? 'Best score' : 'Ratings'}</th><th></th></tr></thead>
       <tbody>${rows}</tbody>
@@ -428,6 +445,9 @@ ${teacherHeader(`${task.code} ${task.title}`, `${task.overview || ''}${task.due_
   wireScopeBar();
   document.querySelectorAll('[data-mark]').forEach(b => b.addEventListener('click', () => {
     openMarkingModal(cur, data, b.dataset.mark, task, () => taskDetailView({ id }));
+  }));
+  document.querySelectorAll('[data-answers]').forEach(b => b.addEventListener('click', () => {
+    openAnswersModal(cur, data, b.dataset.answers, task);
   }));
 }
 
@@ -518,11 +538,13 @@ ${teacherHeader('Students', `${students.length} shown${classId ? '' : ' (all cla
           </tr>`).join('') || `<tr><td colspan="5"><em>No students here yet — share a class join code (Settings → Classes).</em></td></tr>`}
       </tbody>
     </table></div>
+    <div class="card" id="pairs-card" style="margin-top:1.5rem;"></div>
     <p class="unit-counts" style="margin-top:0.75rem;">Moving a student to another class keeps all their marks and submissions. Password resets: in live mode use Supabase Dashboard → Authentication → Users → “Send password recovery”. Student emails are only visible to you.</p>
   </div>
 </section>`, { title: 'Students' });
 
   wireScopeBar();
+  wirePairs(document.getElementById('pairs-card'), classId, students.filter(x => x.active !== false));
   document.querySelectorAll('[data-move]').forEach(sel => sel.addEventListener('change', async () => {
     try {
       await api.moveStudent(sel.dataset.move, sel.value);
@@ -537,6 +559,78 @@ ${teacherHeader('Students', `${students.length} shown${classId ? '' : ' (all cla
       studentsView();
     } catch (err) { toast(err.message, 'error'); }
   }));
+}
+
+/* ---------- developer–tester pairs (Unit 5 forms) ----------
+   Every student builds their own game and tests one partner's game. A pair is
+   two assignments (A tests B, B tests A); an odd class gets one 3-way cycle. */
+function autoPair(ids) {
+  const a = [...ids];
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  const out = new Map();   // developer -> tester
+  if (a.length < 2) return out;
+  const cycle = a.length % 2 === 1 ? a.splice(a.length - 3, 3) : [];
+  for (let i = 0; i < a.length; i += 2) { out.set(a[i], a[i + 1]); out.set(a[i + 1], a[i]); }
+  cycle.forEach((id, i) => out.set(id, cycle[(i + 1) % 3]));
+  return out;
+}
+
+async function wirePairs(card, classId, roster) {
+  if (!card) return;
+  if (!classId) {
+    card.innerHTML = `<h3>🤝 Developer–tester pairs</h3><p class="unit-counts">Choose a class in the “Viewing” box above to set up its pairs.</p>`;
+    return;
+  }
+  let saved;
+  try { saved = await api.getTesterAssignments(classId); } catch { saved = null; }
+  if (saved === null) {
+    card.innerHTML = `<h3>🤝 Developer–tester pairs</h3><div class="warning-box"><p>Pairs aren't set up in the database yet. Run <code>supabase/2027-task-restructure.sql</code> in the Supabase SQL Editor, then reload.</p></div>`;
+    return;
+  }
+  const pairs = new Map(saved.map(a => [a.developer_id, a.tester_id]));
+  const nameOf = id => roster.find(r => r.id === id)?.display_name || '?';
+
+  const paint = () => {
+    const testers = [...pairs.values()];
+    const dupes = testers.filter((t, i) => testers.indexOf(t) !== i);
+    const testing = new Map([...pairs].map(([dev, tester]) => [tester, dev]));
+    const missing = roster.filter(r => !pairs.has(r.id)).length;
+    card.innerHTML = `
+      <h3>🤝 Developer–tester pairs</h3>
+      <p class="unit-counts">Each student builds their own game and tests one partner's game: reciprocal pairs, with one 3-way rotation if the class is odd. Students need this set before they can use the Unit 5 forms.</p>
+      <div class="meta-row">
+        <button class="btn btn-secondary btn-sm" id="pairs-auto">🎲 Auto-pair randomly</button>
+        <button class="btn btn-ghost btn-sm" id="pairs-clear">Clear</button>
+        <button class="btn btn-primary btn-sm" id="pairs-save">💾 Save pairs</button>
+        <span class="unit-counts">${roster.length - missing} of ${roster.length} students have a tester${dupes.length ? ' · <strong>two students share a tester</strong>' : ''}</span>
+      </div>
+      <div class="marking-wrap"><table class="data-table">
+        <thead><tr><th>Student</th><th>Their tester (tests their game)</th><th>Tests the game of</th></tr></thead>
+        <tbody>${roster.map(r => `
+          <tr><td><strong>${esc(r.display_name)}</strong></td>
+            <td><select class="scope-select" data-pair="${esc(r.id)}" aria-label="Tester for ${esc(r.display_name)}">
+              <option value="">— none —</option>
+              ${roster.filter(o => o.id !== r.id).map(o => `<option value="${esc(o.id)}" ${pairs.get(r.id) === o.id ? 'selected' : ''}>${esc(o.display_name)}</option>`).join('')}
+            </select></td>
+            <td>${testing.has(r.id) ? esc(nameOf(testing.get(r.id))) : '—'}</td></tr>`).join('') || '<tr><td colspan="3"><em>No students in this class yet.</em></td></tr>'}
+        </tbody>
+      </table></div>`;
+    card.querySelectorAll('[data-pair]').forEach(sel => sel.addEventListener('change', () => {
+      if (sel.value) pairs.set(sel.dataset.pair, sel.value); else pairs.delete(sel.dataset.pair);
+      paint();
+    }));
+    card.querySelector('#pairs-auto').addEventListener('click', () => {
+      pairs.clear(); autoPair(roster.map(r => r.id)).forEach((t, d) => pairs.set(d, t)); paint();
+    });
+    card.querySelector('#pairs-clear').addEventListener('click', () => { pairs.clear(); paint(); });
+    card.querySelector('#pairs-save').addEventListener('click', async () => {
+      try {
+        await api.saveTesterAssignments(classId, [...pairs].map(([developer_id, tester_id]) => ({ developer_id, tester_id })));
+        toast('Pairs saved.', 'success');
+      } catch (err) { toast(err.message, 'error'); }
+    });
+  };
+  paint();
 }
 
 export async function studentDetailView({ id }) {
@@ -585,11 +679,12 @@ export async function studentDetailView({ id }) {
     return `
     <tr data-outstanding="${outstanding}">
       <td><a href="#/teach/tasks/${encodeURIComponent(t.id)}" style="color:inherit;">${t.type === 'quiz' ? '⚡' : esc(t.code)} ${esc(t.title)}</a></td>
-      <td>${statusChip(status)}</td>
+      <td>${statusChip(status, { unmarked: isUnmarkedTask(t) })}</td>
       <td>${latestSub ? fmtDate(latestSub.created_at) : '—'}</td>
       <td>${timing}</td>
       <td>${resultCell}</td>
-      <td>${t.type !== 'quiz' && latestSub ? `<button class="btn btn-secondary btn-sm" data-mark="${esc(t.id)}">Mark →</button>` : ''}</td>
+      <td>${t.type !== 'quiz' && latestSub && !isUnmarkedTask(t) ? `<button class="btn btn-secondary btn-sm" data-mark="${esc(t.id)}">Mark →</button>` : ''}
+        ${formDef(t) ? `<button class="btn btn-secondary btn-sm" data-answers="${esc(t.id)}">Answers</button>` : ''}</td>
     </tr>`;
   }).join('');
 
@@ -679,6 +774,9 @@ ${teacherHeader(profile.display_name, `${done} / ${liveTasks.length} tasks &amp;
   document.querySelectorAll('[data-mark]').forEach(b => b.addEventListener('click', () => {
     const task = cur.tasks.find(t => t.id === b.dataset.mark);
     openMarkingModal(cur, data, id, task, () => studentDetailView({ id }));
+  }));
+  document.querySelectorAll('[data-answers]').forEach(b => b.addEventListener('click', () => {
+    openAnswersModal(cur, data, id, cur.tasks.find(t => t.id === b.dataset.answers));
   }));
 }
 

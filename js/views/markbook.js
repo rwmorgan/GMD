@@ -7,6 +7,7 @@ import { render, esc, spinner, toast, openModal, fmtDate, fmtDateOnly, localDate
 import { getCurriculum, taskStatus, criterionLabel, filterCurByProgram } from '../store.js';
 import { getScope } from '../scope.js';
 import { summarise, pctChip } from '../attendance-lib.js';
+import { isUnmarkedTask } from '../store.js';
 import { teacherHeader, scopeBar, wireScopeBar, studentState, openMarkingModal } from './teacher.js';
 
 const UI_KEY = 'levelup-markbook-ui';
@@ -34,6 +35,9 @@ const STATE_CHIP = {
   progress: 'chip-progress', idle: 'chip-idle',
 };
 
+/* A formative (unmarked) task that is done reads "Complete", not "Marked". */
+const stateLabel = (c) => (c.unmarked && c.state === 'marked' ? 'Complete' : STATE_LABEL[c.state]);
+
 /* One student × one task. Quizzes report best %, submission tasks report
    a status plus the ratings/late flag that go with it. */
 function computeCell(task, st, today) {
@@ -56,7 +60,7 @@ function computeCell(task, st, today) {
   else if (due && due < today) state = 'overdue';
   else if (status === 'in_progress') state = 'progress';
   else state = 'idle';
-  return { kind: 'task', state, sub, marks, feedback, due, late };
+  return { kind: 'task', state, sub, marks, feedback, due, late, unmarked: isUnmarkedTask(task) };
 }
 
 function buildRows(cur, data, ui, today) {
@@ -108,7 +112,7 @@ function cellTitle(cur, p, task, c) {
   if (c.kind === 'quiz') {
     bits.push(c.pct == null ? 'No attempts' : `Best ${c.pct}% (${c.attempts} attempt${c.attempts === 1 ? '' : 's'})`);
   } else {
-    bits.push(STATE_LABEL[c.state] + (c.late ? ' · submitted late' : ''));
+    bits.push(stateLabel(c) + (c.late ? ' · submitted late' : ''));
     if (c.due) bits.push('Due ' + shortDate(c.due));
     if (c.marks.length) bits.push(c.marks.map(m => `${criterionLabel(cur, m.criterion_id)}: ${m.rating}`).join(', '));
   }
@@ -119,7 +123,7 @@ function cellContent(task, c) {
   if (c.kind === 'quiz') return c.pct == null ? '—' : `${c.pct}%`;
   const late = c.late ? '<sup class="mb-late" title="Submitted late">⏱</sup>' : '';
   switch (c.state) {
-    case 'marked': return ratingLetters(task, c) + late;
+    case 'marked': return (c.unmarked ? '✓' : ratingLetters(task, c)) + late;
     case 'submitted': return '✓' + late;
     case 'overdue': return '!';
     case 'progress': return '…';
@@ -230,7 +234,7 @@ function openDetail(cur, data, sid, taskId, reload, today) {
       : '';
     inner = `
       <div class="meta-row">
-        <span class="chip ${STATE_CHIP[c.state]}">${STATE_LABEL[c.state]}</span>
+        <span class="chip ${STATE_CHIP[c.state]}">${stateLabel(c)}</span>
         ${lateTxt}
         ${c.due ? `<span class="unit-counts">Due ${esc(fmtDateOnly(c.due))}</span>` : ''}
       </div>

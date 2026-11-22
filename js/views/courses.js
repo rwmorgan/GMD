@@ -123,7 +123,7 @@ export async function matrixView() {
     const unitHead = `<tr><td class="mx-unit" colspan="${critCols.length + 1}">Unit ${unit.number}: ${esc(unit.title)} (${esc(unit.weeks)})</td></tr>`;
     const rows = unitTasks.map(t => `
       <tr>
-        <td class="mx-task"><a href="#/task/${encodeURIComponent(t.id)}">${t.type === 'quiz' ? '⚡' : ''}${esc(t.code)}</a> ${esc(t.title)}${t.published === false ? ' <span class="chip chip-idle">hidden</span>' : ''}</td>
+        <td class="mx-task"><a href="#/task/${encodeURIComponent(t.id)}">${t.type === 'quiz' ? '⚡' : ''}${esc(t.code)}</a> ${esc(t.title)}${t.published === false ? ' <span class="chip chip-idle">hidden</span>' : ''}${t.type === 'submission' && !(t.criteria || []).length ? ' <span class="chip chip-idle">not marked</span>' : ''}</td>
         ${critCols.map(c => t.criteria.includes(c.id)
           ? `<td class="mx-hit mx-hit-${esc(c.course_id.slice(0, 3).toLowerCase())}">✓</td>`
           : '<td></td>').join('')}
