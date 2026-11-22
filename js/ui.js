@@ -174,12 +174,12 @@ export function courseBadgeClass(courseId) {
   return 'badge-prj';
 }
 
-export function statusChip(status) {
+export function statusChip(status, { unmarked = false } = {}) {
   const map = {
     not_started: ['Not started', 'chip-idle'],
     in_progress: ['In progress', 'chip-progress'],
     submitted: ['Submitted', 'chip-submitted'],
-    marked: ['Marked', 'chip-marked'],
+    marked: [unmarked ? 'Complete' : 'Marked', 'chip-marked'],
   };
   const [label, cls] = map[status] || map.not_started;
   return `<span class="chip ${cls}">${label}</span>`;

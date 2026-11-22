@@ -658,3 +658,34 @@ th.mx-prj { background: rgba(168,85,247,0.06); color: #C084FC; }
 }
 .att-extra input:focus, .data-table input:focus, #ce-note:focus, .card input[data-f]:focus { outline: 2px solid var(--teal); outline-offset: 1px; }
 .data-table input[type=date] { color-scheme: dark; }
+
+/* ---------- structured forms (js/forms.js) ---------- */
+.form-panel { margin-top: 1rem; }
+.form-cards { display: grid; gap: 1rem; margin: 1rem 0; }
+.form-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; }
+.form-card--done { border-color: rgba(34,197,94,0.45); }
+.form-card--ro { background: transparent; }
+.form-card-head { display: flex; gap: 0.6rem; align-items: center; margin-bottom: 0.6rem; }
+.form-card-head .chip { margin-left: auto; }
+.form-field { margin-bottom: 0.8rem; }
+.form-label { font-weight: 600; }
+.req { color: #FCA5A5; font-style: normal; }
+.form-help { color: var(--text-muted); display: block; margin-top: 0.25rem; }
+.form-heading { margin: 1.1rem 0 0.3rem; color: var(--teal-light); }
+.form-rating { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.25rem; }
+.form-rate { cursor: pointer; position: relative; }
+.form-rate input { position: absolute; opacity: 0; }
+.form-rate span { display: inline-flex; width: 42px; height: 38px; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: 8px; font-weight: 700; }
+.form-rate input:checked + span { background: rgba(20,184,166,0.25); border-color: var(--teal); color: var(--teal-light); }
+.form-rate input:focus-visible + span { outline: 2px solid var(--teal); }
+.form-partner { display: grid; gap: 0.25rem; padding: 0.7rem 0.9rem; border: 1px dashed var(--border); border-radius: var(--radius); margin-bottom: 0.8rem; font-size: 0.92rem; }
+.form-check { margin: 0.4rem 0 0.8rem; }
+.form-ro { display: grid; grid-template-columns: minmax(140px, 30%) 1fr; gap: 0.3rem 0.9rem; margin: 0; }
+.form-ro dt { color: var(--text-muted); font-weight: 600; }
+.form-ro dd { margin: 0; white-space: pre-wrap; }
+.form-ro-head { grid-column: 1 / -1; color: var(--teal-light); margin-top: 0.5rem; }
+.form-answers { margin: 1rem 0; border: 1px solid var(--border); border-radius: var(--radius); padding: 0.6rem 0.9rem; }
+.form-answers summary { cursor: pointer; }
+.borrowed-list { padding-left: 1.2rem; display: grid; gap: 0.5rem; }
+.borrowed-list span { margin-right: 0.75rem; }
+@media (max-width: 640px) { .form-ro { grid-template-columns: 1fr; } }

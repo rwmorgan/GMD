@@ -39,6 +39,12 @@ export function taskById(cur, id) {
   return cur.tasks.find(t => t.id === id);
 }
 
+/* A submission task with no criteria is formative: it is never marked, and
+   counts as complete as soon as the student has submitted it. */
+export function isUnmarkedTask(task) {
+  return task.type === 'submission' && (task.criteria || []).length === 0;
+}
+
 /* ---------- per-task status for one student ---------- */
 export function taskStatus(task, state) {
   if (task.type === 'quiz') {
@@ -48,7 +54,7 @@ export function taskStatus(task, state) {
     const hasMark = state.marks.some(m => m.task_id === task.id) ||
       state.feedback.some(f => f.task_id === task.id);
     if (hasMark) return 'marked';
-    if (state.submissions.some(s => s.task_id === task.id)) return 'submitted';
+    if (state.submissions.some(s => s.task_id === task.id)) return isUnmarkedTask(task) ? 'marked' : 'submitted';
   }
   if (state.progress.some(p => p.task_id === task.id)) return 'in_progress';
   return 'not_started';

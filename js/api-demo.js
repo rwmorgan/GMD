@@ -285,6 +285,7 @@ export class DemoAdapter {
       marks: s.marks.filter(m => m.student_id === u.id),
       feedback: s.feedback.filter(f => f.student_id === u.id),
       progress: s.progress.filter(p => p.student_id === u.id),
+      entries: this.formState().entries.filter(e => e.student_id === u.id),
     };
   }
 
@@ -383,7 +384,7 @@ export class DemoAdapter {
     let profiles = await this.listStudents();
     let data = {
       attempts: [...s.attempts], submissions: [...s.submissions], marks: [...s.marks],
-      feedback: [...s.feedback], progress: [...s.progress],
+      feedback: [...s.feedback], progress: [...s.progress], entries: [...this.formState().entries],
     };
     if (classId) {
       const ids = new Set(this.clsState().enrolments.filter(e => e.class_id === classId).map(e => e.student_id));
@@ -391,6 +392,81 @@ export class DemoAdapter {
       for (const k of Object.keys(data)) data[k] = data[k].filter(x => ids.has(x.student_id));
     }
     return { profiles, ...data };
+  }
+
+  /* ---------- structured forms + developer–tester partners (demo: localStorage) ---------- */
+  formState() {
+    if (!this.state.forms) {
+      this.state.forms = {
+        entries: [],
+        // reciprocal pairs, as the teacher would set up on the Students page
+        testers: [
+          { developer_id: 'u-ava', tester_id: 'u-ben', class_id: 'demo-line1' },
+          { developer_id: 'u-ben', tester_id: 'u-ava', class_id: 'demo-line1' },
+          { developer_id: 'u-chloe', tester_id: 'u-dev', class_id: 'demo-line3' },
+          { developer_id: 'u-dev', tester_id: 'u-chloe', class_id: 'demo-line3' },
+        ],
+      };
+    }
+    return this.state.forms;
+  }
+
+  async saveFormEntry({ task_id, student_id, entry_no, data, shared = false }) {
+    const u = this.requireUser();
+    const f = this.formState();
+    const owner = student_id || u.id;
+    const allowed = owner === u.id
+      || (shared && f.testers.some(t => t.developer_id === owner && t.tester_id === u.id));
+    if (!allowed) throw new Error('You cannot edit those answers.');
+    const row = { task_id, student_id: owner, entry_no, data, shared: !!shared, updated_by: u.id, updated_at: new Date().toISOString() };
+    const i = f.entries.findIndex(e => e.task_id === task_id && e.student_id === owner && e.entry_no === entry_no);
+    if (i >= 0) f.entries[i] = row; else f.entries.push(row);
+    this.save();
+  }
+
+  async deleteFormEntry(taskId, studentId, entryNo) {
+    this.requireUser();
+    const f = this.formState();
+    f.entries = f.entries.filter(e => !(e.task_id === taskId && e.student_id === studentId && e.entry_no === entryNo));
+    this.save();
+  }
+
+  async getFormEntries(taskId, ownerId) {
+    const u = this.requireUser();
+    const f = this.formState();
+    const ok = ownerId === u.id || u.role === 'teacher'
+      || f.testers.some(t => t.developer_id === ownerId && t.tester_id === u.id);
+    if (!ok) return [];
+    return f.entries.filter(e => e.task_id === taskId && e.student_id === ownerId).sort((a, b) => a.entry_no - b.entry_no);
+  }
+
+  async getMyPartners() {
+    const u = this.requireUser();
+    const f = this.formState();
+    const nameOf = id => this.state.users.find(x => x.id === id)?.display_name || '';
+    const mine = f.testers.find(t => t.developer_id === u.id);
+    const testing = f.testers.find(t => t.tester_id === u.id);
+    return {
+      myTester: mine ? { ...mine, developer_name: nameOf(mine.developer_id), tester_name: nameOf(mine.tester_id) } : null,
+      testing: testing ? { ...testing, developer_name: nameOf(testing.developer_id), tester_name: nameOf(testing.tester_id) } : null,
+    };
+  }
+
+  async getTesterAssignments(classId) {
+    this.requireTeacher();
+    return this.formState().testers.filter(t => t.class_id === classId).map(t => ({ ...t }));
+  }
+
+  async saveTesterAssignments(classId, rows) {
+    this.requireTeacher();
+    const f = this.formState();
+    const testers = rows.map(r => r.tester_id);
+    if (new Set(testers).size !== testers.length) {
+      throw new Error('Two students were given the same tester — each student can test only one game.');
+    }
+    f.testers = f.testers.filter(t => t.class_id !== classId)
+      .concat(rows.map(r => ({ developer_id: r.developer_id, tester_id: r.tester_id, class_id: classId })));
+    this.save();
   }
 
   async saveClass(cls) {
