@@ -372,34 +372,50 @@ export const tasks = [
 
   // ================= UNIT 3 — Game Engines =================
   {
-    id: 'A3.1', unit_id: 'u3', code: '3.1', title: 'Unreal Skills Journal',
-    type: 'submission', sort: 31, est_time: 'Ongoing through the Unreal weeks', tools: 'Unreal Engine, Word', weeks: 'T2 Weeks 1–5 · due Fri 28 May', due_date: '2027-05-28',
-    overview: "The assessment for our Unreal work isn't the game you end up with — it's the skills journal you keep while learning. Think of it as a guide that could teach someone with no experience, and a reference future-you will genuinely use.",
-    criteria: ['ICT-C4', 'ICT-C5'],
-    elements: ['ICT-C4-b', 'ICT-C4-c', 'ICT-C4-e', 'ICT-C5-a', 'ICT-C5-d', 'ICT-C5-e', 'ICT-C5-h'],
+    id: 'A3.1', unit_id: 'u3', code: '3.1', title: 'Engine Skills Journal (Unreal + Unity)',
+    type: 'submission', sort: 31, est_time: 'Ongoing through the Unreal and Unity weeks', tools: 'Unreal Engine, Unity, Word', weeks: 'T2 Weeks 1–7 · due Wed 9 Jun', due_date: '2027-06-09',
+    overview: "The assessment for our engine work isn't the games you end up with — it's the skills journal you keep while learning. One journal, two engines: an Unreal section, a Unity section, and a closing “Which engine and why?” where you justify the engine you'd choose for your own project. Think of it as a guide that could teach someone with no experience, and a reference future-you will genuinely use.",
+    criteria: ['ESC-C1', 'ICT-C1', 'ICT-C4', 'ICT-C5'],
+    elements: ['ESC-C1-b', 'ICT-C1-e', 'ICT-C4-b', 'ICT-C4-c', 'ICT-C4-e', 'ICT-C5-a', 'ICT-C5-d', 'ICT-C5-e', 'ICT-C5-h'],
     body: {
       sections: [
         { title: 'Instructions', html: `
-<p>Keep a skills journal in <strong>Word</strong> as you work through Unreal Engine. It should include <strong>tips, tricks and general software usage</strong> — written as a guide showing someone with no experience how to use different aspects of the software.</p>
+<p>Keep <strong>one skills journal in Word</strong> as you work through <strong>Unreal Engine and then Unity</strong>. It should include <strong>tips, tricks and general software usage</strong> — written as a guide showing someone with no experience how to use different aspects of each engine.</p>
 <p>It will also become genuinely useful: when you come back later and can't remember how to do something, your journal is where you'll look.</p>
-<p><a href="https://canvas.education.tas.gov.au/courses/94239/files/6208635" target="_blank" rel="noopener">Skills Journal Template.docx</a> (opens in Canvas — sign in first)</p>` },
+<p>Templates and examples (open in Canvas — sign in first):</p>
+<ul>
+  <li><a href="https://canvas.education.tas.gov.au/courses/94239/files/6208635" target="_blank" rel="noopener">Skills Journal Template.docx</a></li>
+  <li><a href="https://canvas.education.tas.gov.au/courses/94239/files/6289651" target="_blank" rel="noopener">Template with an Unreal example</a></li>
+</ul>` },
+        { title: 'Part 1 — Unreal section', html: `
+<p>Update this section as you learn Unreal (Term 2, Weeks 1–5): the features you used, how you used them, tutorials and help you consulted, and problems you fixed. Add screenshots to support every explanation.</p>` },
+        { title: 'Part 2 — Unity section', html: `
+<p>The same again for Unity (Term 2, Weeks 5–7): features, how-tos, tutorials and fixes, with screenshots. A beginner should be able to follow each feature you document.</p>` },
+        { title: 'Part 3 — Which engine and why?', html: `
+<p>To finish, write a short justification (about half a page) of <strong>which engine you would choose for your own project</strong> — Unreal, Unity, or another engine you've used — and why. Use what you learned in your two sections: what your project needs, what each engine does well, how comfortable you are with it, and the help and tutorials available. Be specific: name the features or experiences that decided it.</p>` },
       ],
       checklist: [
-        'Journal kept in Word, updated as you learn (not written in one sitting at the end)',
-        'Covers tips, tricks and general Unreal usage',
+        'One journal kept in Word, updated as you learn (not written in one sitting at the end)',
+        'Unreal section: tips, tricks and general usage, with screenshots',
+        'Unity section: tips, tricks and general usage, with screenshots',
         'Clear enough to teach a beginner each feature you document',
-        'Screenshots support the explanations',
+        '“Which engine and why?” names the engine you would choose for your project and gives specific reasons',
       ],
       marking: [
-        { criterion: 'ICT-C4', c: 'Documents real problem-solving in Unreal — features used, help/tutorials consulted, issues fixed.', a: 'Journal evidences advanced engine features, not just the basics.' },
-        { criterion: 'ICT-C5', c: 'Journal maintained consistently across the Unreal weeks within the timeline.', a: 'Entries show planned, strategic skill-building rather than random exploration.' },
+        { criterion: 'ESC-C1', c: 'Identifies the engine (digital technology tool) that suits the tasks their own project involves.', a: null },
+        { criterion: 'ICT-C1', c: 'Uses correct engine and software terminology throughout both journal sections and the justification.', a: 'Identifies the engine best suited to their project and justifies the choice with specific reasons (project needs, strengths of each engine, their own skills).' },
+        { criterion: 'ICT-C4', c: 'Documents real problem-solving in both Unreal and Unity — features used, help/tutorials consulted, issues fixed.', a: 'Journal evidences advanced engine features in both engines, not just the basics.' },
+        { criterion: 'ICT-C5', c: 'Journal maintained consistently across the Unreal and Unity weeks within the timeline.', a: 'Entries show planned, strategic skill-building across both engines rather than random exploration.' },
       ],
     },
   },
 
+  // RETIRED for 2027: merged into A3.1 (Engine Skills Journal). Kept, hidden (published:false),
+  // so existing submissions and marks are never lost.
   {
     id: 'A3.2', unit_id: 'u3', code: '3.2', title: 'Unity Skills Journal',
-    type: 'submission', sort: 32, est_time: 'Ongoing through the Unity weeks', tools: 'Unity, Word', weeks: 'T2 Weeks 5–7 · due Wed 9 Jun', due_date: '2027-06-09',
+    published: false,
+    type: 'submission', sort: 32, est_time: 'Ongoing through the Unity weeks', tools: 'Unity, Word', weeks: 'Retired for 2027 — merged into 3.1 Engine Skills Journal', due_date: null,
     overview: "Same deal as Unreal: the assessment is the journal, not the game. Document Unity as you learn it — tips, tricks and how-tos a beginner could follow.",
     criteria: ['ICT-C4', 'ICT-C5'],
     elements: ['ICT-C4-b', 'ICT-C4-c', 'ICT-C4-e', 'ICT-C5-a', 'ICT-C5-d', 'ICT-C5-e', 'ICT-C5-h'],
