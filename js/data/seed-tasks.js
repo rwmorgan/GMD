@@ -589,8 +589,8 @@ export const tasks = [
   <li><a href="https://canvas.education.tas.gov.au/courses/94239/files/8111431" target="_blank" rel="noopener">Project Brief template</a> (Canvas — will need modification to suit your project)</li>
 </ul>
 <p>Or use this simple structure:</p>
-<p><strong>Title of Game · Genre · Target Audience · Platform · Game Summary (elevator pitch) · Unique Selling Points · Key Features · Goals for the Project · Tools &amp; Software to be Used · Team Members and Roles (if applicable)</strong></p>
-<p><em>Example (condensed): <strong>Pixel Runner</strong> — Platformer/Endless Runner · Teens 13–18 · PC (Windows), web-based · "A fast-paced 2D platformer racing through glitchy cyber-worlds, avoiding traps and collecting data fragments to repair a broken world." USPs: glitch art style, dynamic speed, custom level editor. Goals: playable demo with 3 levels; learn physics and animation in Unity. Tools: Unity, Photoshop, Audacity. Solo project.</em></p>` },
+<p><strong>Title of Game · Genre · Target Audience · Platform · Game Summary (elevator pitch) · Unique Selling Points · Key Features · Goals for the Project · Tools &amp; Software to be Used · Developer and Tester Roles (you as developer of your own game, and your tester partner)</strong></p>
+<p><em>Example (condensed): <strong>Pixel Runner</strong> — Platformer/Endless Runner · Teens 13–18 · PC (Windows), web-based · "A fast-paced 2D platformer racing through glitchy cyber-worlds, avoiding traps and collecting data fragments to repair a broken world." USPs: glitch art style, dynamic speed, custom level editor. Goals: playable demo with 3 levels; learn physics and animation in Unity. Tools: Unity, Photoshop, Audacity. Developer: Sam (builds Pixel Runner). Tester: Alex (tests it at each check-in).</em></p>` },
         { title: 'Deliverable 2 — Game Design Document', html: `
 <p>For the GDD you may use the template from earlier in Term 2 — <a href="https://canvas.education.tas.gov.au/courses/94239/files/4963036" target="_blank" rel="noopener">template</a> / <a href="https://canvas.education.tas.gov.au/courses/94239/files/4963037" target="_blank" rel="noopener">example</a> (Canvas) — or structure it with these sections:</p>
 <ol>
@@ -677,6 +677,7 @@ export const tasks = [
   <li>Is the plan still to schedule?</li>
   <li>Are there any changes required to the plan?</li>
   <li>What will be worked on next time?</li>
+  <li>What did your <strong>tester</strong> find or suggest (see your <a href="#/task/A5.6">check-in log</a>), and what did you do about it?</li>
 </ul>
 <p><a href="https://canvas.education.tas.gov.au/courses/94239/files/8188722" target="_blank" rel="noopener">Journal template</a> (opens in Canvas — sign in first)</p>` },
         { title: 'The Write-Up', html: `
@@ -685,6 +686,7 @@ export const tasks = [
   <li>a review of what your project was</li>
   <li>what you achieved</li>
   <li>what learning took place</li>
+  <li>how your tester's feedback shaped your game</li>
 </ul>
 <p>This is <em>not</em> a journal-style document — it's a number of pages detailing the points above, with images and screenshots. As a guide, <strong>1½ pages minimum</strong>, roughly half images and half text.</p>` },
         { title: 'Term 4 Weeks 1–2 Overview', html: `
@@ -697,8 +699,8 @@ export const tasks = [
       ],
       checklist: [
         'Game finished to (at least) the MVP defined in your brief',
-        'Journal has a dated entry for every lesson covering all 4 questions',
-        'Write-up: review, achievements and learning across 1½+ pages, half images / half text',
+        'Journal has a dated entry for every lesson covering all 5 questions (including your tester\'s feedback)',
+        'Write-up: review, achievements, learning and tester feedback across 1½+ pages, half images / half text',
         'Journal + write-up + game access (e.g. OneDrive link) all submitted',
       ],
       marking: [
@@ -742,6 +744,146 @@ export const tasks = [
         { criterion: 'PRJ-C4', c: 'Clearly explains the problems encountered and the strategies used to solve them.', a: null },
         { criterion: 'PRJ-C5', c: 'Honestly reflects on objectives met (or not) and what would be done differently.', a: null },
       ],
+    },
+  },
+
+  {
+    id: 'A5.5', unit_id: 'u5', code: '5.5', title: 'Developer–Tester Agreement',
+    type: 'submission', submit_kinds: ['form'], sort: 52, est_time: '1 lesson', tools: 'This site', weeks: 'T3 Weeks 1–2 · due Fri 30 Jul', due_date: '2027-07-30',
+    overview: "You build your own game — and you test a partner's. Before you start, agree how you'll work together: who does what, how often you'll check in, how feedback is given, how decisions are made and what happens if you disagree. Your teacher sets the pairs; your partner's name shows up in the form.",
+    criteria: ['PRJ-C1', 'PRJ-C3'],
+    elements: ['PRJ-C1-d', 'PRJ-C3-a', 'PRJ-C3-b', 'PRJ-C3-e'],
+    body: {
+      sections: [
+        { title: 'How the partnership works', html: `
+<p>Everyone in the class is the <strong>developer of their own game</strong> and the <strong>tester of a partner's game</strong>. As a developer you build, and respond to what your tester finds. As a tester you play your partner's latest build, give clear and respectful feedback, and help them keep to their plan.</p>
+<p>Talk it through with your partner first, then fill in the form. It is your own record of the agreement — it's marked on <strong>how well you've described the roles and the ways you'll work together</strong>, not on how long it is.</p>` },
+      ],
+      checklist: [
+        'Spoke with my partner before filling in the form',
+        'My role as developer and my role as tester are both described',
+        'Check-in times, how feedback is given, how decisions are made and how we handle disagreements are filled in',
+        'Lab and equipment safety acknowledgement ticked',
+      ],
+      marking: [
+        { criterion: 'PRJ-C1', c: 'Acknowledges and agrees to follow the established safety procedures for equipment and facilities, as directed.', a: null },
+        { criterion: 'PRJ-C3', c: 'Correctly identifies their own and their partner\'s roles and responsibilities, and sets out respectful ways to give feedback, make decisions and settle disagreements.', a: null },
+      ],
+      form: {
+        entries: 1,
+        needsPartner: true,
+        entryLabel: 'Agreement',
+        fields: [
+          { id: 'partners', type: 'partner' },
+          { id: 'h1', type: 'heading', label: 'Roles and responsibilities' },
+          { id: 'dev_role', label: 'My role and responsibilities as the DEVELOPER of my own game', type: 'textarea', required: true, rows: 4 },
+          { id: 'tester_role', label: 'My role and responsibilities as the TESTER of my partner\'s game', type: 'textarea', required: true, rows: 4 },
+          { id: 'h2', type: 'heading', label: 'Working together' },
+          { id: 'checkin', label: 'How often will we check in, and when?', type: 'textarea', required: true, rows: 2 },
+          { id: 'feedback', label: 'How will feedback be given?', type: 'textarea', required: true, rows: 3,
+            help: 'For example: in person, written in the check-in log, how soon after testing.' },
+          { id: 'decisions', label: 'How will we make decisions, for example about changing the plan?', type: 'textarea', required: true, rows: 3 },
+          { id: 'disagreements', label: 'How will we handle disagreements?', type: 'textarea', required: true, rows: 3 },
+          { id: 'h3', type: 'heading', label: 'Lab and equipment safety' },
+          { id: 'safety_info', type: 'info', html: 'Follow your teacher\'s lab and equipment rules. Set up your workspace so you sit comfortably (desk, chair, screen height) and take regular breaks. Keep bags, cables and drinks clear of computers and walkways. Report faulty equipment or hazards straight away, and look after shared equipment.' },
+          { id: 'safety_ack', label: 'I understand the lab and equipment safety expectations above and agree to follow them.', type: 'checkbox', required: true },
+        ],
+      },
+    },
+  },
+
+  {
+    id: 'A5.6', unit_id: 'u5', code: '5.6', title: 'Check-in Log',
+    type: 'submission', submit_kinds: ['form'], sort: 55, est_time: 'Ongoing — at least 3 check-ins', tools: 'This site', weeks: 'T3–T4 · due Fri 22 Oct', due_date: '2027-10-22',
+    overview: "Regular check-ins keep a project on track. Each time your tester plays your latest build, log what happened: what they found, what you changed (or why you didn't), where the schedule is up to and what comes next. The log is shared with your partner, and you need at least three check-ins across Terms 3 and 4 — more is better.",
+    criteria: ['PRJ-C1', 'PRJ-C2', 'PRJ-C3', 'PRJ-C4'],
+    elements: ['PRJ-C1-b', 'PRJ-C2-e', 'PRJ-C3-d', 'PRJ-C4-c'],
+    body: {
+      sections: [
+        { title: 'How the log works', html: `
+<p>A check-in is a short meeting with your tester. They play the current build of <strong>your</strong> game, and you play theirs. Afterwards, add an entry to the log for your game with:</p>
+<ul>
+  <li>the <strong>date</strong> and the <strong>build or version</strong> that was tested</li>
+  <li>what the tester found or suggested</li>
+  <li>what you changed — or <strong>why you decided not to</strong></li>
+  <li>a <strong>schedule or milestone update</strong>: are you on track against your project plan?</li>
+  <li>your <strong>next tasks</strong></li>
+</ul>
+<p>Both you and your tester can add and edit entries for your game. Below it you'll also see the log for the game <em>you</em> test, where you add your own feedback.</p>` },
+      ],
+      checklist: [
+        'At least 3 check-in entries across Terms 3 and 4, each with every field filled in',
+        'Each entry records what the tester found and what I changed (or why not)',
+        'Schedule/milestone updates match my project plan',
+        'I added my feedback to my partner\'s log at each check-in',
+      ],
+      marking: [
+        { criterion: 'PRJ-C1', c: 'Negotiates adaptations to the plan with their tester when feedback or conditions change, and records them.', a: null },
+        { criterion: 'PRJ-C2', c: 'Incorporates and documents the tester\'s feedback and input in the log.', a: null },
+        { criterion: 'PRJ-C3', c: 'Documents consultation with their tester across at least three check-ins.', a: null },
+        { criterion: 'PRJ-C4', c: 'Identifies and poses questions and next tasks that help produce the project\'s outcomes.', a: null },
+      ],
+      form: {
+        min: 3, max: 15,
+        shared: true,
+        needsPartner: true,
+        entryLabel: 'Check-in',
+        fields: [
+          { id: 'date', label: 'Date of check-in', type: 'date', required: true },
+          { id: 'build', label: 'Build or version tested', type: 'text', required: true, placeholder: 'e.g. v0.3 — level 1 playable' },
+          { id: 'tester_feedback', label: 'What the tester found or suggested', type: 'textarea', required: true, rows: 3 },
+          { id: 'dev_changes', label: 'What the developer changed — or why not', type: 'textarea', required: true, rows: 3 },
+          { id: 'schedule', label: 'Schedule / milestone update', type: 'textarea', required: true, rows: 2,
+            help: 'On track? What has moved, and why?' },
+          { id: 'next_tasks', label: 'Next tasks', type: 'textarea', required: true, rows: 2 },
+        ],
+      },
+    },
+  },
+
+  {
+    id: 'A5.7', unit_id: 'u5', code: '5.7', title: 'Peer & Self Evaluation',
+    type: 'submission', submit_kinds: ['form'], sort: 60, est_time: '1 lesson', tools: 'This site', weeks: 'T4 Week 3 · due Fri 29 Oct', due_date: '2027-10-29',
+    overview: "At the end of the project, step back. Rate your own work as a developer, rate your partner's work as your tester, and think about the risks, costs and effort of the whole project. Only your teacher sees this — your partner won't.",
+    criteria: ['PRJ-C5'],
+    elements: ['PRJ-C5-c', 'PRJ-C5-e'],
+    body: {
+      sections: [
+        { title: 'Before you start', html: `
+<p>Be honest and specific. Rate each statement from <strong>1 (not yet) to 5 (excellent)</strong>, then back your ratings up in the comments. <strong>Only your teacher can see this evaluation.</strong></p>` },
+      ],
+      checklist: [
+        'All ratings given for myself as a developer and for my partner as a tester',
+        'Comments explain the ratings with specific examples',
+        'Risks, costs and effort reflection completed',
+      ],
+      marking: [
+        { criterion: 'PRJ-C5', c: 'Assesses the benefits of the project by identifying risks, costs and effort involved, and reflects on progress towards their goals and what they would do differently.', a: null },
+      ],
+      form: {
+        entries: 1,
+        needsPartner: true,
+        entryLabel: 'Evaluation',
+        fields: [
+          { id: 'partners', type: 'partner' },
+          { id: 'h1', type: 'heading', label: 'Me as a developer', help: '1 = not yet, 5 = excellent' },
+          { id: 'self_goals', label: 'I met the goals in my project plan', type: 'rating', min: 1, max: 5, required: true },
+          { id: 'self_time', label: 'I managed my time and kept to my schedule', type: 'rating', min: 1, max: 5, required: true },
+          { id: 'self_feedback', label: 'I used my tester\'s feedback to improve my game', type: 'rating', min: 1, max: 5, required: true },
+          { id: 'self_records', label: 'I kept my journal and check-in log up to date', type: 'rating', min: 1, max: 5, required: true },
+          { id: 'self_comment', label: 'What went well, and what would you do differently?', type: 'textarea', required: true, rows: 4 },
+          { id: 'h2', type: 'heading', label: 'My partner as a tester', help: '1 = not yet, 5 = excellent' },
+          { id: 'test_clear', label: 'Gave clear, useful feedback', type: 'rating', min: 1, max: 5, required: true },
+          { id: 'test_reliable', label: 'Tested my game when we agreed to, and thoroughly', type: 'rating', min: 1, max: 5, required: true },
+          { id: 'test_respect', label: 'Communicated respectfully', type: 'rating', min: 1, max: 5, required: true },
+          { id: 'test_agreement', label: 'Followed our agreement', type: 'rating', min: 1, max: 5, required: true },
+          { id: 'test_comment', label: 'One strength of your partner\'s testing, and one suggestion', type: 'textarea', required: true, rows: 3 },
+          { id: 'h3', type: 'heading', label: 'Risks, costs and effort' },
+          { id: 'risks', label: 'What were the biggest risks to your project, and how did you deal with them?', type: 'textarea', required: true, rows: 3 },
+          { id: 'costs', label: 'What did the project cost you in time and effort, compared with your plan?', type: 'textarea', required: true, rows: 3 },
+          { id: 'benefit', label: 'Was it worth it? What did you gain from building and testing in a partnership?', type: 'textarea', required: true, rows: 3 },
+        ],
+      },
     },
   },
 ];
