@@ -6,6 +6,7 @@ import { IS_DEMO } from '../config.js';
 import { render, esc, spinner, badge, courseBadgeClass, statusChip, toast, openModal, closeModal, fmtDate, fmtDateOnly, localDateStr, downloadCSV, progressBar, avatarHTML } from '../ui.js';
 import { getCurriculum, invalidate, taskStatus, criterionLabel, provisionalAward, bestRatingsFor, coverageMatrix, filterCurByProgram, isUnmarkedTask } from '../store.js';
 import { formDef, entriesReadOnlyHTML } from '../forms.js';
+import { isTestClass, testOnlyStudentIds } from '../classes-util.js';
 import { getScope, setScope } from '../scope.js';
 import { summarise as attSummarise, pctChip as attPctChip } from '../attendance-lib.js';
 import { navigate } from '../router.js';
@@ -433,7 +434,8 @@ export async function taskDetailView({ id }) {
 ${teacherHeader(`${task.code} ${task.title}`, `${task.overview || ''}${task.due_date ? ` · Due ${fmtDateOnly(task.due_date)}` : ''}`, scopeBar(classesData))}
 <section class="section section--sm">
   <div class="container container--wide">
-    <div class="meta-row" style="margin-bottom:1rem;"><a class="btn btn-secondary btn-sm" href="#/teach/tasks">← All tasks</a></div>
+    <div class="meta-row" style="margin-bottom:1rem;"><a class="btn btn-secondary btn-sm" href="#/teach/tasks">← All tasks</a>
+      <a class="btn btn-secondary btn-sm" href="#/task/${encodeURIComponent(task.id)}">👁 Preview as student</a></div>
     ${task.published === false ? '<div class="warning-box" style="margin-bottom:1rem;"><p><strong>Hidden from students.</strong> This task is retired or unpublished, so students cannot see or open it. Any existing submissions and marks are kept.</p></div>' : ''}
     <div class="marking-wrap"><table class="data-table">
       <thead><tr><th>Student</th><th>Status</th><th>Submitted</th><th>Timing</th><th>${task.type === 'quiz' ? 'Best score' : 'Ratings'}</th><th></th></tr></thead>
@@ -515,10 +517,13 @@ export async function studentsView() {
   const classId = scopedClassId(classesData);
   const classes = classesData.classes;
   const classOf = id => classes.find(c => c.roster.includes(id));
-  const students = classId ? allStudents.filter(s => classes.find(c => c.id === classId).roster.includes(s.id)) : allStudents;
+  const enrolments = classes.flatMap(c => c.roster.map(student_id => ({ student_id, class_id: c.id })));
+  const hidden = classId ? new Set() : testOnlyStudentIds(classes, enrolments);
+  const students = classId ? allStudents.filter(s => classes.find(c => c.id === classId).roster.includes(s.id))
+    : allStudents.filter(s => !hidden.has(s.id));
   const unassigned = classes.length ? allStudents.filter(s => !classOf(s.id)).length : 0;
   render(`
-${teacherHeader('Students', `${students.length} shown${classId ? '' : ' (all classes)'}. Deactivating blocks sign-in and hides the student from the class overview.${unassigned ? ` <strong>${unassigned} student${unassigned === 1 ? ' isn\'t' : 's aren\'t'} in a class yet</strong> — pick one below.` : ''}`, scopeBar(classesData))}
+${teacherHeader('Students', `${students.length} shown${classId ? '' : ' (all classes)'}${hidden.size ? ` · ${hidden.size} test account${hidden.size === 1 ? '' : 's'} hidden — pick the test class in “Viewing” to see ${hidden.size === 1 ? 'it' : 'them'}` : ''}. Deactivating blocks sign-in and hides the student from the class overview.${unassigned ? ` <strong>${unassigned} student${unassigned === 1 ? ' isn\'t' : 's aren\'t'} in a class yet</strong> — pick one below.` : ''}`, scopeBar(classesData))}
 <section class="section section--sm">
   <div class="container">
     <div class="marking-wrap"><table class="data-table">
@@ -820,13 +825,13 @@ ${teacherHeader('Settings & Export', 'CSV exports respect the program/class filt
     <div class="card" style="margin-top:1.5rem;" id="classes-card">
       <h3>🏫 Classes &amp; join codes</h3>
       ${classesData.ready === false ? `<div class="warning-box"><p><strong>Classes aren't set up in the database yet.</strong> One-off steps in Supabase → SQL Editor: first run <code>supabase/gen2-migration.sql</code>, then <code>supabase/2027-classes-setup.sql</code> (both from the repo), then reload this page.</p></div>` : `
-      <p class="unit-counts">One class per teaching line (e.g. Line 1 and Line 3). Give each class its own join code: students who sign up with it are put in that class automatically. Use the "Viewing" filter at the top of any Teach page to see just one class, and the Students page to move someone between classes. Turning a class off stops its code working for new sign-ups; existing students and their work are kept.</p>
+      <p class="unit-counts">One class per teaching line (e.g. Line 1 and Line 3). Give each class its own join code: students who sign up with it are put in that class automatically. Use the "Viewing" filter at the top of any Teach page to see just one class, and the Students page to move someone between classes. Turning a class off stops its code working for new sign-ups; existing students and their work are kept. <strong>Practice accounts:</strong> a class with the word “Test” in its name (e.g. “Test class”) is a test class — its students are left out of “All classes” views, totals and exports. Pick it in “Viewing” to use it.</p>
       <div class="marking-wrap"><table class="data-table">
         <thead><tr><th>Class name</th><th>Join code</th><th>Students</th><th>Open to sign-ups</th><th></th></tr></thead>
         <tbody>
           ${classesData.classes.map(c => `
             <tr data-class="${esc(c.id)}">
-              <td><input type="text" data-f="name" value="${esc(c.name)}" aria-label="Class name"></td>
+              <td><input type="text" data-f="name" value="${esc(c.name)}" aria-label="Class name">${isTestClass(c) ? ' <span class="chip chip-idle">test class</span>' : ''}</td>
               <td><input type="text" data-f="join_code" value="${esc(c.join_code)}" aria-label="Join code" autocapitalize="characters"></td>
               <td>${c.roster.length}</td>
               <td><input type="checkbox" data-f="active" ${c.active !== false ? 'checked' : ''} aria-label="Open to sign-ups"></td>

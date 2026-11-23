@@ -10,6 +10,7 @@
 import { seed, flattenSeed } from './data/seed.js';
 import { DEMO_ACCOUNTS, DEMO_JOIN_CODE } from './config.js';
 import { DEFAULT_CLASSES, DEFAULT_TERMS } from './data/att-defaults.js';
+import { testOnlyStudentIds } from './classes-util.js';
 
 const LS_KEY = 'levelup-demo-v1';
 
@@ -390,6 +391,14 @@ export class DemoAdapter {
       const ids = new Set(this.clsState().enrolments.filter(e => e.class_id === classId).map(e => e.student_id));
       profiles = profiles.filter(p => ids.has(p.id));
       for (const k of Object.keys(data)) data[k] = data[k].filter(x => ids.has(x.student_id));
+    } else {
+      // "All classes": leave out practice students who are only in a test class
+      const k = this.clsState();
+      const hide = testOnlyStudentIds(k.classes, k.enrolments);
+      if (hide.size) {
+        profiles = profiles.filter(p => !hide.has(p.id));
+        for (const key of Object.keys(data)) data[key] = data[key].filter(x => !hide.has(x.student_id));
+      }
     }
     return { profiles, ...data };
   }

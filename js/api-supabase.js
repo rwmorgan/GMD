@@ -7,6 +7,7 @@
 
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
 import { seed, flattenSeed } from './data/seed.js';
+import { testOnlyStudentIds } from './classes-util.js';
 
 const SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm';
 
@@ -345,6 +346,26 @@ export class SupabaseAdapter {
       marks: marks.data, feedback: feedback.data, progress: progress.data,
       entries: ent.error ? [] : ent.data,
     };
+    if (!classId) {
+      // "All classes": leave out practice students who are only in a test class.
+      try {
+        const [cl, en] = await Promise.all([c.from('classes').select('id, name'), c.from('enrolments').select('student_id, class_id')]);
+        if (!cl.error && !en.error) {
+          const hide = testOnlyStudentIds(cl.data, en.data);
+          if (hide.size) {
+            data = {
+              profiles: data.profiles.filter(p => !hide.has(p.id)),
+              attempts: data.attempts.filter(a => !hide.has(a.student_id)),
+              submissions: data.submissions.filter(s => !hide.has(s.student_id)),
+              marks: data.marks.filter(m => !hide.has(m.student_id)),
+              feedback: data.feedback.filter(f => !hide.has(f.student_id)),
+              progress: data.progress.filter(p => !hide.has(p.student_id)),
+              entries: data.entries.filter(e => !hide.has(e.student_id)),
+            };
+          }
+        }
+      } catch { /* class tables not present: nothing to hide */ }
+    }
     if (classId) {
       const enrol = await c.from('enrolments').select('student_id').eq('class_id', classId);
       if (enrol.error) fail(enrol.error);

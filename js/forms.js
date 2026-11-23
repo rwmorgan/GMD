@@ -109,7 +109,7 @@ function cardHTML(def, entry, key, ctx, { n, removable }) {
 
 /* One panel = one owner's set of entries (the student's own, or — for a
    shared log — the game they are testing). */
-export function formPanelHTML(def, { key, owner, title, entries, ctx, readOnly = false }) {
+export function formPanelHTML(def, { key, owner, title, entries, ctx, readOnly = false, preview = false }) {
   const byNo = new Map(entries.map(e => [e.entry_no, e]));
   const fixed = def.entries != null;
   const nos = fixed
@@ -126,7 +126,7 @@ export function formPanelHTML(def, { key, owner, title, entries, ctx, readOnly =
     </div>
     ${readOnly ? '' : `<div class="quiz-actions">
       ${!fixed ? `<button type="button" class="btn btn-secondary" data-add>＋ Add ${esc((def.entryLabel || 'entry').toLowerCase())}</button>` : ''}
-      <button type="button" class="btn btn-primary" data-save>💾 Save</button>
+      ${preview ? '' : '<button type="button" class="btn btn-primary" data-save>💾 Save</button>'}
     </div>`}
   </div>`;
 }

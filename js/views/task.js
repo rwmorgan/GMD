@@ -222,6 +222,10 @@ export async function taskView({ id }) {
   /* Show this student's saved answers from another form task (e.g. 4.2 shows the 2.1 mechanics). */
   let borrowedBlock = '';
   const srcTask = task.body?.showEntriesFrom && cur.tasks.find(t => t.id === task.body.showEntriesFrom);
+  if (srcTask && !isStudent && user?.role === 'teacher') {
+    borrowedBlock = `<div class="task-section"><h4>Your saved list from ${esc(srcTask.code)} — ${esc(srcTask.title)}</h4>
+      <p class="unit-counts"><em>Students see their own saved ${esc(srcTask.code)} entries here.</em></p></div>`;
+  }
   if (srcTask && isStudent) {
     const ids = task.body.showFields || [];
     const sdef = formDef(srcTask);
@@ -336,7 +340,7 @@ export async function taskView({ id }) {
       ${isQuiz ? '<span class="chip chip-quiz">⚡ Auto-marked quiz</span>'
         : def ? `<span class="chip chip-idle">${unmarked ? '📝 Activity — not marked' : '📋 Online form'}</span>`
         : '<span class="chip chip-idle">📤 Submission task</span>'}
-      ${status ? statusChip(status, { unmarked }) : ''}
+      ${isStudent ? (status ? statusChip(status, { unmarked }) : '') : (user?.role === 'teacher' ? '<span class="chip chip-quiz">👁 Teacher preview</span>' : '')}
       <span class="unit-weeks">⏱ ${esc(task.est_time || '')} · 🛠 ${esc(task.tools || '')} · 📅 ${esc(task.weeks || '')}</span>
     </div>
     <h1 style="margin-top:0.75rem;">${esc(task.code)} — ${esc(task.title)}</h1>
@@ -353,6 +357,7 @@ export async function taskView({ id }) {
     ${actionArea}
     <div class="unit-nav" style="margin-top:2.5rem;">
       <a href="#/units/${unit?.number}" class="btn btn-secondary">← Back to Unit ${unit?.number}</a>
+      ${user?.role === 'teacher' ? `<a href="#/teach/tasks/${encodeURIComponent(task.id)}" class="btn btn-secondary">← Teacher view of this task</a>` : ''}
       <button class="btn btn-ghost" onclick="window.print()">🖨 Print task sheet</button>
     </div>
   </div>
@@ -384,8 +389,19 @@ function formAreaHTML(task, fc, user, unmarked, status) {
   const def = formDef(task);
   if (!user) return `<div class="submit-panel"><h3>📝 Fill this in</h3><div class="info-box"><p><a href="#/login">Sign in</a> to fill in this task.</p></div></div>`;
   if (!fc) {
-    // a teacher looking at the student's page
-    return `<div class="submit-panel"><h3>📝 Online form</h3><div class="info-box"><p>Students fill this task in on this page. See their answers under <strong>Teach → Tasks</strong>${unmarked ? '' : ' and in the marking queue'}.</p></div></div>`;
+    // a teacher looking at the student's page: show the form exactly as a student sees it, saving nothing
+    const sample = { myTester: { tester_name: 'Sample Partner' }, testing: { developer_name: 'Sample Partner' } };
+    const pctx = { partners: sample, me: 'Student Name' };
+    const own = formPanelHTML(def, { key: 'own', owner: 'preview', preview: true, entries: [], ctx: pctx,
+      title: def.shared ? 'Check-in log for your game — your tester is Sample Partner' : '' });
+    const theirs = def.shared ? formPanelHTML(def, { key: 'partner', owner: 'preview2', preview: true, entries: [], ctx: pctx,
+      title: "Check-in log for Sample Partner's game — you are the tester" }) : '';
+    return `<div class="submit-panel" id="form-area" data-preview="1">
+      <div class="warning-box"><p><strong>Teacher preview.</strong> This is what students see. You can click and type to try it, but <strong>nothing is saved</strong>. See real answers under <strong>Teach → Tasks</strong>${unmarked ? '' : ' and in the marking queue'}.</p></div>
+      <h3>📝 ${unmarked ? 'Fill this in' : 'Your answers'}</h3>
+      ${own}
+      ${theirs}
+    </div>`;
   }
   const ctx = { partners: fc.partners, me: fc.me };
   if ((def.needsPartner || def.shared) && !fc.partners.myTester && !fc.partners.testing) {
@@ -414,7 +430,21 @@ function formAreaHTML(task, fc, user, unmarked, status) {
 
 function wireForm(task, fc, user) {
   const area = document.getElementById('form-area');
-  if (!area || !fc) return;
+  if (!area) return;
+  if (!fc) {
+    // teacher preview: only "add entry" works, and nothing is ever saved
+    const def = formDef(task);
+    const pctx = { partners: { myTester: { tester_name: 'Sample Partner' }, testing: { developer_name: 'Sample Partner' } }, me: 'Student Name' };
+    area.addEventListener('click', (e) => {
+      const panel = e.target.closest('.form-panel');
+      if (!panel || !e.target.closest('[data-add]')) return;
+      const cards = [...panel.querySelectorAll('.form-card')];
+      if (cards.length >= formMax(def)) return;
+      const next = Math.max(0, ...cards.map(c => Number(c.dataset.entry))) + 1;
+      panel.querySelector('.form-cards').insertAdjacentHTML('beforeend', blankCardHTML(def, panel.dataset.key, pctx, next));
+    });
+    return;
+  }
   const def = fc.def;
   const ctx = { partners: fc.partners, me: fc.me };
 
